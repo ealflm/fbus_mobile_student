@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "394615991951",
+    "project_id": "fbus-364505",
+    "storage_bucket": "fbus-364505.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394615991951:android:d7cb943737810fc5718afa",
+        "android_client_info": {
+          "package_name": "fbus.fbus_mobile_student"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394615991951-clifpav1mhg2ebhf7bornktlul7urae1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fbus.fbus_mobile_student",
+            "certificate_hash": "539b6a0c28105e013cd291202324f514de1e3f92"
+          }
+        },
+        {
+          "client_id": "394615991951-85f7uf1dkhbhmgcq9pneie1ft9mvcm6n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuMy36XTqH_flroqNWpexw56m5RO935PI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "394615991951-85f7uf1dkhbhmgcq9pneie1ft9mvcm6n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
