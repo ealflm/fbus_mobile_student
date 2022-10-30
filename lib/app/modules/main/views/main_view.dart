@@ -17,7 +17,6 @@ class MainView extends GetView<MainController> {
           child: controller.currentScreen,
         ),
       ),
-      extendBody: true,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 10.h,

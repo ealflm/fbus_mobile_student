@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:fbus_mobile_student/app/modules/map/hyper_map_controller.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  void onPositionChanged(MapPosition postion, bool hasGesture) {
-    debugPrint('${postion.zoom}');
-  }
+  HyperMapController hyperMapController = HyperMapController();
 }

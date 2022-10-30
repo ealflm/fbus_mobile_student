@@ -2,6 +2,9 @@
     package="fbus.fbus_mobile_student">
    
    <uses-permission android:name="android.permission.INTERNET" />
+   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+   <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
    <application
         android:label="fbus_mobile_student"
