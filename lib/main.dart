@@ -18,7 +18,7 @@ void main() async {
   //
   // Set base url.
   EnvConfig envConfig = EnvConfig(
-    baseUrl: AppSettings.get('base_url'),
+    baseUrl: AppSettings.get('baseUrl'),
   );
 
   // Build config.
