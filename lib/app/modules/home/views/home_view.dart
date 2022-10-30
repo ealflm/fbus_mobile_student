@@ -55,6 +55,7 @@ class HomeView extends GetView<HomeController> {
 
   CurrentLocationLayer _currentLocationMarker() {
     return CurrentLocationLayer(
+      positionStream: controller.hyperMapController.geolocatorPositionStream(),
       style: LocationMarkerStyle(
         markerDirection: MarkerDirection.heading,
         showHeadingSector: false,

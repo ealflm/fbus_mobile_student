@@ -43,16 +43,19 @@ class AppPages {
       name: _Paths.TICKET,
       page: () => const TicketView(),
       binding: TicketBinding(),
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: _Paths.BOOKING,
       page: () => const BookingView(),
       binding: BookingBinding(),
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: _Paths.ACCOUNT,
       page: () => const AccountView(),
       binding: AccountBinding(),
+      transition: Transition.noTransition,
     ),
   ];
 }

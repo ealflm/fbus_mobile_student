@@ -1,29 +1,42 @@
 import 'package:fbus_mobile_student/app/core/values/app_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:restart_app/restart_app.dart';
 
 class HyperMapController extends GetxController
     with GetTickerProviderStateMixin {
   MapController mapController = MapController();
+  LatLng? currentLocation;
+
+  HyperMapController() {
+    _checkPermission();
+  }
 
   /// Moving to current location.
   void moveToCurrentLocation() async {
-    try {
-      LatLng currentLocation = await _getCurrentLocation();
-      _animatedMapMove(currentLocation, zoom: AppValues.focusZoomLevel);
-    } catch (e) {
+    if (currentLocation != null) {
+      _animatedMapMove(currentLocation!, zoom: AppValues.focusZoomLevel);
+    } else {
       debugPrint('Current location is invalid');
     }
   }
 
-  /// Determine the current position of the device.
-  ///
-  /// When the location services are not enabled or permissions
-  /// are denied the `Future` will return an error.
-  Future<LatLng> _getCurrentLocation() async {
+  Stream<LocationMarkerPosition> geolocatorPositionStream() {
+    return (Geolocator.getPositionStream()).map((Position position) {
+      currentLocation = LatLng(position.latitude, position.longitude);
+      return LocationMarkerPosition(
+        latitude: position.latitude,
+        longitude: position.longitude,
+        accuracy: position.accuracy,
+      );
+    });
+  }
+
+  Future<void> _checkPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -46,6 +59,8 @@ class HyperMapController extends GetxController
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
         return Future.error('Location permissions are denied');
+      } else {
+        Restart.restartApp();
       }
     }
 
@@ -54,11 +69,6 @@ class HyperMapController extends GetxController
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    Position position = await Geolocator.getCurrentPosition();
-    return LatLng(position.latitude, position.longitude);
   }
 
   /// Moving to [location] with animation.

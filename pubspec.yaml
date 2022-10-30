@@ -36,6 +36,8 @@ dependencies:
   geolocator: ^9.0.2
   flutter_map_location_marker: ^5.0.0+1
 
+  restart_app: ^1.1.0
+
 dev_dependencies:
   flutter_lints: 2.0.1
   flutter_test:
