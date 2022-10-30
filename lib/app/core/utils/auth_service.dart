@@ -61,7 +61,7 @@ class AuthService extends BaseController {
         if (token != null) {
           _instance._token = token;
           result = true;
-          Get.toNamed(Routes.HOME);
+          Get.offAllNamed(Routes.MAIN);
         }
 
         // Login successfully.
@@ -79,7 +79,7 @@ class AuthService extends BaseController {
   static Future<void> logout() async {
     await GoogleAuthService.logout();
     clearToken();
-    Get.toNamed(Routes.LOGIN);
+    Get.offAllNamed(Routes.LOGIN);
   }
 
   static void clearToken() {
