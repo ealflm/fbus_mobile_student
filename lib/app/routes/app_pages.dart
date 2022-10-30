@@ -1,11 +1,17 @@
 import 'package:get/get.dart';
 
+import '../modules/account/bindings/account_binding.dart';
+import '../modules/account/views/account_view.dart';
+import '../modules/booking/bindings/booking_binding.dart';
+import '../modules/booking/views/booking_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/main/bindings/main_binding.dart';
 import '../modules/main/views/main_view.dart';
+import '../modules/ticket/bindings/ticket_binding.dart';
+import '../modules/ticket/views/ticket_view.dart';
 
 part 'app_routes.dart';
 
@@ -32,6 +38,21 @@ class AppPages {
       page: () => const MainView(),
       binding: MainBinding(),
       transition: Transition.noTransition,
+    ),
+    GetPage(
+      name: _Paths.TICKET,
+      page: () => const TicketView(),
+      binding: TicketBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKING,
+      page: () => const BookingView(),
+      binding: BookingBinding(),
+    ),
+    GetPage(
+      name: _Paths.ACCOUNT,
+      page: () => const AccountView(),
+      binding: AccountBinding(),
     ),
   ];
 }
