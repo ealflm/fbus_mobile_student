@@ -38,7 +38,7 @@ class NavButton extends StatelessWidget {
                 child: Icon(
                   state ? icon : iconOutlined,
                   size: 26.r,
-                  color: state ? AppColors.primary400 : AppColors.gray,
+                  color: state ? AppColors.primary600 : AppColors.gray,
                 ),
               ),
             ),

@@ -1,4 +1,3 @@
-import 'package:fbus_mobile_student/app/core/widget/unfocus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -9,6 +8,7 @@ import 'package:hyper_app_settings/hyper_app_settings.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../core/values/app_colors.dart';
+import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/status_bar.dart';
 import '../controllers/home_controller.dart';
@@ -141,22 +141,165 @@ class HomeView extends GetView<HomeController> {
             padding: EdgeInsets.only(
               top: 15.h,
               bottom: 15.h,
-              left: 15.w,
-              right: 15.w,
+              left: 18.w,
+              right: 18.w,
             ),
             decoration: BoxDecoration(
-              color: AppColors.primary600,
+              color: AppColors.white,
               borderRadius: BorderRadius.all(
                 Radius.circular(9.r),
               ),
             ),
-            child: Text(
-              'FPT University - Vinhomes Grand Park',
-              style: subtitle2,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Khoảng cách',
+                          style: body2.copyWith(color: AppColors.lightBlack),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            text: '20',
+                            style: h4.copyWith(fontWeight: FontWeights.medium),
+                            children: [
+                              TextSpan(
+                                text: 'km',
+                                style: h6.copyWith(
+                                    fontWeight: FontWeights.regular),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 3.h),
+                        RichText(
+                          text: TextSpan(
+                            text: 'Thời gian: ',
+                            style: body2.copyWith(color: AppColors.lightBlack),
+                            children: [
+                              TextSpan(
+                                text: '15 phút',
+                                style: subtitle2,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: const StadiumBorder()),
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Text(
+                            'Quét QR',
+                            style: subtitle2,
+                          ),
+                          SizedBox(width: 6.w),
+                          Icon(
+                            Icons.qr_code,
+                            color: AppColors.softBlack,
+                            size: 20.r,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _station(
+                      title: 'Trạm Vinhomes grand park',
+                      time: '07:00',
+                      iconColor: AppColors.green,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 11.r),
+                      child: Column(
+                        children: [
+                          _dot(),
+                          SizedBox(height: 5.h),
+                          _dot(),
+                          SizedBox(height: 5.h),
+                          _dot(),
+                          SizedBox(height: 9.h),
+                        ],
+                      ),
+                    ),
+                    _station(
+                      title: 'FPT University',
+                      time: '07:35',
+                      iconColor: AppColors.blue,
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  static Container _dot() {
+    return Container(
+      width: 3.r,
+      height: 3.r,
+      decoration: const BoxDecoration(
+        color: AppColors.indicator,
+        shape: BoxShape.circle,
+      ),
+    );
+  }
+
+  Row _station(
+      {required String title, required String time, Color? iconColor}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.all(5.r),
+          decoration: BoxDecoration(
+            color: iconColor,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            Icons.directions_bus,
+            color: AppColors.white,
+            size: 15.r,
+          ),
+        ),
+        SizedBox(
+          width: 8.w,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: subtitle1.copyWith(
+                fontWeight: FontWeights.medium,
+              ),
+            ),
+            Text(
+              time,
+              style: subtitle1.copyWith(
+                color: AppColors.lightBlack,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
