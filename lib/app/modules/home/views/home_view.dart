@@ -1,3 +1,4 @@
+import 'package:fbus_mobile_student/app/core/widget/unfocus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -8,6 +9,7 @@ import 'package:hyper_app_settings/hyper_app_settings.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../core/values/app_colors.dart';
+import '../../../core/values/text_styles.dart';
 import '../../../core/widget/status_bar.dart';
 import '../controllers/home_controller.dart';
 
@@ -18,37 +20,110 @@ class HomeView extends GetView<HomeController> {
     return StatusBar(
       brightness: Brightness.dark,
       child: Scaffold(
-        body: FlutterMap(
-          mapController: controller.hyperMapController.mapController,
-          options: MapOptions(
-            interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-            center: LatLng(10.841411, 106.809936),
-            zoom: 13.6,
-            minZoom: 3,
-            maxZoom: 18.4,
-            slideOnBoundaries: true,
-          ),
+        body: Stack(
           children: [
-            TileLayer(
-              urlTemplate: AppSettings.get('mapboxUrlTemplate'),
-              additionalOptions: {
-                "access_token": AppSettings.get('mapboxAccessToken'),
-              },
-            ),
-            _currentLocationMarker(),
-            Container(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  padding: EdgeInsets.all(24),
-                ),
-                onPressed: controller.hyperMapController.moveToCurrentLocation,
-                child: Text('Center'),
+            FlutterMap(
+              mapController: controller.hyperMapController.mapController,
+              options: MapOptions(
+                interactiveFlags:
+                    InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+                center: LatLng(10.841411, 106.809936),
+                zoom: 9,
+                minZoom: 3,
+                maxZoom: 18.4,
+                slideOnBoundaries: true,
+                onMapReady: controller.onMapReady,
               ),
+              children: [
+                TileLayer(
+                  urlTemplate: AppSettings.get('mapboxUrlTemplate'),
+                  additionalOptions: {
+                    "access_token": AppSettings.get('mapboxAccessToken'),
+                  },
+                ),
+                _currentLocationMarker(),
+              ],
             ),
+            _top(),
+            _bottom(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _top() {
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.only(
+          top: 15.h,
+          left: 15.w,
+          right: 15.w,
+        ),
+        alignment: Alignment.topCenter,
+        child: PhysicalModel(
+          borderRadius: BorderRadius.circular(50.r),
+          color: Colors.white,
+          elevation: 2,
+          child: Container(
+            height: 42.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50.r),
+              color: AppColors.surface,
+            ),
+            child: TextFormField(
+              decoration: InputDecoration(
+                errorStyle: caption,
+                isDense: true,
+                contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50.r),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent, width: 0.0),
+                ),
+                hintText: 'Tìm kiếm',
+                prefixIcon: SizedBox(
+                  height: 22.w,
+                  width: 22.w,
+                  child: Icon(
+                    Icons.search,
+                    size: 22.r,
+                    color: AppColors.lightBlack,
+                  ),
+                ),
+                hintStyle: subtitle1.copyWith(
+                  color: AppColors.description,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _bottom() {
+    return Container(
+      padding: EdgeInsets.only(bottom: 15.h, right: 15.w),
+      alignment: Alignment.bottomCenter,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              backgroundColor: AppColors.white,
+              padding: EdgeInsets.all(10.r),
+              minimumSize: Size.zero,
+            ),
+            onPressed: controller.hyperMapController.moveToCurrentLocation,
+            child: const Icon(
+              Icons.my_location,
+              color: AppColors.lightBlack,
+            ),
+          ),
+        ],
       ),
     );
   }

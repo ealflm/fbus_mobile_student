@@ -16,6 +16,15 @@ class HyperMapController extends GetxController
     _checkPermission();
   }
 
+  /// Refresh current location.
+  ///
+  /// Using for first run.
+  Future<void> refreshCurrentLocation() async {
+    await _checkPermission();
+    Position position = await Geolocator.getCurrentPosition();
+    currentLocation = LatLng(position.latitude, position.longitude);
+  }
+
   /// Moving to current location.
   void moveToCurrentLocation() async {
     if (currentLocation != null) {

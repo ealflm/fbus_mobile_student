@@ -3,4 +3,9 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   HyperMapController hyperMapController = HyperMapController();
+
+  void onMapReady() async {
+    await hyperMapController.refreshCurrentLocation();
+    hyperMapController.moveToCurrentLocation();
+  }
 }
