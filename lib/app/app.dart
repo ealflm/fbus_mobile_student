@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'bindings/initial_binding.dart';
+import 'core/values/app_colors.dart';
 import 'routes/app_pages.dart';
 
 class App extends StatefulWidget {
@@ -26,22 +27,22 @@ class _AppState extends State<App> {
           getPages: AppPages.routes,
           debugShowCheckedModeBanner: false,
           scrollBehavior: NoneScrollBehavior(),
-          // theme: ThemeData(
-          //   colorScheme: const ColorScheme(
-          //     primary: AppColors.primary400,
-          //     secondary: AppColors.secondary,
-          //     surface: AppColors.surface,
-          //     background: AppColors.background,
-          //     error: AppColors.error,
-          //     onPrimary: AppColors.onPrimary,
-          //     onSecondary: AppColors.onSecondary,
-          //     onSurface: AppColors.onSurface,
-          //     onBackground: AppColors.onBackground,
-          //     onError: AppColors.onError,
-          //     brightness: Brightness.light,
-          //   ),
-          //   focusColor: AppColors.orange,
-          // ),
+          theme: ThemeData(
+            colorScheme: const ColorScheme(
+              primary: AppColors.primary600,
+              secondary: AppColors.secondary,
+              surface: AppColors.surface,
+              background: AppColors.background,
+              error: AppColors.error,
+              onPrimary: AppColors.onPrimary,
+              onSecondary: AppColors.onSecondary,
+              onSurface: AppColors.onSurface,
+              onBackground: AppColors.onBackground,
+              onError: AppColors.onError,
+              brightness: Brightness.light,
+            ),
+            focusColor: AppColors.orange,
+          ),
         );
       },
     );

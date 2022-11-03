@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 
+import '../../home/views/home_view.dart';
 import '../controllers/main_controller.dart';
 import '../widgets/nav_button.dart';
 
@@ -11,11 +12,18 @@ class MainView extends GetView<MainController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(
-        () => PageStorage(
-          bucket: controller.bucket,
-          child: controller.currentScreen,
-        ),
+      body: Stack(
+        children: [
+          const HomeView(),
+          Obx(
+            () {
+              return PageStorage(
+                bucket: controller.bucket,
+                child: controller.currentScreen,
+              );
+            },
+          ),
+        ],
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
