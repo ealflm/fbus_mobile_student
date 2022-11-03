@@ -80,7 +80,7 @@ class AccountView extends GetView<AccountController> {
                         ),
                         Text(
                           'Đăng xuất',
-                          style: subtitle1.copyWith(color: AppColors.white),
+                          style: subtitle1,
                         ),
                       ],
                     ),
