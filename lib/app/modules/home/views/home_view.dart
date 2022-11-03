@@ -105,22 +105,54 @@ class HomeView extends GetView<HomeController> {
 
   Widget _bottom() {
     return Container(
-      padding: EdgeInsets.only(bottom: 15.h, right: 15.w),
       alignment: Alignment.bottomCenter,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: const CircleBorder(),
-              backgroundColor: AppColors.white,
-              padding: EdgeInsets.all(10.r),
-              minimumSize: Size.zero,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                padding: EdgeInsets.only(bottom: 15.h, right: 15.w),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(),
+                    backgroundColor: AppColors.white,
+                    padding: EdgeInsets.all(10.r),
+                    minimumSize: Size.zero,
+                  ),
+                  onPressed:
+                      controller.hyperMapController.moveToCurrentLocation,
+                  child: const Icon(
+                    Icons.my_location,
+                    color: AppColors.lightBlack,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(
+              bottom: 15.h,
+              left: 15.w,
+              right: 15.w,
             ),
-            onPressed: controller.hyperMapController.moveToCurrentLocation,
-            child: const Icon(
-              Icons.my_location,
-              color: AppColors.lightBlack,
+            padding: EdgeInsets.only(
+              top: 15.h,
+              bottom: 15.h,
+              left: 15.w,
+              right: 15.w,
+            ),
+            decoration: BoxDecoration(
+              color: AppColors.primary600,
+              borderRadius: BorderRadius.all(
+                Radius.circular(9.r),
+              ),
+            ),
+            child: Text(
+              'FPT University - Vinhomes Grand Park',
+              style: subtitle2,
             ),
           ),
         ],

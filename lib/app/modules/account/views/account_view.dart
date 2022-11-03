@@ -35,7 +35,7 @@ class AccountView extends GetView<AccountController> {
                         ClipOval(
                           child: SizedBox.fromSize(
                             size: Size.fromRadius(58.r),
-                            child: Container(color: AppColors.softRed),
+                            child: Container(color: AppColors.red),
                           ),
                         ),
                         SizedBox(

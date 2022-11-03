@@ -20,7 +20,7 @@ class LoginView extends GetView<LoginController> {
         body: Stack(
           children: [
             Container(
-              color: AppColors.softRed,
+              color: AppColors.red,
               child: Image.asset(
                 AppPngAssets.fbusBackground,
                 fit: BoxFit.cover,
