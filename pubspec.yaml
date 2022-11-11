@@ -37,6 +37,8 @@ dependencies:
   flutter_map_location_marker: ^5.0.0+1
 
   restart_app: ^1.1.0
+  syncfusion_flutter_calendar: ^20.3.56
+  syncfusion_localizations: ^20.3.56
 
 dev_dependencies:
   flutter_lints: 2.0.1
@@ -49,3 +51,4 @@ flutter:
   assets:
     - app_settings.json
     - assets/png/
+    - assets/png/month/

@@ -7,7 +7,7 @@ import '../routes/app_pages.dart';
 class TokenManager extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    String? token = AuthService.instance.token;
+    String? token = AuthService.token;
     options.headers['Authorization'] = 'Bearer $token';
     super.onRequest(options, handler);
   }

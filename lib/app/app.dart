@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 import 'bindings/initial_binding.dart';
+import 'core/utils/auth_service.dart';
 import 'core/values/app_colors.dart';
 import 'routes/app_pages.dart';
 
@@ -16,14 +19,28 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
+    String initialRoute = AppPages.INITIAL;
+    if (AuthService.token != null) {
+      initialRoute = Routes.MAIN;
+    }
+
     return ScreenUtilInit(
       designSize: const Size(360, 800),
       minTextAdapt: true,
       builder: (context, child) {
         return GetMaterialApp(
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            SfGlobalLocalizations.delegate
+          ],
+          supportedLocales: const [
+            Locale('vi'),
+          ],
+          locale: const Locale('vi'),
           title: "FBus",
           initialBinding: InitialBinding(),
-          initialRoute: AppPages.INITIAL,
+          initialRoute: initialRoute,
           getPages: AppPages.routes,
           debugShowCheckedModeBanner: false,
           scrollBehavior: NoneScrollBehavior(),

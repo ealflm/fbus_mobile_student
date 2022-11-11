@@ -23,7 +23,7 @@ abstract class AppColors {
   static const Color primary100 = Color(0xFFFFFAC0);
   static const Color primary050 = Color(0xFFFFFDE6);
 
-  static const Color secondary = Color(0xFF9500D7);
+  static const Color secondary = Color(0xFF5B5DE9);
 
   static const Color error = Color(0xFFFA6D55);
 

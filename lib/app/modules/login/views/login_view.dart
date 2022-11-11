@@ -76,7 +76,7 @@ class LoginView extends GetView<LoginController> {
                       style: h4.copyWith(color: Colors.white),
                     ),
                     Text(
-                      'School bus booking system at FPT University',
+                      'Hệ thống xe buýt tại đại học FPT',
                       style: subtitle1.copyWith(
                         fontSize: 20.sp,
                         color: Colors.white,
@@ -108,32 +108,60 @@ class LoginView extends GetView<LoginController> {
     );
   }
 
-  ElevatedButton _loginWithGoogleButton() {
-    return ElevatedButton(
-      onPressed: controller.login,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(300),
+  Widget _loginWithGoogleButton() {
+    return Obx(
+      () => ElevatedButton(
+        onPressed: controller.isLoading.value ? null : controller.login,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          disabledBackgroundColor: AppColors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(300),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              AppPngAssets.google,
-              width: 30.w,
-            ),
-            SizedBox(
-              width: 10.w,
-            ),
-            Text(
-              'Login with Google',
-              style: subtitle1.copyWith(fontWeight: FontWeights.medium),
-            ),
-          ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.h),
+          child: controller.isLoading.value
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(6.w),
+                      height: 18.w,
+                      width: 18.w,
+                      child: const CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        color: AppColors.description,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Text(
+                      'Vui lòng chờ',
+                      style: subtitle1.copyWith(
+                        fontWeight: FontWeights.medium,
+                        color: AppColors.description,
+                      ),
+                    ),
+                  ],
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      AppPngAssets.google,
+                      width: 30.w,
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Text(
+                      'Đăng nhập với Google',
+                      style: subtitle1.copyWith(fontWeight: FontWeights.medium),
+                    ),
+                  ],
+                ),
         ),
       ),
     );

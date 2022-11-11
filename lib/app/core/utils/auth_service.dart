@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/repository/repository.dart';
 import '../../routes/app_pages.dart';
@@ -20,18 +21,23 @@ class AuthService extends BaseController {
   /// Get token.
   ///
   /// Return null if token expired.
-  String? get token {
-    if (_token != null) {
-      Map<String, dynamic> payload = Jwt.parseJwt(_token.toString());
+  static String? get token {
+    if (_instance._token != null) {
+      Map<String, dynamic> payload = Jwt.parseJwt(_instance._token.toString());
 
       DateTime? exp =
           DateTime.fromMillisecondsSinceEpoch(payload['exp'] * 1000);
 
       if (exp.compareTo(DateTime.now()) <= 0) {
-        _token = null;
+        _instance._token = null;
       }
     }
-    return _token;
+    return _instance._token;
+  }
+
+  static Future<void> init() async {
+    var prefs = await SharedPreferences.getInstance();
+    _instance._token = prefs.getString('token');
   }
 
   static Future<bool> login() async {
@@ -59,7 +65,7 @@ class AuthService extends BaseController {
         );
 
         if (token != null) {
-          _instance._token = token;
+          saveToken(token);
           result = true;
           Get.offAllNamed(Routes.MAIN);
         }
@@ -82,7 +88,18 @@ class AuthService extends BaseController {
     Get.offAllNamed(Routes.LOGIN);
   }
 
-  static void clearToken() {
-    instance._token = null;
+  static Future<void> saveToken(String? token) async {
+    var prefs = await SharedPreferences.getInstance();
+
+    if (_instance._token != token && token != null) {
+      _instance._token = token;
+      await prefs.setString('token', token);
+    }
+  }
+
+  static Future<void> clearToken() async {
+    var prefs = await SharedPreferences.getInstance();
+    _instance._token = null;
+    await prefs.remove('token');
   }
 }
