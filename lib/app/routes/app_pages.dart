@@ -79,6 +79,7 @@ class AppPages {
       name: _Paths.SEARCH,
       page: () => const SearchView(),
       binding: SearchBinding(),
+      transition: Transition.noTransition,
     ),
   ];
 }

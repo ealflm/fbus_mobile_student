@@ -66,35 +66,46 @@ class HomeView extends GetView<HomeController> {
           borderRadius: BorderRadius.circular(50.r),
           color: Colors.white,
           elevation: 2,
-          child: Container(
-            height: 42.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50.r),
-              color: AppColors.surface,
-            ),
-            child: TextFormField(
-              decoration: InputDecoration(
-                errorStyle: caption,
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50.r),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent, width: 0.0),
-                ),
-                hintText: 'Tìm kiếm',
-                prefixIcon: SizedBox(
-                  height: 22.w,
-                  width: 22.w,
-                  child: Icon(
-                    Icons.search,
-                    size: 22.r,
-                    color: AppColors.lightBlack,
+          child: InkWell(
+            onTap: () {
+              Get.toNamed(Routes.SEARCH);
+            },
+            child: Ink(
+              height: 42.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50.r),
+                color: AppColors.surface,
+              ),
+              child: TextFormField(
+                enabled: false,
+                decoration: InputDecoration(
+                  errorStyle: caption,
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50.r),
                   ),
-                ),
-                hintStyle: subtitle1.copyWith(
-                  color: AppColors.description,
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.transparent, width: 0.0),
+                  ),
+                  disabledBorder: const OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.transparent, width: 0.0),
+                  ),
+                  hintText: 'Tìm kiếm',
+                  prefixIcon: SizedBox(
+                    height: 22.w,
+                    width: 22.w,
+                    child: Icon(
+                      Icons.search,
+                      size: 22.r,
+                      color: AppColors.lightBlack,
+                    ),
+                  ),
+                  hintStyle: subtitle1.copyWith(
+                    color: AppColors.description,
+                  ),
                 ),
               ),
             ),
