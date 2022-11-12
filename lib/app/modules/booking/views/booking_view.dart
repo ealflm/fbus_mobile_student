@@ -31,25 +31,24 @@ class BookingView extends GetView<BookingController> {
             controller: controller.calendarController,
             showDatePickerButton: true,
             allowedViews: controller.allowedViews,
-            view: CalendarView.week,
+            view: CalendarView.schedule,
             firstDayOfWeek: 1,
             specialRegions: controller.getTimeRegions(),
             scheduleViewMonthHeaderBuilder:
                 controller.scheduleViewMonthHeaderBuilder,
             scheduleViewSettings: const ScheduleViewSettings(
+              appointmentItemHeight: 111,
+              // hideEmptyScheduleWeek: true,
               weekHeaderSettings: WeekHeaderSettings(
                 startDateFormat: 'dd/MM',
                 endDateFormat: 'dd/MM',
               ),
             ),
             dataSource: _getCalendarDataSource(),
-            timeSlotViewSettings: TimeSlotViewSettings(
-              timeIntervalHeight: 80.h,
-            ),
             appointmentBuilder:
                 (BuildContext context, CalendarAppointmentDetails details) {
               final Appointment appointment = details.appointments.first;
-              if (controller.calendarController.view == CalendarView.day) {
+              if (controller.calendarController.view == CalendarView.schedule) {
                 return Container(
                   padding: EdgeInsets.all(10.r),
                   color: appointment.color,
@@ -58,98 +57,105 @@ class BookingView extends GetView<BookingController> {
                     child: Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Khoảng cách',
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeights.regular,
-                                    letterSpacing: 0.0025.sp,
-                                  ),
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    text: '20',
-                                    style: TextStyle(
-                                      color: AppColors.white,
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeights.medium,
-                                      letterSpacing: 0.0025.sp,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: 'km',
-                                        style: TextStyle(
-                                          color: AppColors.white,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeights.medium,
-                                          letterSpacing: 0.0025.sp,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 1.h),
-                                RichText(
-                                  text: TextSpan(
-                                    text: 'Thời gian: ',
-                                    style: TextStyle(
-                                      color: AppColors.white,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeights.regular,
-                                      letterSpacing: 0.0025.sp,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: '15 phút',
-                                        style: TextStyle(
-                                          color: AppColors.white,
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeights.medium,
-                                          letterSpacing: 0.0025.sp,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _station(
-                              title: 'Trạm Vinhomes grand park',
-                              time: '07:00',
-                              iconColor: AppColors.green,
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 11.r),
+                            Expanded(
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  _dot(),
-                                  SizedBox(height: 3.h),
-                                  _dot(),
-                                  SizedBox(height: 3.h),
-                                  _dot(),
-                                  SizedBox(height: 3.h),
+                                  _station(
+                                    title: 'Vinhomes grand park',
+                                    time: '07:00',
+                                    iconColor: AppColors.green,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 11.r),
+                                    child: Column(
+                                      children: [
+                                        _dot(),
+                                        SizedBox(height: 3.h),
+                                        _dot(),
+                                        SizedBox(height: 3.h),
+                                        _dot(),
+                                        SizedBox(height: 3.h),
+                                      ],
+                                    ),
+                                  ),
+                                  _station(
+                                    title: 'FPT University',
+                                    time: '07:35',
+                                    iconColor: AppColors.blue,
+                                  ),
                                 ],
                               ),
                             ),
-                            _station(
-                              title: 'FPT University',
-                              time: '07:35',
-                              iconColor: AppColors.blue,
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Khoảng cách',
+                                      style: TextStyle(
+                                        color: AppColors.white,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeights.regular,
+                                        letterSpacing: 0.0025.sp,
+                                      ),
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: '20',
+                                        style: TextStyle(
+                                          color: AppColors.white,
+                                          fontSize: 20.sp,
+                                          fontWeight: FontWeights.medium,
+                                          letterSpacing: 0.0025.sp,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: 'km',
+                                            style: TextStyle(
+                                              color: AppColors.white,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeights.medium,
+                                              letterSpacing: 0.0025.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 1.h),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Thời gian: ',
+                                        style: TextStyle(
+                                          color: AppColors.white,
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeights.regular,
+                                          letterSpacing: 0.0025.sp,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: '15 phút',
+                                            style: TextStyle(
+                                              color: AppColors.white,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeights.medium,
+                                              letterSpacing: 0.0025.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ],
                         )
@@ -158,9 +164,89 @@ class BookingView extends GetView<BookingController> {
                   ),
                 );
               }
-              return Container(
-                child: Text(appointment.subject),
-              );
+              if (controller.calendarController.view == CalendarView.day) {
+                return Container(
+                  padding: const EdgeInsets.all(4),
+                  color: appointment.color,
+                  height: details.bounds.height,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Vinhomes grand park - FPT University',
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: 11.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            Text(
+                              '30km',
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: 11.sp,
+                                fontWeight: FontWeights.bold,
+                                letterSpacing: 0.0025.sp,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+              if (controller.calendarController.view == CalendarView.week) {
+                return Container(
+                  padding: const EdgeInsets.all(4),
+                  color: appointment.color,
+                  height: details.bounds.height,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Vinhomes grand park - FPT University',
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: 9.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                            ),
+                            // SizedBox(
+                            //   width: 5.w,
+                            // ),
+                            // Text(
+                            //   '30km',
+                            //   style: TextStyle(
+                            //     color: AppColors.white,
+                            //     fontSize: 9.sp,
+                            //     fontWeight: FontWeights.medium,
+                            //     letterSpacing: 0.0025.sp,
+                            //   ),
+                            // )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+              return Text(appointment.subject);
             },
           ),
         ),
@@ -199,27 +285,31 @@ class BookingView extends GetView<BookingController> {
         SizedBox(
           width: 8.w,
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 13.sp,
-                fontWeight: FontWeights.medium,
-                letterSpacing: 0.0015.sp,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 13.sp,
+                  fontWeight: FontWeights.medium,
+                  letterSpacing: 0.0015.sp,
+                ),
               ),
-            ),
-            Text(
-              time,
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 13.sp,
-                letterSpacing: 0.0015.sp,
+              Text(
+                time,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 13.sp,
+                  letterSpacing: 0.0015.sp,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

@@ -219,7 +219,7 @@ class HomeView extends GetView<HomeController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _station(
-                      title: 'Trạm Vinhomes grand park',
+                      title: 'Vinhomes grand park',
                       time: '07:00',
                       iconColor: AppColors.green,
                     ),
