@@ -11,6 +11,8 @@ abstract class Routes {
   static const BOOKING = _Paths.BOOKING;
   static const ACCOUNT = _Paths.ACCOUNT;
   static const NOTIFICATION = _Paths.NOTIFICATION;
+  static const SCAN = _Paths.SCAN;
+  static const SEARCH = _Paths.SEARCH;
 }
 
 abstract class _Paths {
@@ -21,4 +23,6 @@ abstract class _Paths {
   static const BOOKING = '/booking';
   static const ACCOUNT = '/account';
   static const NOTIFICATION = '/notification';
+  static const SCAN = '/scan';
+  static const SEARCH = '/search';
 }

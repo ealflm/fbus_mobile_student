@@ -11,6 +11,7 @@ import '../../../core/values/app_colors.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/status_bar.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -194,7 +195,9 @@ class HomeView extends GetView<HomeController> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: const StadiumBorder()),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(Routes.SCAN);
+                      },
                       child: Row(
                         children: [
                           Text(

@@ -49,117 +49,129 @@ class BookingView extends GetView<BookingController> {
                 (BuildContext context, CalendarAppointmentDetails details) {
               final Appointment appointment = details.appointments.first;
               if (controller.calendarController.view == CalendarView.schedule) {
-                return Container(
-                  padding: EdgeInsets.all(10.r),
-                  color: appointment.color,
-                  height: details.bounds.height,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                return Material(
+                  child: InkWell(
+                    onTap: () {
+                      debugPrint('Hello');
+                    },
+                    child: Ink(
+                      padding: EdgeInsets.all(10.r),
+                      color: appointment.color,
+                      height: details.bounds.height,
+                      child: SingleChildScrollView(
+                        child: Column(
                           children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _station(
-                                    title: 'Vinhomes grand park',
-                                    time: '07:00',
-                                    iconColor: AppColors.green,
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 11.r),
-                                    child: Column(
-                                      children: [
-                                        _dot(),
-                                        SizedBox(height: 3.h),
-                                        _dot(),
-                                        SizedBox(height: 3.h),
-                                        _dot(),
-                                        SizedBox(height: 3.h),
-                                      ],
-                                    ),
-                                  ),
-                                  _station(
-                                    title: 'FPT University',
-                                    time: '07:35',
-                                    iconColor: AppColors.blue,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      _station(
+                                        title: 'Vinhomes grand park',
+                                        time: '07:00',
+                                        iconColor: AppColors.green,
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 11.r),
+                                        child: Column(
+                                          children: [
+                                            _dot(),
+                                            SizedBox(height: 3.h),
+                                            _dot(),
+                                            SizedBox(height: 3.h),
+                                            _dot(),
+                                            SizedBox(height: 3.h),
+                                          ],
+                                        ),
+                                      ),
+                                      _station(
+                                        title: 'FPT University',
+                                        time: '07:35',
+                                        iconColor: AppColors.blue,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5.w,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Khoảng cách',
-                                      style: TextStyle(
-                                        color: AppColors.white,
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeights.regular,
-                                        letterSpacing: 0.0025.sp,
-                                      ),
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: '20',
-                                        style: TextStyle(
-                                          color: AppColors.white,
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeights.medium,
-                                          letterSpacing: 0.0025.sp,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Khoảng cách',
+                                          style: TextStyle(
+                                            color: AppColors.white,
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeights.regular,
+                                            letterSpacing: 0.0025.sp,
+                                          ),
                                         ),
-                                        children: [
-                                          TextSpan(
-                                            text: 'km',
+                                        RichText(
+                                          text: TextSpan(
+                                            text: '20',
                                             style: TextStyle(
                                               color: AppColors.white,
-                                              fontSize: 14.sp,
+                                              fontSize: 20.sp,
                                               fontWeight: FontWeights.medium,
                                               letterSpacing: 0.0025.sp,
                                             ),
+                                            children: [
+                                              TextSpan(
+                                                text: 'km',
+                                                style: TextStyle(
+                                                  color: AppColors.white,
+                                                  fontSize: 14.sp,
+                                                  fontWeight:
+                                                      FontWeights.medium,
+                                                  letterSpacing: 0.0025.sp,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 1.h),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: 'Thời gian: ',
-                                        style: TextStyle(
-                                          color: AppColors.white,
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeights.regular,
-                                          letterSpacing: 0.0025.sp,
                                         ),
-                                        children: [
-                                          TextSpan(
-                                            text: '15 phút',
+                                        SizedBox(height: 1.h),
+                                        RichText(
+                                          text: TextSpan(
+                                            text: 'Thời gian: ',
                                             style: TextStyle(
                                               color: AppColors.white,
                                               fontSize: 12.sp,
-                                              fontWeight: FontWeights.medium,
+                                              fontWeight: FontWeights.regular,
                                               letterSpacing: 0.0025.sp,
                                             ),
+                                            children: [
+                                              TextSpan(
+                                                text: '15 phút',
+                                                style: TextStyle(
+                                                  color: AppColors.white,
+                                                  fontSize: 12.sp,
+                                                  fontWeight:
+                                                      FontWeights.medium,
+                                                  letterSpacing: 0.0025.sp,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ],
-                            ),
+                            )
                           ],
-                        )
-                      ],
+                        ),
+                      ),
                     ),
                   ),
                 );
