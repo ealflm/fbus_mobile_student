@@ -34,6 +34,15 @@ class HyperMapController extends GetxController
     }
   }
 
+  /// Moving to current location.
+  void moveToCurrentLocationWithoutAnimation() async {
+    if (currentLocation != null) {
+      mapController.move(currentLocation!, AppValues.focusZoomLevel);
+    } else {
+      debugPrint('Current location is invalid');
+    }
+  }
+
   Stream<LocationMarkerPosition> geolocatorPositionStream() {
     return (Geolocator.getPositionStream()).map((Position position) {
       currentLocation = LatLng(position.latitude, position.longitude);

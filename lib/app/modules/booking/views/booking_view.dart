@@ -10,6 +10,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../../core/values/font_weights.dart';
 import '../../../core/widget/status_bar.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/booking_controller.dart';
 
 class BookingView extends GetView<BookingController> {
@@ -22,7 +23,7 @@ class BookingView extends GetView<BookingController> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // Add your onPressed code here!
+            Get.toNamed(Routes.SELECT_ROUTE);
           },
           child: const Icon(Icons.add),
         ),

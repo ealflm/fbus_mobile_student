@@ -6,6 +6,7 @@ class HomeController extends GetxController {
 
   void onMapReady() async {
     await hyperMapController.refreshCurrentLocation();
+    await Future.delayed(const Duration(milliseconds: 800));
     hyperMapController.moveToCurrentLocation();
   }
 }

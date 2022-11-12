@@ -13,6 +13,7 @@ abstract class Routes {
   static const NOTIFICATION = _Paths.NOTIFICATION;
   static const SCAN = _Paths.SCAN;
   static const SEARCH = _Paths.SEARCH;
+  static const SELECT_ROUTE = _Paths.SELECT_ROUTE;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const NOTIFICATION = '/notification';
   static const SCAN = '/scan';
   static const SEARCH = '/search';
+  static const SELECT_ROUTE = '/select-route';
 }

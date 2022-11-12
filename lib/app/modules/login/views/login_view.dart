@@ -57,12 +57,33 @@ class LoginView extends GetView<LoginController> {
                 ),
                 Obx(() => Opacity(
                       opacity: controller.hasTapped.value ? 1 : 0,
-                      child: Text(
-                        'Vui lòng đăng nhập để tiếp tục',
-                        textAlign: TextAlign.center,
-                        style: subtitle2.copyWith(
-                            fontWeight: FontWeights.light,
-                            color: AppColors.description),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 21.r,
+                            height: 21.r,
+                            padding: EdgeInsets.all(5.r),
+                            decoration: const BoxDecoration(
+                              color: AppColors.primary600,
+                              shape: BoxShape.circle,
+                            ),
+                            child: SvgPicture.asset(
+                              AppSvgAssets.lightBulb,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8.w,
+                          ),
+                          Text(
+                            'Vui lòng đăng nhập để tiếp tục',
+                            style: subtitle2.copyWith(
+                              fontWeight: FontWeights.light,
+                              color: AppColors.description,
+                            ),
+                          ),
+                        ],
                       ),
                     )),
                 Padding(
@@ -88,7 +109,7 @@ class LoginView extends GetView<LoginController> {
         onPressed: controller.isLoading.value ? null : controller.login,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.secondary,
-          disabledBackgroundColor: AppColors.secondary,
+          disabledBackgroundColor: AppColors.onSurface.withOpacity(0.12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(300),
           ),
@@ -105,7 +126,7 @@ class LoginView extends GetView<LoginController> {
                       width: 18.w,
                       child: const CircularProgressIndicator(
                         strokeWidth: 2.5,
-                        color: AppColors.white,
+                        color: AppColors.softBlack,
                       ),
                     ),
                     SizedBox(
@@ -115,7 +136,6 @@ class LoginView extends GetView<LoginController> {
                       'Vui lòng chờ',
                       style: subtitle1.copyWith(
                         fontWeight: FontWeights.medium,
-                        color: AppColors.white,
                       ),
                     ),
                   ],

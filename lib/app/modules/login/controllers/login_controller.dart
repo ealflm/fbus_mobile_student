@@ -7,6 +7,7 @@ class LoginController extends GetxController {
   Rx<bool> hasTapped = false.obs;
 
   void login() async {
+    hasTapped.value = false;
     isLoading.value = true;
     bool result = await AuthService.login();
     if (!result) {
