@@ -10,6 +10,7 @@ abstract class Routes {
   static const TICKET = _Paths.TICKET;
   static const BOOKING = _Paths.BOOKING;
   static const ACCOUNT = _Paths.ACCOUNT;
+  static const NOTIFICATION = _Paths.NOTIFICATION;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const TICKET = '/ticket';
   static const BOOKING = '/booking';
   static const ACCOUNT = '/account';
+  static const NOTIFICATION = '/notification';
 }

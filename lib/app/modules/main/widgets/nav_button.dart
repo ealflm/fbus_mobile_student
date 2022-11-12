@@ -45,12 +45,15 @@ class NavButton extends StatelessWidget {
             SizedBox(
               height: 5.h,
             ),
-            Text(
-              title,
-              style: state
-                  ? overline.copyWith(
-                      fontWeight: FontWeights.medium, fontSize: 11.sp)
-                  : overline.copyWith(color: AppColors.gray, fontSize: 11.sp),
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(
+                title,
+                style: state
+                    ? overline.copyWith(
+                        fontWeight: FontWeights.medium, fontSize: 11.sp)
+                    : overline.copyWith(color: AppColors.gray, fontSize: 11.sp),
+              ),
             ),
           ],
         ),

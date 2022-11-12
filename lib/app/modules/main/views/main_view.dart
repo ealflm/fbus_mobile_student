@@ -37,18 +37,18 @@ class MainView extends GetView<MainController> {
                   state: controller.currentTab.value == 0,
                 ),
                 NavButton(
-                  title: 'Vé của tôi',
-                  icon: Icons.confirmation_number,
-                  iconOutlined: Icons.confirmation_number_outlined,
+                  title: 'Lịch trình',
+                  icon: Icons.insert_invitation,
+                  iconOutlined: Icons.insert_invitation_outlined,
                   onPressed: () {
                     controller.changeTab(1);
                   },
                   state: controller.currentTab.value == 1,
                 ),
                 NavButton(
-                  title: 'Đặt vé',
-                  icon: Icons.insert_invitation,
-                  iconOutlined: Icons.insert_invitation_outlined,
+                  title: 'Thông báo',
+                  icon: Icons.notifications,
+                  iconOutlined: Icons.notifications_outlined,
                   onPressed: () {
                     controller.changeTab(2);
                   },
