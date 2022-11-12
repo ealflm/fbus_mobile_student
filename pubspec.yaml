@@ -52,3 +52,4 @@ flutter:
     - app_settings.json
     - assets/png/
     - assets/png/month/
+    - assets/svg/
