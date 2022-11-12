@@ -2,9 +2,11 @@ import 'package:fbus_mobile_student/app/core/utils/auth_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hyper_app_settings/hyper_app_settings.dart';
 import 'app/app.dart';
+import 'app/core/values/app_svg_assets.dart';
 import 'app/data/repository/repository.dart';
 import 'app/data/repository/repository_impl.dart';
 import 'config/build_config.dart';
@@ -51,6 +53,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  Future.wait([
+    precachePicture(
+      ExactAssetPicture(
+          SvgPicture.svgStringDecoder, AppSvgAssets.fbusIsometric),
+      null,
+    ),
+  ]);
 
   runApp(const App());
 }
