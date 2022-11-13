@@ -10,6 +10,7 @@ import 'package:latlong2/latlong.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
+import '../../../core/widget/hyper_stack.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
 import '../controllers/select_route_controller.dart';
@@ -78,6 +79,10 @@ class SelectRouteView extends GetView<SelectRouteController> {
                   onMiss: (tapPosition) {
                     debugPrint(
                         'No polyline was tapped at position ${tapPosition.globalPosition}');
+                  },
+                  onDoubleMiss: (tapPosition) {
+                    debugPrint(
+                        'No polyline was double tapped at position ${tapPosition.globalPosition}');
                   },
                 ),
               ],

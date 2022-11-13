@@ -23,11 +23,15 @@ class HyperPolylineLayer extends PolylineLayer {
   /// The optional callback to call when no polyline was hit by the tap
   final void Function(TapUpDetails tapPosition)? onMiss;
 
+  /// The optional callback to call when no polyline was double hit by the tap
+  final void Function(TapDownDetails tapPosition)? onDoubleMiss;
+
   HyperPolylineLayer(
       {super.key,
       this.polylines = const [],
       this.onTap,
       this.onMiss,
+      this.onDoubleMiss,
       this.pointerDistanceTolerance = 15,
       super.polylineCulling = false});
 
@@ -83,13 +87,14 @@ class TappablePolylineLayer extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints bc) {
         final size = Size(bc.maxWidth, bc.maxHeight);
-        return _build(context, size, polylineOpts.onTap, polylineOpts.onMiss);
+        return _build(context, size, polylineOpts.onTap, polylineOpts.onMiss,
+            polylineOpts.onDoubleMiss);
       },
     );
   }
 
-  Widget _build(
-      BuildContext context, Size size, Function? onTap, Function? onMiss) {
+  Widget _build(BuildContext context, Size size, Function? onTap,
+      Function? onMiss, Function? onDoubleMiss) {
     return StreamBuilder<void>(
       stream: stream, // a Stream<void> or null
       builder: (BuildContext context, _) {
@@ -121,7 +126,9 @@ class TappablePolylineLayer extends StatelessWidget {
               // For some strange reason i have to add this callback for the onDoubleTapDown callback to be called.
             },
             onDoubleTapDown: (TapDownDetails details) {
-              _zoomMap(details, context);
+              // Zoom map when double tap down
+              // _zoomMap(details, context);
+              _handlePolylineDoubleTap(details, onDoubleMiss);
             },
             onTapUp: (TapUpDetails details) {
               _forwardCallToMapOptions(details, context);
@@ -138,6 +145,73 @@ class TappablePolylineLayer extends StatelessWidget {
             ));
       },
     );
+  }
+
+  void _handlePolylineDoubleTap(
+      TapDownDetails details, Function? onDoubleMiss) {
+    // We might hit close to multiple polylines. We will therefore keep a reference to these in this map.
+    Map<double, List<TaggedPolyline>> candidates = {};
+
+    // Calculating taps in between points on the polyline. We
+    // iterate over all the segments in the polyline to find any
+    // matches with the tapped point within the
+    // pointerDistanceTolerance.
+    for (Polyline currentPolyline in polylineOpts.polylines) {
+      for (var j = 0; j < currentPolyline.offsets.length - 1; j++) {
+        // We consider the points point1, point2 and tap points in a triangle
+        var point1 = currentPolyline.offsets[j];
+        var point2 = currentPolyline.offsets[j + 1];
+        var tap = details.localPosition;
+
+        // To determine if we have tapped in between two po ints, we
+        // calculate the length from the tapped point to the line
+        // created by point1, point2. If this distance is shorter
+        // than the specified threshold, we have detected a tap
+        // between two points.
+        //
+        // We start by calculating the length of all the sides using pythagoras.
+        var a = _distance(point1, point2);
+        var b = _distance(point1, tap);
+        var c = _distance(point2, tap);
+
+        // To find the height when we only know the lengths of the sides, we can use Herons formula to get the Area.
+        var semiPerimeter = (a + b + c) / 2.0;
+        var triangleArea = sqrt(semiPerimeter *
+            (semiPerimeter - a) *
+            (semiPerimeter - b) *
+            (semiPerimeter - c));
+
+        // We can then finally calculate the length from the tapped point onto the line created by point1, point2.
+        // Area of triangles is half the area of a rectangle
+        // area = 1/2 base * height -> height = (2 * area) / base
+        var height = (2 * triangleArea) / a;
+
+        // We're not there yet - We need to satisfy the edge case
+        // where the perpendicular line from the tapped point onto
+        // the line created by point1, point2 (called point D) is
+        // outside of the segment point1, point2. We need
+        // to check if the length from D to the original segment
+        // (point1, point2) is less than the threshold.
+
+        var hypotenus = max(b, c);
+        var newTriangleBase = sqrt((hypotenus * hypotenus) - (height * height));
+        var lengthDToOriginalSegment = newTriangleBase - a;
+
+        if (height < polylineOpts.pointerDistanceTolerance &&
+            lengthDToOriginalSegment < polylineOpts.pointerDistanceTolerance) {
+          var minimum = min(height, lengthDToOriginalSegment);
+
+          candidates[minimum] ??= <TaggedPolyline>[];
+          candidates[minimum]!.add(currentPolyline as TaggedPolyline);
+        }
+      }
+    }
+
+    if (candidates.isEmpty) {
+      if (onDoubleMiss is Function) {
+        onDoubleMiss(details);
+      }
+    }
   }
 
   void _handlePolylineTap(
@@ -237,12 +311,6 @@ class TappablePolylineLayer extends StatelessWidget {
     var distance = sqrt((distancex * distancex) + (distancey * distancey));
 
     return distance;
-  }
-
-  void _zoomMap(TapDownDetails details, BuildContext context) {
-    var newCenter = _offsetToLatLng(
-        details.localPosition, context.size!.width, context.size!.height);
-    map.move(newCenter, map.zoom + 0.5, source: MapEventSource.doubleTap);
   }
 
   LatLng _offsetToLatLng(Offset offset, double width, double height) {
