@@ -1,3 +1,4 @@
+import 'package:fbus_mobile_student/app/core/widget/hyper_stack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -5,16 +6,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:hyper_app_settings/hyper_app_settings.dart';
+import 'package:hyper_polyline/hyper_polyline.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
-import '../../../core/widget/hyper_stack.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
 import '../controllers/select_route_controller.dart';
-import 'hyper_polyline.dart';
 
 class SelectRouteView extends GetView<SelectRouteController> {
   const SelectRouteView({Key? key}) : super(key: key);
@@ -44,46 +44,12 @@ class SelectRouteView extends GetView<SelectRouteController> {
                     "access_token": AppSettings.get('mapboxAccessToken'),
                   },
                 ),
-                // Obx(() => PolylineLayer(
-                //       polylineCulling: true,
-                //       saveLayers: true,
-                //       polylines: [
-                //         Polyline(
-                //           strokeWidth: 4.r,
-                //           color: AppColors.blue,
-                //           borderStrokeWidth: 3.r,
-                //           borderColor: AppColors.darkBlue,
-                //           points: controller.polyLines.value,
-                //         ),
-                //       ],
-                //     )),
-                _busStationMarker(),
-                _currentLocationMarker(),
-                HyperPolylineLayer(
-                  // Will only render visible polylines, increasing performance
-                  polylineCulling: true,
-                  pointerDistanceTolerance: 20,
-                  polylines: [
-                    TaggedPolyline(
-                      tag:
-                          "Nam", // An optional tag to distinguish polylines in `onTap` callback
-                      strokeWidth: 10.r,
-                      color: AppColors.blue,
-                      borderStrokeWidth: 3.r,
-                      borderColor: AppColors.darkBlue,
-                      points: controller.polyLines.value,
-                    ),
+                HyperStack(
+                  children: [
+                    _routes(),
+                    _busStationMarker(),
+                    _currentLocationMarker(),
                   ],
-                  onTap: (polylines, tapPosition) => debugPrint(
-                      'Tapped: ${polylines.map((polyline) => polyline.tag).join(',')} at ${tapPosition.globalPosition}'),
-                  onMiss: (tapPosition) {
-                    debugPrint(
-                        'No polyline was tapped at position ${tapPosition.globalPosition}');
-                  },
-                  onDoubleMiss: (tapPosition) {
-                    debugPrint(
-                        'No polyline was double tapped at position ${tapPosition.globalPosition}');
-                  },
                 ),
               ],
             ),
@@ -91,6 +57,33 @@ class SelectRouteView extends GetView<SelectRouteController> {
           ],
         ),
       ),
+    );
+  }
+
+  Obx _routes() {
+    return Obx(
+      () {
+        return HyperPolylineLayer(
+          // Will only render visible polylines, increasing performance
+          polylineCulling: true,
+          pointerDistanceTolerance: 50,
+          polylines: controller.polylines.value,
+          onTap: (polylines, tapPosition) {
+            debugPrint(
+                'Tapped: ${polylines.map((polyline) => polyline.tag).join(',')} at ${tapPosition.globalPosition}');
+            controller.selectRoute(polylines.first.tag);
+          },
+          onMiss: (tapPosition) {
+            debugPrint(
+                'No polyline was tapped at position ${tapPosition.globalPosition}');
+          },
+          onDoubleMiss: (tapPosition) {
+            debugPrint(
+                'No polyline was double tapped at position ${tapPosition.globalPosition}');
+            controller.clearAllSelectRoutes();
+          },
+        );
+      },
     );
   }
 
@@ -241,7 +234,7 @@ class SelectRouteView extends GetView<SelectRouteController> {
                     selectStation(
                       // title: 'FPT University',
                       secondTitle: 'Chưa chọn trạm đến',
-                      iconColor: AppColors.blue,
+                      iconColor: AppColors.secondary,
                     ),
                   ],
                 ),

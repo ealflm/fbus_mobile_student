@@ -254,7 +254,7 @@ class HomeView extends GetView<HomeController> {
                     station(
                       title: 'FPT University',
                       time: '07:35',
-                      iconColor: AppColors.blue,
+                      iconColor: AppColors.secondary,
                     ),
                   ],
                 )

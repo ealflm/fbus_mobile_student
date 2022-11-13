@@ -91,7 +91,7 @@ class BookingView extends GetView<BookingController> {
                                       _station(
                                         title: 'FPT University',
                                         time: '07:35',
-                                        iconColor: AppColors.blue,
+                                        iconColor: AppColors.secondary,
                                       ),
                                     ],
                                   ),
@@ -285,9 +285,10 @@ class BookingView extends GetView<BookingController> {
       children: [
         Container(
           padding: EdgeInsets.all(5.r),
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AppColors.white,
             shape: BoxShape.circle,
+            boxShadow: kElevationToShadow[1],
           ),
           child: Icon(
             Icons.directions_bus,
