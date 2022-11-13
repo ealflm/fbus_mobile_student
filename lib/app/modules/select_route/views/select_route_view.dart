@@ -13,6 +13,7 @@ import '../../../core/values/text_styles.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
 import '../controllers/select_route_controller.dart';
+import 'hyper_polyline.dart';
 
 class SelectRouteView extends GetView<SelectRouteController> {
   const SelectRouteView({Key? key}) : super(key: key);
@@ -42,12 +43,56 @@ class SelectRouteView extends GetView<SelectRouteController> {
                     "access_token": AppSettings.get('mapboxAccessToken'),
                   },
                 ),
+                // Obx(() => PolylineLayer(
+                //       polylineCulling: true,
+                //       saveLayers: true,
+                //       polylines: [
+                //         Polyline(
+                //           strokeWidth: 4.r,
+                //           color: AppColors.blue,
+                //           borderStrokeWidth: 3.r,
+                //           borderColor: AppColors.darkBlue,
+                //           points: controller.polyLines.value,
+                //         ),
+                //       ],
+                //     )),
+                _busStationMarker(),
                 _currentLocationMarker(),
+                HyperPolylineLayer(
+                  // Will only render visible polylines, increasing performance
+                  polylineCulling: true,
+                  pointerDistanceTolerance: 20,
+                  polylines: [
+                    TaggedPolyline(
+                      tag:
+                          "Nam", // An optional tag to distinguish polylines in `onTap` callback
+                      strokeWidth: 10.r,
+                      color: AppColors.blue,
+                      borderStrokeWidth: 3.r,
+                      borderColor: AppColors.darkBlue,
+                      points: controller.polyLines.value,
+                    ),
+                  ],
+                  onTap: (polylines, tapPosition) => debugPrint(
+                      'Tapped: ${polylines.map((polyline) => polyline.tag).join(',')} at ${tapPosition.globalPosition}'),
+                  onMiss: (tapPosition) {
+                    debugPrint(
+                        'No polyline was tapped at position ${tapPosition.globalPosition}');
+                  },
+                ),
               ],
             ),
             _bottom(),
           ],
         ),
+      ),
+    );
+  }
+
+  Obx _busStationMarker() {
+    return Obx(
+      () => MarkerLayer(
+        markers: controller.stationMarkers.value,
       ),
     );
   }
