@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../values/app_colors.dart';
 import '../values/font_weights.dart';
@@ -107,5 +108,14 @@ Row selectStation({
         ],
       ),
     ],
+  );
+}
+
+void showToast(String message) {
+  Fluttertoast.showToast(
+    backgroundColor: AppColors.black.withOpacity(0.5),
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    timeInSecForIosWeb: 1,
   );
 }

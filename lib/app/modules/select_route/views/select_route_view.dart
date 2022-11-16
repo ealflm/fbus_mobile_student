@@ -1,8 +1,11 @@
-import 'package:fbus_mobile_student/app/core/widget/hyper_stack.dart';
+import 'dart:math';
+
+import 'package:fbus_mobile_student/app/core/widget/light_bulb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:hyper_app_settings/hyper_app_settings.dart';
@@ -10,6 +13,7 @@ import 'package:hyper_polyline/hyper_polyline.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../core/values/app_colors.dart';
+import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/shared.dart';
@@ -44,7 +48,7 @@ class SelectRouteView extends GetView<SelectRouteController> {
                     "access_token": AppSettings.get('mapboxAccessToken'),
                   },
                 ),
-                HyperStack(
+                Stack(
                   children: [
                     _routes(),
                     _busStationMarker(),
@@ -67,20 +71,20 @@ class SelectRouteView extends GetView<SelectRouteController> {
           // Will only render visible polylines, increasing performance
           polylineCulling: true,
           pointerDistanceTolerance: 50,
-          polylines: controller.polylines.value,
+          polylines: controller.route.polyline,
           onTap: (polylines, tapPosition) {
-            debugPrint(
-                'Tapped: ${polylines.map((polyline) => polyline.tag).join(',')} at ${tapPosition.globalPosition}');
-            controller.selectRoute(polylines.first.tag);
+            // debugPrint(
+            //     'Tapped: ${polylines.map((polyline) => polyline.tag).join(',')} at ${tapPosition.globalPosition}');
+            controller.route.selectRoute(polylines.first.tag);
           },
           onMiss: (tapPosition) {
-            debugPrint(
-                'No polyline was tapped at position ${tapPosition.globalPosition}');
+            // debugPrint(
+            //     'No polyline was tapped at position ${tapPosition.globalPosition}');
           },
           onDoubleMiss: (tapPosition) {
-            debugPrint(
-                'No polyline was double tapped at position ${tapPosition.globalPosition}');
-            controller.clearAllSelectRoutes();
+            // debugPrint(
+            //     'No polyline was double tapped at position ${tapPosition.globalPosition}');
+            controller.route.clearAllSelectedRoutes();
           },
         );
       },
@@ -90,7 +94,54 @@ class SelectRouteView extends GetView<SelectRouteController> {
   Obx _busStationMarker() {
     return Obx(
       () => MarkerLayer(
-        markers: controller.stationMarkers.value,
+        markers: controller.route.stationMarkers,
+      ),
+    );
+  }
+
+  Widget _currentLocationMarker() {
+    return IgnorePointer(
+      child: CurrentLocationLayer(
+        positionStream:
+            controller.hyperMapController.geolocatorPositionStream(),
+        style: LocationMarkerStyle(
+          markerDirection: MarkerDirection.heading,
+          showHeadingSector: false,
+          markerSize: Size(60.r, 60.r),
+          marker: Stack(
+            children: [
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        offset: const Offset(0, 0),
+                        blurRadius: 4,
+                        spreadRadius: 0,
+                        color: AppColors.black.withOpacity(0.4),
+                      ),
+                    ],
+                  ),
+                  height: 26.r,
+                  width: 26.r,
+                  child: DefaultLocationMarker(
+                    child: Container(
+                      padding: EdgeInsets.only(bottom: 2.r),
+                      child: Center(
+                        child: Icon(
+                          Icons.navigation,
+                          color: Colors.white,
+                          size: 16.r,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -144,148 +195,168 @@ class SelectRouteView extends GetView<SelectRouteController> {
             ),
             child: Column(
               children: [
+                Obx(
+                  () => controller.route.selectedRoute == null
+                      ? Column(
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 19.r,
+                                  height: 19.r,
+                                  padding: EdgeInsets.all(3.r),
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.softBlack,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: SvgPicture.asset(
+                                    AppSvgAssets.lightBulb,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                Text(
+                                  'Vui lòng chọn tuyến đường muốn đi',
+                                  style: subtitle2.copyWith(),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                          ],
+                        )
+                      : Container(),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Khoảng cách',
-                          style: body2.copyWith(color: AppColors.lightBlack),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            text: '0',
-                            style: h4.copyWith(fontWeight: FontWeights.medium),
-                            children: [
-                              TextSpan(
-                                text: 'km',
-                                style: h6.copyWith(
-                                    fontWeight: FontWeights.regular),
+                    Obx(
+                      () {
+                        Random rand = Random();
+                        int distance = rand.nextInt(3) + 3;
+                        int time = rand.nextInt(15) + 15;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Khoảng cách',
+                              style:
+                                  body2.copyWith(color: AppColors.lightBlack),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: controller.route.selectedStation == null
+                                    ? '0'
+                                    : '$distance',
+                                style:
+                                    h4.copyWith(fontWeight: FontWeights.medium),
+                                children: [
+                                  TextSpan(
+                                    text: 'km',
+                                    style: h6.copyWith(
+                                        fontWeight: FontWeights.regular),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 3.h),
-                        RichText(
-                          text: TextSpan(
-                            text: 'Thời gian: ',
-                            style: body2.copyWith(color: AppColors.lightBlack),
+                            ),
+                            SizedBox(height: 3.h),
+                            RichText(
+                              text: TextSpan(
+                                text: 'Thời gian: ',
+                                style:
+                                    body2.copyWith(color: AppColors.lightBlack),
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        controller.route.selectedStation == null
+                                            ? '0 phút'
+                                            : '$time phút',
+                                    style: subtitle2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    Obx(() => ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: const StadiumBorder()),
+                          onPressed: controller.route.selectedStation == null
+                              ? null
+                              : () {
+                                  //
+                                },
+                          child: Row(
                             children: [
-                              TextSpan(
-                                text: '0 phút',
+                              Text(
+                                'Tiếp tục',
                                 style: subtitle2,
                               ),
+                              Icon(
+                                Icons.navigate_next,
+                                color: AppColors.softBlack,
+                                size: 20.r,
+                              ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: const StadiumBorder()),
-                      // onPressed: () {
-                      //   Get.toNamed(Routes.SCAN);
-                      // },
-                      onPressed: null,
-                      child: Row(
-                        children: [
-                          Text(
-                            'Tiếp tục',
-                            style: subtitle2,
-                          ),
-                          Icon(
-                            Icons.navigate_next,
-                            color: AppColors.softBlack,
-                            size: 20.r,
-                          ),
-                        ],
-                      ),
-                    ),
+                        )),
                   ],
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    selectStation(
-                      // title: 'Vinhomes grand park',
-                      secondTitle: 'Chưa chọn trạm đi',
-                      iconColor: AppColors.green,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 11.r),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 5.h),
-                          dot(),
-                          SizedBox(height: 5.h),
-                          dot(),
-                          SizedBox(height: 5.h),
-                          dot(),
-                          SizedBox(height: 5.h),
-                        ],
-                      ),
-                    ),
-                    selectStation(
-                      // title: 'FPT University',
-                      secondTitle: 'Chưa chọn trạm đến',
-                      iconColor: AppColors.secondary,
-                    ),
-                  ],
-                ),
+                Obx(() => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        controller.route.autoSelectedStation == null
+                            ? selectStation(
+                                secondTitle: 'Chưa chọn trạm đi',
+                                iconColor: AppColors.green,
+                              )
+                            : selectStation(
+                                title: controller
+                                        .route.autoSelectedStation?.title ??
+                                    '',
+                                iconColor: AppColors.green,
+                              ),
+                        Container(
+                          padding: EdgeInsets.only(left: 11.r),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 5.h),
+                              dot(),
+                              SizedBox(height: 5.h),
+                              dot(),
+                              SizedBox(height: 5.h),
+                              dot(),
+                              SizedBox(height: 5.h),
+                            ],
+                          ),
+                        ),
+                        controller.route.selectedStation == null
+                            ? selectStation(
+                                secondTitle: 'Chưa chọn trạm đến',
+                                iconColor: AppColors.secondary,
+                              )
+                            : selectStation(
+                                title:
+                                    controller.route.selectedStation?.title ??
+                                        '',
+                                iconColor: AppColors.secondary,
+                              ),
+                      ],
+                    )),
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  CurrentLocationLayer _currentLocationMarker() {
-    return CurrentLocationLayer(
-      positionStream: controller.hyperMapController.geolocatorPositionStream(),
-      style: LocationMarkerStyle(
-        markerDirection: MarkerDirection.heading,
-        showHeadingSector: false,
-        markerSize: Size(60.r, 60.r),
-        marker: Stack(
-          children: [
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(0, 0),
-                      blurRadius: 4,
-                      spreadRadius: 0,
-                      color: AppColors.black.withOpacity(0.4),
-                    ),
-                  ],
-                ),
-                height: 26.r,
-                width: 26.r,
-                child: DefaultLocationMarker(
-                  child: Container(
-                    padding: EdgeInsets.only(bottom: 2.r),
-                    child: Center(
-                      child: Icon(
-                        Icons.navigation,
-                        color: Colors.white,
-                        size: 16.r,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

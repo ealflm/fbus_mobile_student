@@ -7,4 +7,7 @@ abstract class AppSvgAssets {
   static const String fbusIsometric = '$path/fbus_isometric.svg';
   static const String lightBulb = '$path/fa-lightbulb.svg';
   static const String busIcon = '$path/bus_icon.svg';
+
+  static const String busIconFrom = '$path/bus_icon_from.svg';
+  static const String busIconTo = '$path/bus_icon_to.svg';
 }
