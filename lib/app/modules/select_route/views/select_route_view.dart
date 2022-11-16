@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:fbus_mobile_student/app/core/widget/light_bulb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -18,6 +17,7 @@ import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/select_route_controller.dart';
 
 class SelectRouteView extends GetView<SelectRouteController> {
@@ -197,38 +197,7 @@ class SelectRouteView extends GetView<SelectRouteController> {
               children: [
                 Obx(
                   () => controller.route.selectedRoute == null
-                      ? Column(
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 19.r,
-                                  height: 19.r,
-                                  padding: EdgeInsets.all(3.r),
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.softBlack,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: SvgPicture.asset(
-                                    AppSvgAssets.lightBulb,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 8.w,
-                                ),
-                                Text(
-                                  'Vui lòng chọn tuyến đường muốn đi',
-                                  style: subtitle2.copyWith(),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                          ],
-                        )
+                      ? lightBub('Vui lòng chọn tuyến đường muốn đi')
                       : Container(),
                 ),
                 Row(
@@ -291,7 +260,7 @@ class SelectRouteView extends GetView<SelectRouteController> {
                           onPressed: controller.route.selectedStation == null
                               ? null
                               : () {
-                                  //
+                                  Get.toNamed(Routes.SELECT_SCHEDULE);
                                 },
                           child: Row(
                             children: [

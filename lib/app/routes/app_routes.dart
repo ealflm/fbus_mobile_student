@@ -14,6 +14,7 @@ abstract class Routes {
   static const SCAN = _Paths.SCAN;
   static const SEARCH = _Paths.SEARCH;
   static const SELECT_ROUTE = _Paths.SELECT_ROUTE;
+  static const SELECT_SCHEDULE = _Paths.SELECT_SCHEDULE;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const SCAN = '/scan';
   static const SEARCH = '/search';
   static const SELECT_ROUTE = '/select-route';
+  static const SELECT_SCHEDULE = '/select-schedule';
 }

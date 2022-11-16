@@ -1,14 +1,12 @@
 import 'package:fbus_mobile_student/app/core/values/app_colors.dart';
-import 'package:fbus_mobile_student/app/core/values/text_styles.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../../core/values/font_weights.dart';
+import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/booking_controller.dart';
@@ -45,7 +43,7 @@ class BookingView extends GetView<BookingController> {
                 endDateFormat: 'dd/MM',
               ),
             ),
-            dataSource: _getCalendarDataSource(),
+            dataSource: getCalendarDataSource(),
             appointmentBuilder:
                 (BuildContext context, CalendarAppointmentDetails details) {
               final Appointment appointment = details.appointments.first;
@@ -267,7 +265,7 @@ class BookingView extends GetView<BookingController> {
     );
   }
 
-  static Container _dot() {
+  Container _dot() {
     return Container(
       width: 2.r,
       height: 2.r,
@@ -327,34 +325,5 @@ class BookingView extends GetView<BookingController> {
         ),
       ],
     );
-  }
-}
-
-_AppointmentDataSource _getCalendarDataSource() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(hours: 1)),
-    subject: 'Meeting',
-    color: AppColors.green,
-    startTimeZone: '',
-    endTimeZone: '',
-  ));
-
-  appointments.add(Appointment(
-    startTime: DateTime.now().add(const Duration(hours: 5)),
-    endTime: DateTime.now().add(const Duration(hours: 8)),
-    subject: 'Meeting',
-    color: AppColors.green,
-    startTimeZone: '',
-    endTimeZone: '',
-  ));
-
-  return _AppointmentDataSource(appointments);
-}
-
-class _AppointmentDataSource extends CalendarDataSource {
-  _AppointmentDataSource(List<Appointment> source) {
-    appointments = source;
   }
 }

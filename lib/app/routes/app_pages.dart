@@ -18,6 +18,8 @@ import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
 import '../modules/select_route/bindings/select_route_binding.dart';
 import '../modules/select_route/views/select_route_view.dart';
+import '../modules/select_schedule/bindings/select_schedule_binding.dart';
+import '../modules/select_schedule/views/select_schedule_view.dart';
 import '../modules/ticket/bindings/ticket_binding.dart';
 import '../modules/ticket/views/ticket_view.dart';
 
@@ -87,6 +89,12 @@ class AppPages {
       name: _Paths.SELECT_ROUTE,
       page: () => const SelectRouteView(),
       binding: SelectRouteBinding(),
+      transition: Transition.noTransition,
+    ),
+    GetPage(
+      name: _Paths.SELECT_SCHEDULE,
+      page: () => const SelectScheduleView(),
+      binding: SelectScheduleBinding(),
       transition: Transition.noTransition,
     ),
   ];

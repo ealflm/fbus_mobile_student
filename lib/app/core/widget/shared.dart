@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../values/app_colors.dart';
+import '../values/app_svg_assets.dart';
 import '../values/font_weights.dart';
 import '../values/text_styles.dart';
 
@@ -111,6 +114,41 @@ Row selectStation({
   );
 }
 
+Column lightBub(String text) {
+  return Column(
+    children: [
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 19.r,
+            height: 19.r,
+            padding: EdgeInsets.all(3.r),
+            decoration: const BoxDecoration(
+              color: AppColors.softBlack,
+              shape: BoxShape.circle,
+            ),
+            child: SvgPicture.asset(
+              AppSvgAssets.lightBulb,
+            ),
+          ),
+          SizedBox(
+            width: 8.w,
+          ),
+          Text(
+            text,
+            style: subtitle2.copyWith(),
+          ),
+        ],
+      ),
+      SizedBox(
+        height: 10.h,
+      ),
+    ],
+  );
+}
+
 void showToast(String message) {
   Fluttertoast.showToast(
     backgroundColor: AppColors.black.withOpacity(0.5),
@@ -118,4 +156,33 @@ void showToast(String message) {
     toastLength: Toast.LENGTH_SHORT,
     timeInSecForIosWeb: 1,
   );
+}
+
+AppointmentDataSource getCalendarDataSource() {
+  List<Appointment> appointments = <Appointment>[];
+  appointments.add(Appointment(
+    startTime: DateTime.now(),
+    endTime: DateTime.now().add(const Duration(hours: 1)),
+    subject: 'Meeting',
+    color: AppColors.green,
+    startTimeZone: '',
+    endTimeZone: '',
+  ));
+
+  appointments.add(Appointment(
+    startTime: DateTime.now().add(const Duration(hours: 5)),
+    endTime: DateTime.now().add(const Duration(hours: 8)),
+    subject: 'Meeting',
+    color: AppColors.green,
+    startTimeZone: '',
+    endTimeZone: '',
+  ));
+
+  return AppointmentDataSource(appointments);
+}
+
+class AppointmentDataSource extends CalendarDataSource {
+  AppointmentDataSource(List<Appointment> source) {
+    appointments = source;
+  }
 }
