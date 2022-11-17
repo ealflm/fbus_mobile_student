@@ -47,6 +47,8 @@ dependencies:
 
   hyper_polyline: ^0.0.4
 
+  lottie: ^2.0.0
+
 dev_dependencies:
   flutter_lints: 2.0.1
   flutter_test:
@@ -60,3 +62,4 @@ flutter:
     - assets/png/
     - assets/png/month/
     - assets/svg/
+    - assets/lottiefiles/

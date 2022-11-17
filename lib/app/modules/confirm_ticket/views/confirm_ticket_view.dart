@@ -7,6 +7,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
+import '../../../core/widget/hyper_dialog.dart';
 import '../../../core/widget/shared.dart' hide dot, station;
 import '../../../core/widget/status_bar.dart';
 import '../../../data/local/db/trip_data.dart';
@@ -206,7 +207,15 @@ class ConfirmTicketView extends GetView<ConfirmTicketController> {
                         style: ElevatedButton.styleFrom(
                             shape: const StadiumBorder()),
                         onPressed: () {
-                          Get.offAllNamed(Routes.MAIN);
+                          HyperDialog.showSuccess(
+                            title: 'Thành công',
+                            content: 'Đặt vé thành công!',
+                            barrierDismissible: false,
+                            primaryButtonText: 'OK',
+                            primaryOnPressed: () {
+                              Get.offAllNamed(Routes.MAIN);
+                            },
+                          );
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
