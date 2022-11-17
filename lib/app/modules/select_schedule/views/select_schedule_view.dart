@@ -1,3 +1,4 @@
+import 'package:fbus_mobile_student/app/data/local/db/trip_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,6 +11,7 @@ import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
+import '../../../data/models/trip_model.dart';
 import '../controllers/select_schedule_controller.dart';
 
 class SelectScheduleView extends GetView<SelectScheduleController> {
@@ -114,5 +116,43 @@ class SelectScheduleView extends GetView<SelectScheduleController> {
         ),
       ),
     );
+  }
+}
+
+AppointmentDataSource getCalendarDataSource() {
+  // List<Appointment> appointments = <Appointment>[];
+  // appointments.add(Appointment(
+  //   startTime: DateTime.now(),
+  //   endTime: DateTime.now().add(const Duration(hours: 1)),
+  //   subject: 'Meeting',
+  //   color: AppColors.green,
+  // ));
+
+  // appointments.add(Appointment(
+  //   startTime: DateTime.now().add(const Duration(hours: 5)),
+  //   endTime: DateTime.now().add(const Duration(hours: 8)),
+  //   subject: 'Meeting',
+  //   color: AppColors.green,
+  // ));
+
+  Map<String, Trip> trips = getTrips();
+
+  List<Appointment> appointments = trips.values
+      .map(
+        (e) => Appointment(
+          id: e.id,
+          startTime: e.startTime,
+          endTime: e.endTime,
+          color: e.seatState != 'Hết chỗ' ? AppColors.green : AppColors.gray,
+        ),
+      )
+      .toList();
+
+  return AppointmentDataSource(appointments);
+}
+
+class AppointmentDataSource extends CalendarDataSource {
+  AppointmentDataSource(List<Appointment> source) {
+    appointments = source;
   }
 }

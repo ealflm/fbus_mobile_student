@@ -1,5 +1,7 @@
 import 'package:latlong2/latlong.dart';
 
+import '../../models/route_model.dart';
+
 final lines = [
   [
     [106.809008, 10.841548],
@@ -241,6 +243,27 @@ final lines = [
   ],
 ];
 
-List<LatLng> getRoutePoints(int index) {
-  return lines[index].map((e) => LatLng(e[1], e[0])).toList();
+final stationIds = [
+  ['0', '1', '2', '3', '4'],
+  ['0', '5', '6', '7'],
+];
+
+final tripIds = [
+  ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+  ['10', '11', '12', '13', '14', '15', '16', '17', '18', '19'],
+];
+
+Map<String, Route> getRoutes() {
+  Map<String, Route> result = {};
+
+  for (int i = 0; i < lines.length; i++) {
+    var points = lines[i].map((e) => LatLng(e[1], e[0])).toList();
+    result['$i'] = Route(
+        id: '$i',
+        points: points,
+        stationIds: stationIds[i],
+        tripIds: tripIds[i]);
+  }
+
+  return result;
 }

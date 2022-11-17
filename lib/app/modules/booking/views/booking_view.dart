@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../../core/values/font_weights.dart';
-import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/booking_controller.dart';
@@ -325,5 +324,34 @@ class BookingView extends GetView<BookingController> {
         ),
       ],
     );
+  }
+}
+
+AppointmentDataSource getCalendarDataSource() {
+  List<Appointment> appointments = <Appointment>[];
+  appointments.add(Appointment(
+    startTime: DateTime.now(),
+    endTime: DateTime.now().add(const Duration(hours: 1)),
+    subject: 'Meeting',
+    color: AppColors.green,
+    startTimeZone: '',
+    endTimeZone: '',
+  ));
+
+  appointments.add(Appointment(
+    startTime: DateTime.now().add(const Duration(hours: 5)),
+    endTime: DateTime.now().add(const Duration(hours: 8)),
+    subject: 'Meeting',
+    color: AppColors.green,
+    startTimeZone: '',
+    endTimeZone: '',
+  ));
+
+  return AppointmentDataSource(appointments);
+}
+
+class AppointmentDataSource extends CalendarDataSource {
+  AppointmentDataSource(List<Appointment> source) {
+    appointments = source;
   }
 }

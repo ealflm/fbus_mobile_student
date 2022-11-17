@@ -157,32 +157,3 @@ void showToast(String message) {
     timeInSecForIosWeb: 1,
   );
 }
-
-AppointmentDataSource getCalendarDataSource() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(hours: 1)),
-    subject: 'Meeting',
-    color: AppColors.green,
-    startTimeZone: '',
-    endTimeZone: '',
-  ));
-
-  appointments.add(Appointment(
-    startTime: DateTime.now().add(const Duration(hours: 5)),
-    endTime: DateTime.now().add(const Duration(hours: 8)),
-    subject: 'Meeting',
-    color: AppColors.green,
-    startTimeZone: '',
-    endTimeZone: '',
-  ));
-
-  return AppointmentDataSource(appointments);
-}
-
-class AppointmentDataSource extends CalendarDataSource {
-  AppointmentDataSource(List<Appointment> source) {
-    appointments = source;
-  }
-}

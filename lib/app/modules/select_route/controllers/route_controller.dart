@@ -1,21 +1,22 @@
+import 'package:fbus_mobile_student/app/data/local/db/station_data.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
-import 'package:fbus_mobile_student/app/modules/select_route/controllers/route_data.dart';
-import 'package:flutter/material.dart';
+import 'package:fbus_mobile_student/app/data/local/db/route_data.dart';
+import 'package:flutter/material.dart' hide Route;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hyper_polyline/hyper_polyline.dart';
-import 'package:latlong2/latlong.dart';
 
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/text_styles.dart';
+import '../../../data/models/route_model.dart';
+import '../../../data/models/station_model.dart';
 
-class Route {
-  final Rx<Map<String, HyperPolyline>> _routes =
-      Rx<Map<String, HyperPolyline>>({});
+class RouteController {
+  final Rx<Map<String, Route>> _routes = Rx<Map<String, Route>>({});
   final Rx<List<TaggedPolyline>> _polylines = Rx<List<TaggedPolyline>>([]);
-  final Map<String, Station> _stations = {};
+  Map<String, Station> _stations = {};
   final Rx<List<Marker>> _stationMarkers = Rx<List<Marker>>([]);
   final Rx<String?> _selectedRouteId = Rx<String?>(null);
   final Rx<String?> _selectedStationId = Rx<String?>(null);
@@ -24,7 +25,7 @@ class Route {
   List<Marker> get stationMarkers => _stationMarkers.value;
   List<TaggedPolyline> get polyline => _polylines.value;
   String? get selectedRouteId => _selectedRouteId.value;
-  HyperPolyline? get selectedRoute {
+  Route? get selectedRoute {
     if (selectedRouteId != null && _routes.value.containsKey(selectedRouteId)) {
       return _routes.value[selectedRouteId];
     } else {
@@ -51,7 +52,7 @@ class Route {
     }
   }
 
-  Route() {
+  RouteController() {
     updateRoutes();
     updatePolyLines();
     updateStations();
@@ -59,15 +60,7 @@ class Route {
   }
 
   void updateRoutes() {
-    _routes.update((value) {
-      value!.clear();
-      value['0'] = HyperPolyline(
-          id: '0',
-          points: getRoutePoints(0),
-          stationIds: ['0', '1', '2', '3', '4']);
-      value['1'] = HyperPolyline(
-          id: '1', points: getRoutePoints(1), stationIds: ['0', '5', '6', '7']);
-    });
+    _routes.value = getRoutes();
   }
 
   void selectRoute(String? id) {
@@ -137,59 +130,7 @@ class Route {
   }
 
   void updateStations() {
-    _stations['0'] = Station(
-      id: '0',
-      title: 'FPT University',
-      address:
-          'Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh',
-      location: LatLng(10.841567123475343, 106.80898942710063),
-    );
-    _stations['1'] = Station(
-      id: '1',
-      title: 'Vinhomes Grand Park',
-      address: 'Nguyễn Xiển, Long Thạnh Mỹ, Quận 9, Thành phố Hồ Chí Minh',
-      location: LatLng(10.845082, 106.812956),
-    );
-    _stations['2'] = Station(
-      id: '2',
-      title: '354 Nguyễn Văn Tăng',
-      address: 'Long Thạnh Mỹ, District 9, Ho Chi Minh City, Vietnam',
-      location: LatLng(10.849830, 106.812727),
-    );
-    _stations['3'] = Station(
-      id: '3',
-      title: 'Trường ĐH Nguyễn Tất Thành',
-      address: 'Long Thạnh Mỹ, District 9, Ho Chi Minh City, Vietnam',
-      location: LatLng(10.843534, 106.818625),
-    );
-    _stations['4'] = Station(
-      id: '4',
-      title: 'Công Ty Mekophar',
-      address: 'Long Thạnh Mỹ, District 9, Ho Chi Minh City, Vietnam',
-      location: LatLng(10.842686, 106.828594),
-    );
-
-    // Another
-    _stations['5'] = Station(
-      id: '5',
-      title: 'Công Ty Filied Lê Văn Việt',
-      address: 'Long Thạnh Mỹ, District 9, Ho Chi Minh City, Vietnam',
-      location: LatLng(10.849322192020587, 106.80087176970181),
-    );
-    _stations['6'] = Station(
-      id: '6',
-      title: 'Intel Products Vietnam',
-      address:
-          'Hi-Tech Park, Lô I2, Đ. D1, Phường Tân Phú, Quận 9, Thành phố Hồ Chí Minh, Vietnam',
-      location: LatLng(10.851058, 106.799028),
-    );
-    _stations['7'] = Station(
-      id: '7',
-      title: 'Khu Công nghệ cao TP.HCM',
-      address:
-          'Phường Tân Phú, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Vietnam',
-      location: LatLng(10.857539, 106.786016),
-    );
+    _stations = getStations();
   }
 
   void selectStationMarker(String id) {
@@ -318,26 +259,3 @@ class Route {
 }
 
 enum StationMarkerState { hide, show, from, to }
-
-class Station {
-  String id;
-  String title;
-  String address;
-  LatLng location;
-
-  Station({
-    required this.id,
-    required this.title,
-    required this.address,
-    required this.location,
-  });
-}
-
-class HyperPolyline {
-  String id;
-  List<String>? stationIds;
-  List<LatLng> points;
-
-  HyperPolyline(
-      {required this.id, required this.points, required this.stationIds});
-}
