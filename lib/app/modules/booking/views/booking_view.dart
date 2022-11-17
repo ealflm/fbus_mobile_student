@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../../core/values/font_weights.dart';
+import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/booking_controller.dart';
@@ -32,8 +33,7 @@ class BookingView extends GetView<BookingController> {
             view: CalendarView.schedule,
             firstDayOfWeek: 1,
             specialRegions: controller.getTimeRegions(),
-            scheduleViewMonthHeaderBuilder:
-                controller.scheduleViewMonthHeaderBuilder,
+            scheduleViewMonthHeaderBuilder: scheduleViewMonthHeaderBuilder,
             scheduleViewSettings: const ScheduleViewSettings(
               appointmentItemHeight: 111,
               // hideEmptyScheduleWeek: true,
@@ -67,7 +67,7 @@ class BookingView extends GetView<BookingController> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      _station(
+                                      station(
                                         title: 'Vinhomes grand park',
                                         time: '07:00',
                                         iconColor: AppColors.green,
@@ -76,16 +76,16 @@ class BookingView extends GetView<BookingController> {
                                         padding: EdgeInsets.only(left: 11.r),
                                         child: Column(
                                           children: [
-                                            _dot(),
+                                            dot(),
                                             SizedBox(height: 3.h),
-                                            _dot(),
+                                            dot(),
                                             SizedBox(height: 3.h),
-                                            _dot(),
+                                            dot(),
                                             SizedBox(height: 3.h),
                                           ],
                                         ),
                                       ),
-                                      _station(
+                                      station(
                                         title: 'FPT University',
                                         time: '07:35',
                                         iconColor: AppColors.secondary,
@@ -263,68 +263,67 @@ class BookingView extends GetView<BookingController> {
       ),
     );
   }
+}
 
-  Container _dot() {
-    return Container(
-      width: 2.r,
-      height: 2.r,
-      decoration: const BoxDecoration(
-        color: AppColors.white,
-        shape: BoxShape.circle,
+Container dot() {
+  return Container(
+    width: 2.r,
+    height: 2.r,
+    decoration: const BoxDecoration(
+      color: AppColors.white,
+      shape: BoxShape.circle,
+    ),
+  );
+}
+
+Row station({required String title, required String time, Color? iconColor}) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Container(
+        padding: EdgeInsets.all(5.r),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          shape: BoxShape.circle,
+          boxShadow: kElevationToShadow[1],
+        ),
+        child: Icon(
+          Icons.directions_bus,
+          color: iconColor,
+          size: 15.r,
+        ),
       ),
-    );
-  }
-
-  Row _station(
-      {required String title, required String time, Color? iconColor}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: EdgeInsets.all(5.r),
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            shape: BoxShape.circle,
-            boxShadow: kElevationToShadow[1],
-          ),
-          child: Icon(
-            Icons.directions_bus,
-            color: iconColor,
-            size: 15.r,
-          ),
-        ),
-        SizedBox(
-          width: 8.w,
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 13.sp,
-                  fontWeight: FontWeights.medium,
-                  letterSpacing: 0.0015.sp,
-                ),
+      SizedBox(
+        width: 8.w,
+      ),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: AppColors.white,
+                fontSize: 13.sp,
+                fontWeight: FontWeights.medium,
+                letterSpacing: 0.0015.sp,
               ),
-              Text(
-                time,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 13.sp,
-                  letterSpacing: 0.0015.sp,
-                ),
+            ),
+            Text(
+              time,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: AppColors.white,
+                fontSize: 13.sp,
+                letterSpacing: 0.0015.sp,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
 }
 
 AppointmentDataSource getCalendarDataSource() {

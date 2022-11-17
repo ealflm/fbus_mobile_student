@@ -23,7 +23,6 @@ class _AppState extends State<App> {
     if (AuthService.token != null) {
       initialRoute = Routes.MAIN;
     }
-    initialRoute = Routes.SELECT_ROUTE;
 
     return ScreenUtilInit(
       designSize: const Size(360, 800),

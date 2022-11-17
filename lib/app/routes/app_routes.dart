@@ -15,6 +15,7 @@ abstract class Routes {
   static const SEARCH = _Paths.SEARCH;
   static const SELECT_ROUTE = _Paths.SELECT_ROUTE;
   static const SELECT_SCHEDULE = _Paths.SELECT_SCHEDULE;
+  static const CONFIRM_TICKET = _Paths.CONFIRM_TICKET;
 }
 
 abstract class _Paths {
@@ -29,4 +30,5 @@ abstract class _Paths {
   static const SEARCH = '/search';
   static const SELECT_ROUTE = '/select-route';
   static const SELECT_SCHEDULE = '/select-schedule';
+  static const CONFIRM_TICKET = '/confirm-ticket';
 }

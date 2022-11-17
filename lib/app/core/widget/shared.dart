@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../values/app_colors.dart';
@@ -138,7 +139,7 @@ Column lightBub(String text) {
           ),
           Text(
             text,
-            style: subtitle2.copyWith(),
+            style: subtitle2,
           ),
         ],
       ),
@@ -155,5 +156,32 @@ void showToast(String message) {
     msg: message,
     toastLength: Toast.LENGTH_SHORT,
     timeInSecForIosWeb: 1,
+  );
+}
+
+/// Returns the builder for schedule view.
+Widget scheduleViewMonthHeaderBuilder(
+    BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {
+  var locale = Localizations.localeOf(buildContext).toString();
+  return Stack(
+    children: <Widget>[
+      Image(
+          image: ExactAssetImage(
+            'assets/png/month/${DateFormat('MMMM').format(details.date).toLowerCase()}.png',
+          ),
+          fit: BoxFit.cover,
+          width: details.bounds.width,
+          height: details.bounds.height),
+      Positioned(
+        left: 55,
+        right: 0,
+        top: 20,
+        bottom: 0,
+        child: Text(
+          '${DateFormat('MMMM', locale).format(details.date)} ${details.date.year}',
+          style: const TextStyle(fontSize: 18),
+        ),
+      ),
+    ],
   );
 }

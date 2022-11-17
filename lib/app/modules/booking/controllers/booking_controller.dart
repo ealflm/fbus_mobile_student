@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class BookingController extends GetxController {
@@ -44,31 +43,4 @@ class BookingController extends GetxController {
     CalendarView.week,
     CalendarView.schedule
   ];
-
-  /// Returns the builder for schedule view.
-  Widget scheduleViewMonthHeaderBuilder(
-      BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {
-    var locale = Localizations.localeOf(buildContext).toString();
-    return Stack(
-      children: <Widget>[
-        Image(
-            image: ExactAssetImage(
-              'assets/png/month/${DateFormat('MMMM').format(details.date).toLowerCase()}.png',
-            ),
-            fit: BoxFit.cover,
-            width: details.bounds.width,
-            height: details.bounds.height),
-        Positioned(
-          left: 55,
-          right: 0,
-          top: 20,
-          bottom: 0,
-          child: Text(
-            '${DateFormat('MMMM', locale).format(details.date)} ${details.date.year}',
-            style: const TextStyle(fontSize: 18),
-          ),
-        ),
-      ],
-    );
-  }
 }

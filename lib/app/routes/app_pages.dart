@@ -4,6 +4,8 @@ import '../modules/account/bindings/account_binding.dart';
 import '../modules/account/views/account_view.dart';
 import '../modules/booking/bindings/booking_binding.dart';
 import '../modules/booking/views/booking_view.dart';
+import '../modules/confirm_ticket/bindings/confirm_ticket_binding.dart';
+import '../modules/confirm_ticket/views/confirm_ticket_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -95,6 +97,12 @@ class AppPages {
       name: _Paths.SELECT_SCHEDULE,
       page: () => const SelectScheduleView(),
       binding: SelectScheduleBinding(),
+      transition: Transition.noTransition,
+    ),
+    GetPage(
+      name: _Paths.CONFIRM_TICKET,
+      page: () => const ConfirmTicketView(),
+      binding: ConfirmTicketBinding(),
       transition: Transition.noTransition,
     ),
   ];

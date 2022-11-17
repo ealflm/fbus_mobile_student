@@ -6,7 +6,7 @@ class Trip {
   int seats;
 
   String get seatState {
-    return seats < 40 ? '$seats/40' : 'Hết chỗ';
+    return seats < 40 ? '$seats/40 ghế' : 'Hết chỗ';
   }
 
   Trip({

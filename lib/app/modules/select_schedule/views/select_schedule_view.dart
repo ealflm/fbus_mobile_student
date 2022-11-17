@@ -12,6 +12,7 @@ import '../../../core/values/text_styles.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
 import '../../../data/models/trip_model.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/select_schedule_controller.dart';
 
 class SelectScheduleView extends GetView<SelectScheduleController> {
@@ -27,6 +28,8 @@ class SelectScheduleView extends GetView<SelectScheduleController> {
               Expanded(
                 child: SfCalendar(
                   selectionDecoration: const BoxDecoration(),
+                  timeSlotViewSettings:
+                      TimeSlotViewSettings(timeIntervalHeight: 80.h),
                   controller: controller.calendarController,
                   showDatePickerButton: true,
                   view: CalendarView.week,
@@ -42,33 +45,94 @@ class SelectScheduleView extends GetView<SelectScheduleController> {
                         DateFormat('hh:mm a').format(appointment.endTime);
                     if (controller.calendarController.view ==
                         CalendarView.week) {
-                      return Container(
-                        padding: const EdgeInsets.all(4),
-                        color: appointment.color,
-                        height: details.bounds.height,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      '$startTime - $endTime',
-                                      style: TextStyle(
-                                        color: AppColors.white,
-                                        fontSize: 9.sp,
-                                        fontWeight: FontWeights.medium,
-                                        letterSpacing: 0.0025.sp,
-                                      ),
+                      return Obx(() {
+                        TripState state = TripState.onReady;
+                        List<String> selectedTripIds =
+                            controller.selectedTripIds;
+                        if (DateTime.now().compareTo(appointment.startTime) >=
+                            0) {
+                          state = TripState.overTime;
+                        } else if (appointment.notes == 'Hết chỗ') {
+                          state = TripState.overSeat;
+                        } else if (selectedTripIds.contains(appointment.id)) {
+                          state = TripState.selected;
+                        }
+
+                        Color color = AppColors.green;
+                        if (state == TripState.overTime) {
+                          color = Colors.grey.withOpacity(0.4);
+                        } else if (state == TripState.overSeat) {
+                          color = AppColors.caption;
+                        } else if (state == TripState.selected) {
+                          color = AppColors.green;
+                        }
+
+                        String notes = appointment.notes ?? '';
+                        if (state == TripState.overTime) {
+                          notes = 'Quá hạn';
+                        }
+
+                        return Stack(
+                          children: [
+                            Material(
+                              child: InkWell(
+                                onTap: state == TripState.overTime ||
+                                        state == TripState.overSeat
+                                    ? null
+                                    : () {
+                                        controller.toggleSelectedTripId(
+                                            appointment.id as String);
+                                      },
+                                child: Ink(
+                                  color: color,
+                                  padding: const EdgeInsets.all(4),
+                                  height: details.bounds.height,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '$startTime - $endTime',
+                                          style: TextStyle(
+                                            color: AppColors.white,
+                                            fontSize: 8.sp,
+                                            fontWeight: FontWeights.regular,
+                                            letterSpacing: 0.0025.sp,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        Text(
+                                          notes,
+                                          style: TextStyle(
+                                            color: AppColors.white,
+                                            fontSize: 7.sp,
+                                            fontWeight: FontWeights.medium,
+                                            letterSpacing: 0.0025.sp,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
-                      );
+                            ),
+                            IgnorePointer(
+                              child: state == TripState.selected
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                        color: AppColors.secondary,
+                                        width: 2,
+                                      )),
+                                    )
+                                  : Container(),
+                            ),
+                          ],
+                        );
+                      });
                     }
                     return Text(appointment.subject);
                   },
@@ -83,28 +147,56 @@ class SelectScheduleView extends GetView<SelectScheduleController> {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    lightBub('Vui lòng chọn thời gian đi'),
-                    SizedBox(
-                      height: 40.h,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            shape: const StadiumBorder()),
-                        // onPressed: () {},
-                        onPressed: null,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Tiếp tục',
-                              style: subtitle2,
-                            ),
-                            Icon(
-                              Icons.navigate_next,
-                              color: AppColors.softBlack,
-                              size: 20.r,
-                            ),
-                          ],
+                    Obx(
+                      () {
+                        if (controller.selectedTripIds.isNotEmpty) {
+                          return Column(
+                            children: [
+                              Text(
+                                  'Đã chọn: ${controller.selectedTripIds.length}',
+                                  style: subtitle2),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                            ],
+                          );
+                        } else {
+                          return lightBub('Vui lòng chọn thời gian đi');
+                        }
+                      },
+                    ),
+                    Obx(
+                      () => SizedBox(
+                        height: 40.h,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: const StadiumBorder()),
+                          onPressed: controller.selectedTripIds.isNotEmpty
+                              ? () {
+                                  Get.toNamed(
+                                    Routes.CONFIRM_TICKET,
+                                    arguments: {
+                                      'selectedTripIds':
+                                          controller.selectedTripIds,
+                                    },
+                                  );
+                                }
+                              : null,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Tiếp tục',
+                                style: subtitle2,
+                              ),
+                              Icon(
+                                Icons.navigate_next,
+                                color: AppColors.softBlack,
+                                size: 20.r,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -120,21 +212,6 @@ class SelectScheduleView extends GetView<SelectScheduleController> {
 }
 
 AppointmentDataSource getCalendarDataSource() {
-  // List<Appointment> appointments = <Appointment>[];
-  // appointments.add(Appointment(
-  //   startTime: DateTime.now(),
-  //   endTime: DateTime.now().add(const Duration(hours: 1)),
-  //   subject: 'Meeting',
-  //   color: AppColors.green,
-  // ));
-
-  // appointments.add(Appointment(
-  //   startTime: DateTime.now().add(const Duration(hours: 5)),
-  //   endTime: DateTime.now().add(const Duration(hours: 8)),
-  //   subject: 'Meeting',
-  //   color: AppColors.green,
-  // ));
-
   Map<String, Trip> trips = getTrips();
 
   List<Appointment> appointments = trips.values
@@ -143,7 +220,7 @@ AppointmentDataSource getCalendarDataSource() {
           id: e.id,
           startTime: e.startTime,
           endTime: e.endTime,
-          color: e.seatState != 'Hết chỗ' ? AppColors.green : AppColors.gray,
+          notes: e.seatState,
         ),
       )
       .toList();
@@ -156,3 +233,5 @@ class AppointmentDataSource extends CalendarDataSource {
     appointments = source;
   }
 }
+
+enum TripState { overTime, overSeat, onReady, selected }

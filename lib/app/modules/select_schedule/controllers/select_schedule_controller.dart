@@ -5,6 +5,22 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 class SelectScheduleController extends GetxController {
   CalendarController calendarController = CalendarController();
 
+  final Rx<List<String>> _selectedTripIds = Rx<List<String>>([]);
+
+  List<String> get selectedTripIds => _selectedTripIds.value;
+
+  void toggleSelectedTripId(String id) {
+    _selectedTripIds.update(
+      (value) {
+        if (!value!.contains(id)) {
+          value.add(id);
+        } else {
+          value.remove(id);
+        }
+      },
+    );
+  }
+
   List<TimeRegion> getTimeRegions() {
     final List<TimeRegion> regions = <TimeRegion>[];
 
