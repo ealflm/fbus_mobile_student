@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "394615991951-0jrqg6lqvf6ka44nt4d94jfjldd1qfen.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fbus.fbus_mobile_student",
+            "certificate_hash": "250384a02be9497fc70f9719fa1ee4b93254e03c"
+          }
+        },
+        {
+          "client_id": "394615991951-44t6eh4rsgn03jctgisu8dt5bkpq32d6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fbus.fbus_mobile_student",
+            "certificate_hash": "7271d7b84e21d36fbbd8ec9fd07a46a560dafde9"
+          }
+        },
+        {
           "client_id": "394615991951-clifpav1mhg2ebhf7bornktlul7urae1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
