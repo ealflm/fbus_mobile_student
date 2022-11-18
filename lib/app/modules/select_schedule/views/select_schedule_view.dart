@@ -1,4 +1,3 @@
-import 'package:fbus_mobile_student/app/data/local/db/trip_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,6 +10,7 @@ import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
+import '../../../data/local/db/trip_data.dart';
 import '../../../data/models/trip_model.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/select_schedule_controller.dart';

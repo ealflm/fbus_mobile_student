@@ -1,10 +1,10 @@
-import 'package:fbus_mobile_student/app/core/values/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import '../../../core/values/app_colors.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';

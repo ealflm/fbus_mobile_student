@@ -1,7 +1,5 @@
-import 'package:fbus_mobile_student/app/data/local/db/station_data.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
-import 'package:fbus_mobile_student/app/data/local/db/route_data.dart';
 import 'package:flutter/material.dart' hide Route;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +8,8 @@ import 'package:hyper_polyline/hyper_polyline.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/text_styles.dart';
+import '../../../data/local/db/route_data.dart';
+import '../../../data/local/db/station_data.dart';
 import '../../../data/models/route_model.dart';
 import '../../../data/models/station_model.dart';
 

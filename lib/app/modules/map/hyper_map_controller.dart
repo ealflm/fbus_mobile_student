@@ -1,4 +1,3 @@
-import 'package:fbus_mobile_student/app/core/values/app_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -6,6 +5,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:restart_app/restart_app.dart';
+
+import '../../core/values/app_values.dart';
 
 class HyperMapController extends GetxController
     with GetTickerProviderStateMixin {

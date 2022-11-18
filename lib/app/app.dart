@@ -1,4 +1,3 @@
-import 'package:fbus_mobile_student/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +7,7 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'bindings/initial_binding.dart';
 import 'core/utils/auth_service.dart';
 import 'core/values/app_colors.dart';
+import 'routes/app_pages.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
