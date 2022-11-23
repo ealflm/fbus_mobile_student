@@ -1,3 +1,4 @@
+import 'package:fbus_mobile_student/app/modules/ticket/controllers/ticket_controller.dart';
 import 'package:get/get.dart';
 
 import '../../account/controllers/account_controller.dart';
@@ -23,6 +24,9 @@ class MainBinding extends Bindings {
     );
     Get.lazyPut<AccountController>(
       () => AccountController(),
+    );
+    Get.lazyPut<TicketController>(
+      () => TicketController(),
     );
   }
 }

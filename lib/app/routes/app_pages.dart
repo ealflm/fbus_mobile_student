@@ -6,6 +6,8 @@ import '../modules/booking/bindings/booking_binding.dart';
 import '../modules/booking/views/booking_view.dart';
 import '../modules/confirm_ticket/bindings/confirm_ticket_binding.dart';
 import '../modules/confirm_ticket/views/confirm_ticket_view.dart';
+import '../modules/current_trip/bindings/current_trip_binding.dart';
+import '../modules/current_trip/views/current_trip_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -104,6 +106,11 @@ class AppPages {
       page: () => const ConfirmTicketView(),
       binding: ConfirmTicketBinding(),
       transition: Transition.noTransition,
+    ),
+    GetPage(
+      name: _Paths.CURRENT_TRIP,
+      page: () => const CurrentTripView(),
+      binding: CurrentTripBinding(),
     ),
   ];
 }

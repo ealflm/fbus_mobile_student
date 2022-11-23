@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '../../map/hyper_map_controller.dart';
 
-class HomeController extends GetxController {
+class CurrentTripController extends GetxController {
   HyperMapController hyperMapController = HyperMapController();
 
   void onMapReady() async {

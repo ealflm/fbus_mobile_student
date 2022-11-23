@@ -13,10 +13,10 @@ import '../../../core/values/text_styles.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
 import '../../../routes/app_pages.dart';
-import '../controllers/home_controller.dart';
+import '../controllers/current_trip_controller.dart';
 
-class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+class CurrentTripView extends GetView<CurrentTripController> {
+  const CurrentTripView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StatusBar(
