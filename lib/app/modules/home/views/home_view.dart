@@ -32,57 +32,80 @@ class HomeView extends GetView<HomeController> {
                           EdgeInsets.only(top: 10.h, left: 15.w, right: 15.w),
                       alignment: Alignment.topLeft,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ClipOval(
-                            child: SizedBox.fromSize(
-                              size: Size.fromRadius(18.r), // Image radius
-                              child:
-                                  // Obx(
-                                  //   () =>
-                                  CachedNetworkImage(
-                                fadeInDuration: const Duration(),
-                                fadeOutDuration: const Duration(),
-                                placeholder: (context, url) {
-                                  return 'True' == 'False'
-                                      ? SvgPicture.asset(AppSvgAssets.female)
-                                      : SvgPicture.asset(AppSvgAssets.male);
-                                },
-                                imageUrl: 'url',
-                                fit: BoxFit.cover,
-                                errorWidget: (context, url, error) {
-                                  return 'True' == 'False'
-                                      ? SvgPicture.asset(AppSvgAssets.female)
-                                      : SvgPicture.asset(AppSvgAssets.male);
-                                },
-                              ),
-                              // ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              Text(
-                                'Xin chào',
-                                style: body2,
-                              ),
-                              Text(
-                                'Nguyễn Hữu Toàn',
-                                style: subtitle1.copyWith(
-                                  fontWeight: FontWeights.medium,
+                              ClipOval(
+                                child: SizedBox.fromSize(
+                                  size: Size.fromRadius(18.r), // Image radius
+                                  child:
+                                      // Obx(
+                                      //   () =>
+                                      CachedNetworkImage(
+                                    fadeInDuration: const Duration(),
+                                    fadeOutDuration: const Duration(),
+                                    placeholder: (context, url) {
+                                      return 'True' == 'False'
+                                          ? SvgPicture.asset(
+                                              AppSvgAssets.female)
+                                          : SvgPicture.asset(AppSvgAssets.male);
+                                    },
+                                    imageUrl: 'url',
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) {
+                                      return 'True' == 'False'
+                                          ? SvgPicture.asset(
+                                              AppSvgAssets.female)
+                                          : SvgPicture.asset(AppSvgAssets.male);
+                                    },
+                                  ),
+                                  // ),
                                 ),
                               ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Xin chào',
+                                    style: body2,
+                                  ),
+                                  Text(
+                                    'Nguyễn Hữu Toàn',
+                                    style: subtitle1.copyWith(
+                                      fontWeight: FontWeights.medium,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: const CircleBorder(),
+                              padding: EdgeInsets.all(11.r),
+                            ),
+                            onPressed: () {},
+                            child: const Icon(
+                              Icons.notifications_outlined,
+                              color: AppColors.softBlack,
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 20.h,
+                    height: 15.h,
+                  ),
+                  _currentTicket(),
+                  SizedBox(
+                    height: 15.h,
                   ),
                   Expanded(
                     child: Container(
@@ -97,34 +120,56 @@ class HomeView extends GetView<HomeController> {
                       padding: EdgeInsets.only(
                         left: 10.w,
                         right: 10.w,
-                        top: 25.h,
+                        top: 20.h,
                       ),
                       child: Column(
                         children: [
+                          Text(
+                            'Thống kê theo tháng',
+                            style: subtitle2.copyWith(
+                              fontWeight: FontWeights.light,
+                              color: AppColors.lightBlack,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _summarizeLabel('17 vé', 'Đã đặt'),
+                              _summarizeLabel('2 vé', 'Đã quét'),
+                              _summarizeLabel('15 km', 'Đã đi'),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          const Divider(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               _mainButton(
-                                'Đặt lịch',
+                                'Lịch trình',
                                 Icon(
-                                  Icons.pending_actions,
-                                  size: 35.sp,
-                                  color: AppColors.blue,
+                                  Icons.insert_invitation,
+                                  size: 30.sp,
+                                  color: AppColors.purple,
                                 ),
                               ),
                               _mainButton(
-                                'Lịch trình',
+                                'Đặt lịch',
                                 Icon(
-                                  Icons.schedule,
-                                  size: 35.sp,
-                                  color: AppColors.purple,
+                                  Icons.pending_actions,
+                                  size: 30.sp,
+                                  color: AppColors.blue,
                                 ),
                               ),
                               _mainButton(
                                 'Quét QR',
                                 Icon(
                                   Icons.qr_code_scanner,
-                                  size: 35.sp,
+                                  size: 30.sp,
                                   color: AppColors.green,
                                 ),
                               ),
@@ -140,23 +185,23 @@ class HomeView extends GetView<HomeController> {
                                 'Đánh giá',
                                 Icon(
                                   Icons.thumb_up_alt_outlined,
-                                  size: 35.sp,
+                                  size: 30.sp,
                                   color: AppColors.yellow,
                                 ),
                               ),
                               _mainButton(
-                                'Thông báo',
+                                'Bản đồ',
                                 Icon(
-                                  Icons.notifications_outlined,
-                                  size: 35.sp,
+                                  Icons.map_outlined,
+                                  size: 30.sp,
                                   color: AppColors.red,
                                 ),
                               ),
                               _mainButton(
-                                'Tài khoản',
+                                'Vé của tôi',
                                 Icon(
-                                  Icons.person_outline,
-                                  size: 35.sp,
+                                  Icons.confirmation_number_outlined,
+                                  size: 30.sp,
                                   color: AppColors.hardBlue,
                                 ),
                               ),
@@ -168,140 +213,160 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ],
               ),
-              Expanded(
-                child: SafeArea(
-                  child: Container(
-                    padding:
-                        EdgeInsets.only(left: 15.w, right: 15.w, bottom: 40.h),
-                    alignment: Alignment.bottomCenter,
-                    child: Wrap(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(
-                              left: 15.w, right: 15.w, bottom: 20.h, top: 20.h),
-                          decoration: BoxDecoration(
-                            color: AppColors.green,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(9.r),
-                            ),
-                            boxShadow: kElevationToShadow[1],
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    station(
-                                      title: 'Vinhomes grand park',
-                                      time: '07:00',
-                                      iconColor: AppColors.green,
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(left: 11.r),
-                                      child: Column(
-                                        children: [
-                                          dot(),
-                                          SizedBox(height: 3.h),
-                                          dot(),
-                                          SizedBox(height: 3.h),
-                                          dot(),
-                                          SizedBox(height: 3.h),
-                                        ],
-                                      ),
-                                    ),
-                                    station(
-                                      title: 'FPT University',
-                                      time: '07:35',
-                                      iconColor: AppColors.secondary,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5.w,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Khoảng cách',
-                                        style: TextStyle(
-                                          color: AppColors.white,
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeights.regular,
-                                          letterSpacing: 0.0025.sp,
-                                        ),
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          text: '20',
-                                          style: TextStyle(
-                                            color: AppColors.white,
-                                            fontSize: 20.sp,
-                                            fontWeight: FontWeights.medium,
-                                            letterSpacing: 0.0025.sp,
-                                          ),
-                                          children: [
-                                            TextSpan(
-                                              text: 'km',
-                                              style: TextStyle(
-                                                color: AppColors.white,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeights.medium,
-                                                letterSpacing: 0.0025.sp,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 1.h),
-                                      RichText(
-                                        text: TextSpan(
-                                          text: 'Thời gian: ',
-                                          style: TextStyle(
-                                            color: AppColors.white,
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeights.regular,
-                                            letterSpacing: 0.0025.sp,
-                                          ),
-                                          children: [
-                                            TextSpan(
-                                              text: '15 phút',
-                                              style: TextStyle(
-                                                color: AppColors.white,
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeights.medium,
-                                                letterSpacing: 0.0025.sp,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Container _currentTicket() {
+    return Container(
+      padding: EdgeInsets.only(left: 15.w, right: 15.w),
+      alignment: Alignment.bottomCenter,
+      child: Wrap(
+        children: [
+          Container(
+            padding: EdgeInsets.only(
+                left: 15.w, right: 15.w, bottom: 20.h, top: 10.h),
+            decoration: BoxDecoration(
+              color: AppColors.green,
+              borderRadius: BorderRadius.all(
+                Radius.circular(9.r),
+              ),
+              boxShadow: kElevationToShadow[1],
+            ),
+            child: Column(
+              children: [
+                Text(
+                  'Chuyến đi hiện tại',
+                  style: subtitle2.copyWith(
+                    fontWeight: FontWeights.light,
+                    color: AppColors.white,
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          station(
+                            title: 'Vinhomes grand park',
+                            time: '07:00',
+                            iconColor: AppColors.green,
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 11.r),
+                            child: Column(
+                              children: [
+                                dot(),
+                                SizedBox(height: 3.h),
+                                dot(),
+                                SizedBox(height: 3.h),
+                                dot(),
+                                SizedBox(height: 3.h),
+                              ],
+                            ),
+                          ),
+                          station(
+                            title: 'FPT University',
+                            time: '07:35',
+                            iconColor: AppColors.secondary,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5.w,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Khoảng cách',
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeights.regular,
+                                letterSpacing: 0.0025.sp,
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: '20',
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'km',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeights.medium,
+                                      letterSpacing: 0.0025.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 1.h),
+                            RichText(
+                              text: TextSpan(
+                                text: 'Thời gian: ',
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.regular,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: '15 phút',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeights.medium,
+                                      letterSpacing: 0.0025.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column _summarizeLabel(String title, String description) {
+    return Column(
+      children: [
+        Text(title, style: subtitle1.copyWith(fontWeight: FontWeights.bold)),
+        Text(description,
+            style: subtitle2.copyWith(fontWeight: FontWeights.light)),
+      ],
     );
   }
 
@@ -324,7 +389,7 @@ class HomeView extends GetView<HomeController> {
               fit: BoxFit.fitWidth,
               child: Text(
                 text,
-                style: subtitle2,
+                style: subtitle2.copyWith(fontWeight: FontWeights.light),
               ),
             ),
           ],

@@ -2,7 +2,6 @@ import 'package:fbus_mobile_student/app/modules/ticket/controllers/ticket_contro
 import 'package:get/get.dart';
 
 import '../../account/controllers/account_controller.dart';
-import '../../booking/controllers/booking_controller.dart';
 import '../../home/controllers/home_controller.dart';
 import '../../notification/controllers/notification_controller.dart';
 import '../controllers/main_controller.dart';
@@ -15,9 +14,6 @@ class MainBinding extends Bindings {
     );
     Get.lazyPut<HomeController>(
       () => HomeController(),
-    );
-    Get.lazyPut<BookingController>(
-      () => BookingController(),
     );
     Get.lazyPut<NotificationController>(
       () => NotificationController(),
