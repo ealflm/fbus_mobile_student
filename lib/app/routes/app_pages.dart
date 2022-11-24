@@ -9,6 +9,8 @@ import '../modules/confirm_ticket/views/confirm_ticket_view.dart';
 import '../modules/current_trip/bindings/current_trip_binding.dart';
 import '../modules/current_trip/views/current_trip_view.dart';
 import '../modules/home/bindings/home_binding.dart';
+import '../modules/home/bindings/home_binding.dart';
+import '../modules/home/views/home_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
