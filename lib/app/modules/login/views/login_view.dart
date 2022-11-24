@@ -66,7 +66,7 @@ class LoginView extends GetView<LoginController> {
                             height: 21.r,
                             padding: EdgeInsets.all(5.r),
                             decoration: const BoxDecoration(
-                              color: AppColors.primary400,
+                              color: AppColors.secondary,
                               shape: BoxShape.circle,
                             ),
                             child: SvgPicture.asset(
@@ -108,7 +108,7 @@ class LoginView extends GetView<LoginController> {
       () => ElevatedButton(
         onPressed: controller.isLoading.value ? null : controller.login,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.secondary,
+          backgroundColor: AppColors.primary400,
           disabledBackgroundColor: AppColors.onSurface.withOpacity(0.12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(300),

@@ -20,6 +20,7 @@ class HomeView extends GetView<HomeController> {
     return StatusBar(
       brightness: Brightness.light,
       child: Scaffold(
+        backgroundColor: AppColors.primary400,
         body: Stack(
           children: [
             Image.asset(
@@ -105,6 +106,7 @@ class HomeView extends GetView<HomeController> {
                                   elevation: 0,
                                   shape: const CircleBorder(),
                                   padding: EdgeInsets.all(11.r),
+                                  minimumSize: Size.zero, // Set this
                                 ),
                                 onPressed: () {},
                                 child: const Icon(
