@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fbus_mobile_student/app/core/values/app_colors.dart';
+import 'package:fbus_mobile_student/app/core/values/app_png_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,204 +18,248 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return StatusBar(
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
       child: Scaffold(
-        backgroundColor: AppColors.primary600,
-        body: SafeArea(
-          bottom: false,
-          child: Stack(
-            children: [
-              Column(
+        body: Stack(
+          children: [
+            Image.asset(
+              AppPngAssets.blueBackground,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+            SafeArea(
+              bottom: false,
+              child: Stack(
                 children: [
-                  Center(
-                    child: Container(
-                      padding:
-                          EdgeInsets.only(top: 10.h, left: 15.w, right: 15.w),
-                      alignment: Alignment.topLeft,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
+                  Column(
+                    children: [
+                      Center(
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              top: 10.h, left: 15.w, right: 15.w),
+                          alignment: Alignment.topLeft,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              ClipOval(
-                                child: SizedBox.fromSize(
-                                  size: Size.fromRadius(18.r), // Image radius
-                                  child:
-                                      // Obx(
-                                      //   () =>
-                                      CachedNetworkImage(
-                                    fadeInDuration: const Duration(),
-                                    fadeOutDuration: const Duration(),
-                                    placeholder: (context, url) {
-                                      return 'True' == 'False'
-                                          ? SvgPicture.asset(
-                                              AppSvgAssets.female)
-                                          : SvgPicture.asset(AppSvgAssets.male);
-                                    },
-                                    imageUrl: 'url',
-                                    fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) {
-                                      return 'True' == 'False'
-                                          ? SvgPicture.asset(
-                                              AppSvgAssets.female)
-                                          : SvgPicture.asset(AppSvgAssets.male);
-                                    },
-                                  ),
-                                  // ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
                                 children: [
-                                  Text(
-                                    'Xin chào',
-                                    style: body2,
-                                  ),
-                                  Text(
-                                    'Nguyễn Hữu Toàn',
-                                    style: subtitle1.copyWith(
-                                      fontWeight: FontWeights.medium,
+                                  ClipOval(
+                                    child: SizedBox.fromSize(
+                                      size:
+                                          Size.fromRadius(18.r), // Image radius
+                                      child:
+                                          // Obx(
+                                          //   () =>
+                                          CachedNetworkImage(
+                                        fadeInDuration: const Duration(),
+                                        fadeOutDuration: const Duration(),
+                                        placeholder: (context, url) {
+                                          return 'True' == 'False'
+                                              ? SvgPicture.asset(
+                                                  AppSvgAssets.female)
+                                              : SvgPicture.asset(
+                                                  AppSvgAssets.male);
+                                        },
+                                        imageUrl: 'url',
+                                        fit: BoxFit.cover,
+                                        errorWidget: (context, url, error) {
+                                          return 'True' == 'False'
+                                              ? SvgPicture.asset(
+                                                  AppSvgAssets.female)
+                                              : SvgPicture.asset(
+                                                  AppSvgAssets.male);
+                                        },
+                                      ),
+                                      // ),
                                     ),
+                                  ),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Xin chào',
+                                        style: body2.copyWith(
+                                          color: AppColors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Nguyễn Hữu Toàn',
+                                        style: subtitle1.copyWith(
+                                          fontWeight: FontWeights.medium,
+                                          color: AppColors.white,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                  shape: const CircleBorder(),
+                                  padding: EdgeInsets.all(11.r),
+                                ),
+                                onPressed: () {},
+                                child: const Icon(
+                                  Icons.notifications_outlined,
+                                  color: AppColors.white,
+                                ),
+                              ),
                             ],
                           ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              shape: const CircleBorder(),
-                              padding: EdgeInsets.all(11.r),
-                            ),
-                            onPressed: () {},
-                            child: const Icon(
-                              Icons.notifications_outlined,
-                              color: AppColors.softBlack,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  _currentTicket(),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(25.r),
-                          topRight: Radius.circular(25.r),
                         ),
-                        color: AppColors.white,
-                        boxShadow: kElevationToShadow[3],
                       ),
-                      padding: EdgeInsets.only(
-                        left: 10.w,
-                        right: 10.w,
-                        top: 20.h,
+                      SizedBox(
+                        height: 15.h,
                       ),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Thống kê theo tháng',
-                            style: subtitle2.copyWith(
-                              fontWeight: FontWeights.light,
-                              color: AppColors.lightBlack,
+                      _currentTicket(),
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(9.r),
+                            color: AppColors.white,
+                            boxShadow: kElevationToShadow[2],
+                          ),
+                          padding: EdgeInsets.only(
+                            left: 10.w,
+                            right: 10.w,
+                            top: 15.h,
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Thống kê theo tháng',
+                                style: subtitle2.copyWith(
+                                  fontWeight: FontWeights.light,
+                                  color: AppColors.lightBlack,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  _summarizeLabel('17 vé', 'Đã đặt'),
+                                  _summarizeLabel('2 vé', 'Đã quét'),
+                                  _summarizeLabel('15 km', 'Đã đi'),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 15.h,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(9.r),
+                                topRight: Radius.circular(9.r),
+                              ),
+                              color: AppColors.white,
+                              boxShadow: kElevationToShadow[3],
+                            ),
+                            padding: EdgeInsets.only(
+                              left: 10.w,
+                              right: 10.w,
+                              top: 20.h,
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    _mainButton(
+                                      'Lịch trình',
+                                      Icon(
+                                        Icons.insert_invitation,
+                                        size: 30.sp,
+                                        color: AppColors.purple,
+                                      ),
+                                    ),
+                                    _mainButton(
+                                      'Đặt lịch',
+                                      Icon(
+                                        Icons.pending_actions,
+                                        size: 30.sp,
+                                        color: AppColors.blue,
+                                      ),
+                                    ),
+                                    _mainButton(
+                                      'Quét QR',
+                                      Icon(
+                                        Icons.qr_code_scanner,
+                                        size: 30.sp,
+                                        color: AppColors.green,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    _mainButton(
+                                      'Đánh giá',
+                                      Icon(
+                                        Icons.thumb_up_alt_outlined,
+                                        size: 30.sp,
+                                        color: AppColors.yellow,
+                                      ),
+                                    ),
+                                    _mainButton(
+                                      'Bản đồ',
+                                      Icon(
+                                        Icons.map_outlined,
+                                        size: 30.sp,
+                                        color: AppColors.red,
+                                      ),
+                                    ),
+                                    _mainButton(
+                                      'Vé của tôi',
+                                      Icon(
+                                        Icons.confirmation_number_outlined,
+                                        size: 30.sp,
+                                        color: AppColors.hardBlue,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
                             ),
                           ),
-                          SizedBox(
-                            height: 15.h,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              _summarizeLabel('17 vé', 'Đã đặt'),
-                              _summarizeLabel('2 vé', 'Đã quét'),
-                              _summarizeLabel('15 km', 'Đã đi'),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          const Divider(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              _mainButton(
-                                'Lịch trình',
-                                Icon(
-                                  Icons.insert_invitation,
-                                  size: 30.sp,
-                                  color: AppColors.purple,
-                                ),
-                              ),
-                              _mainButton(
-                                'Đặt lịch',
-                                Icon(
-                                  Icons.pending_actions,
-                                  size: 30.sp,
-                                  color: AppColors.blue,
-                                ),
-                              ),
-                              _mainButton(
-                                'Quét QR',
-                                Icon(
-                                  Icons.qr_code_scanner,
-                                  size: 30.sp,
-                                  color: AppColors.green,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              _mainButton(
-                                'Đánh giá',
-                                Icon(
-                                  Icons.thumb_up_alt_outlined,
-                                  size: 30.sp,
-                                  color: AppColors.yellow,
-                                ),
-                              ),
-                              _mainButton(
-                                'Bản đồ',
-                                Icon(
-                                  Icons.map_outlined,
-                                  size: 30.sp,
-                                  color: AppColors.red,
-                                ),
-                              ),
-                              _mainButton(
-                                'Vé của tôi',
-                                Icon(
-                                  Icons.confirmation_number_outlined,
-                                  size: 30.sp,
-                                  color: AppColors.hardBlue,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

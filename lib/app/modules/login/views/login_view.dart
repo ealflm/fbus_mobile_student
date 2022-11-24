@@ -66,7 +66,7 @@ class LoginView extends GetView<LoginController> {
                             height: 21.r,
                             padding: EdgeInsets.all(5.r),
                             decoration: const BoxDecoration(
-                              color: AppColors.primary600,
+                              color: AppColors.primary400,
                               shape: BoxShape.circle,
                             ),
                             child: SvgPicture.asset(

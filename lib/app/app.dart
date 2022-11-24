@@ -46,7 +46,7 @@ class _AppState extends State<App> {
           scrollBehavior: NoneScrollBehavior(),
           theme: ThemeData(
             colorScheme: const ColorScheme(
-              primary: AppColors.primary600,
+              primary: AppColors.primary400,
               secondary: AppColors.secondary,
               surface: AppColors.surface,
               background: AppColors.background,

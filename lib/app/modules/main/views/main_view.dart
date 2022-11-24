@@ -25,10 +25,10 @@ class MainView extends GetView<MainController> {
         height: 50.w,
         child: FittedBox(
           child: FloatingActionButton(
-            backgroundColor: AppColors.primary600,
+            backgroundColor: AppColors.primary400,
             child: Icon(
               Icons.qr_code_scanner,
-              color: AppColors.lightBlack,
+              color: AppColors.white,
               size: 30.r,
             ),
             onPressed: () {

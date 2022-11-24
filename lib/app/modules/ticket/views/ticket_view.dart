@@ -75,12 +75,12 @@ class TicketView extends GetView<TicketController> {
             },
             indicator: BoxDecoration(
               borderRadius: BorderRadius.circular(50.r),
-              color: AppColors.primary600,
+              color: AppColors.primary400,
               boxShadow: [
                 BoxShadow(
                   offset: const Offset(0, 2),
                   blurRadius: 4,
-                  color: AppColors.primary600.withOpacity(0.4),
+                  color: AppColors.primary400.withOpacity(0.4),
                 ),
               ],
             ),

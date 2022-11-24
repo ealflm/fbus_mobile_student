@@ -54,13 +54,22 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  _loadAssets();
+
+  runApp(const App());
+}
+
+void _loadAssets() {
   Future.wait([
     precachePicture(
       ExactAssetPicture(
           SvgPicture.svgStringDecoder, AppSvgAssets.fbusIsometric),
       null,
     ),
+    precachePicture(
+      ExactAssetPicture(
+          SvgPicture.svgStringDecoder, AppSvgAssets.blueBackground),
+      null,
+    ),
   ]);
-
-  runApp(const App());
 }

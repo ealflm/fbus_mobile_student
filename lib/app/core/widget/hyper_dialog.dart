@@ -163,7 +163,7 @@ abstract class HyperDialog {
             child: Text(
               primaryButtonText,
               style: body2.copyWith(
-                color: AppColors.primary600,
+                color: AppColors.primary400,
               ),
             ),
             onPressed: () =>

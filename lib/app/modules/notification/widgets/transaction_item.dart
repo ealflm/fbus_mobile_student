@@ -78,7 +78,7 @@ class NotificationItem extends StatelessWidget {
 
   Container _default() {
     List<Color> colors = [
-      AppColors.primary600,
+      AppColors.primary400,
       AppColors.blue,
       AppColors.green,
       AppColors.orange,
@@ -100,7 +100,7 @@ class NotificationItem extends StatelessWidget {
       height: 40.r,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        // color: AppColors.primary600,
+        // color: AppColors.primary400,
         color: colors[colorIndex],
       ),
       child: Stack(

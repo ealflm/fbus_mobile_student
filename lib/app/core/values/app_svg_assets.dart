@@ -10,4 +10,6 @@ abstract class AppSvgAssets {
 
   static const String busIconFrom = '$path/bus_icon_from.svg';
   static const String busIconTo = '$path/bus_icon_to.svg';
+
+  static const String blueBackground = '$path/blue_background.svg';
 }
