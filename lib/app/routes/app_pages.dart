@@ -8,6 +8,8 @@ import '../modules/confirm_ticket/bindings/confirm_ticket_binding.dart';
 import '../modules/confirm_ticket/views/confirm_ticket_view.dart';
 import '../modules/current_trip/bindings/current_trip_binding.dart';
 import '../modules/current_trip/views/current_trip_view.dart';
+import '../modules/feed_back/bindings/feed_back_binding.dart';
+import '../modules/feed_back/views/feed_back_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
@@ -113,6 +115,11 @@ class AppPages {
       name: _Paths.CURRENT_TRIP,
       page: () => const CurrentTripView(),
       binding: CurrentTripBinding(),
+    ),
+    GetPage(
+      name: _Paths.FEED_BACK,
+      page: () => const FeedBackView(),
+      binding: FeedBackBinding(),
     ),
   ];
 }

@@ -7,6 +7,7 @@ import 'package:hyper_polyline/hyper_polyline.dart';
 
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/app_svg_assets.dart';
+import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../data/local/db/route_data.dart';
 import '../../../data/local/db/station_data.dart';
@@ -18,11 +19,16 @@ class RouteController {
   final Rx<List<TaggedPolyline>> _polylines = Rx<List<TaggedPolyline>>([]);
   Map<String, Station> _stations = {};
   final Rx<List<Marker>> _stationMarkers = Rx<List<Marker>>([]);
+  final Rx<List<Widget>> _stationItems = Rx<List<Widget>>([]);
   final Rx<String?> _selectedRouteId = Rx<String?>(null);
   final Rx<String?> _selectedStationId = Rx<String?>(null);
   final Rx<String?> _autoSelectedStationId = Rx<String?>(null);
 
+  Map<String, Route> get routes => _routes.value;
+  Map<String, Station> get stations => _stations;
+
   List<Marker> get stationMarkers => _stationMarkers.value;
+  List<Widget> get stationItems => _stationItems.value;
   List<TaggedPolyline> get polyline => _polylines.value;
   String? get selectedRouteId => _selectedRouteId.value;
   Route? get selectedRoute {
@@ -57,6 +63,53 @@ class RouteController {
     updatePolyLines();
     updateStations();
     updateStationMarkers();
+  }
+
+  void updateStationItems() {
+    List<Widget> result = [];
+    for (Station station in _stations.values) {
+      if (selectedRoute?.stationIds?.contains(station.id) ?? false) {
+        result.add(stationLineItem(station.id));
+      }
+    }
+    _stationItems(result);
+  }
+
+  Widget stationLineItem(String id) {
+    return Column(
+      children: [
+        Material(
+          child: InkWell(
+            onTap: () {
+              selectStation(id);
+            },
+            child: Obx(
+              () {
+                String? selectedId = selectedStationId;
+                return Container(
+                  color:
+                      id == selectedId ? AppColors.gray.withOpacity(0.3) : null,
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  alignment: Alignment.centerLeft,
+                  width: double.infinity,
+                  height: 40.h,
+                  child: Text(
+                    '${stations[id]?.title}',
+                    style: subtitle2.copyWith(
+                        fontWeight: id == selectedId
+                            ? FontWeights.medium
+                            : FontWeights.regular),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 1,
+        ),
+      ],
+    );
   }
 
   void updateRoutes() {
@@ -133,7 +186,7 @@ class RouteController {
     _stations = getStations();
   }
 
-  void selectStationMarker(String id) {
+  void selectStation(String id) {
     _selectedStationId.value = id;
     updateStationMarkers();
   }
@@ -167,7 +220,7 @@ class RouteController {
                     padding: EdgeInsets.all(20.r),
                     child: GestureDetector(
                       onTap: () {
-                        selectStationMarker(station.id);
+                        // selectStationMarker(station.id);
                       },
                       child: Container(
                         color: AppColors.white.withOpacity(0),

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hyper_app_settings/hyper_app_settings.dart';
+import 'package:intl/intl.dart';
 import 'app/app.dart';
 import 'app/core/utils/auth_service.dart';
 import 'app/core/values/app_svg_assets.dart';
@@ -22,6 +23,9 @@ void main() async {
     () => RepositoryImpl(),
     tag: (Repository).toString(),
   );
+
+  // Set vi locale
+  Intl.defaultLocale = 'vi';
 
   await AppSettings.init();
 

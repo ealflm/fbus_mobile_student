@@ -51,7 +51,7 @@ class _AppState extends State<App> {
               surface: AppColors.surface,
               background: AppColors.background,
               error: AppColors.error,
-              onPrimary: AppColors.onPrimary,
+              onPrimary: AppColors.white,
               onSecondary: AppColors.onSecondary,
               onSurface: AppColors.onSurface,
               onBackground: AppColors.onBackground,

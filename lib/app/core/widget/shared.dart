@@ -167,7 +167,7 @@ Widget scheduleViewMonthHeaderBuilder(
     children: <Widget>[
       Image(
           image: ExactAssetImage(
-            'assets/png/month/${DateFormat('MMMM').format(details.date).toLowerCase()}.png',
+            'assets/png/month/${DateFormat('MMMM', 'en').format(details.date).toLowerCase()}.png',
           ),
           fit: BoxFit.cover,
           width: details.bounds.width,
@@ -184,4 +184,48 @@ Widget scheduleViewMonthHeaderBuilder(
       ),
     ],
   );
+}
+
+String formatDuration(Duration d) {
+  var seconds = d.inSeconds;
+  final days = seconds ~/ Duration.secondsPerDay;
+  seconds -= days * Duration.secondsPerDay;
+  final hours = seconds ~/ Duration.secondsPerHour;
+  seconds -= hours * Duration.secondsPerHour;
+  final minutes = seconds ~/ Duration.secondsPerMinute;
+  seconds -= minutes * Duration.secondsPerMinute;
+
+  final List<String> tokens = [];
+  if (days != 0) {
+    tokens.add('$days ngày, ');
+  }
+  if (tokens.isNotEmpty || hours != 0) {
+    tokens.add('${hours.toString().padLeft(2, '0')}:');
+  }
+  if (tokens.isNotEmpty || minutes != 0) {
+    tokens.add('${minutes.toString().padLeft(2, '0')}:');
+  }
+  tokens.add(seconds.toString().padLeft(2, '0'));
+
+  return tokens.join();
+}
+
+String formatDurationOnlyHourMinite(Duration d) {
+  var seconds = d.inSeconds;
+  final days = seconds ~/ Duration.secondsPerDay;
+  seconds -= days * Duration.secondsPerDay;
+  final hours = seconds ~/ Duration.secondsPerHour;
+  seconds -= hours * Duration.secondsPerHour;
+  final minutes = seconds ~/ Duration.secondsPerMinute;
+  seconds -= minutes * Duration.secondsPerMinute;
+
+  final List<String> tokens = [];
+  if (hours != 0) {
+    tokens.add('$hours giờ, ');
+  }
+  if (minutes != 0) {
+    tokens.add('$minutes phút');
+  }
+
+  return tokens.join();
 }

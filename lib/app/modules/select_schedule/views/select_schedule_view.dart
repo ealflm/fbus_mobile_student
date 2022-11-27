@@ -35,6 +35,8 @@ class SelectScheduleView extends GetView<SelectScheduleController> {
                   view: CalendarView.week,
                   firstDayOfWeek: 1,
                   specialRegions: controller.getTimeRegions(),
+                  scheduleViewMonthHeaderBuilder:
+                      scheduleViewMonthHeaderBuilder,
                   dataSource: getCalendarDataSource(),
                   appointmentBuilder: (BuildContext context,
                       CalendarAppointmentDetails details) {

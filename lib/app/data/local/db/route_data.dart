@@ -303,6 +303,11 @@ final tripIds = [
   ],
 ];
 
+final titles = [
+  'FPT University - Vimhome grandpark',
+  'Cổng khu công nghệ cao - FPT University'
+];
+
 Map<String, Route> getRoutes() {
   Map<String, Route> result = {};
 
@@ -310,6 +315,7 @@ Map<String, Route> getRoutes() {
     var points = lines[i].map((e) => LatLng(e[1], e[0])).toList();
     result['$i'] = Route(
         id: '$i',
+        title: titles[i],
         points: points,
         stationIds: stationIds[i],
         tripIds: tripIds[i]);

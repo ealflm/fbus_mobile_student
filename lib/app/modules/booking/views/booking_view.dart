@@ -19,12 +19,6 @@ class BookingView extends GetView<BookingController> {
     return StatusBar(
       brightness: Brightness.dark,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Get.toNamed(Routes.SELECT_ROUTE);
-          },
-          child: const Icon(Icons.add),
-        ),
         body: SafeArea(
           child: SfCalendar(
             controller: controller.calendarController,

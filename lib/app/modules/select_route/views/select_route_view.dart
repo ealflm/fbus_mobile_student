@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -13,9 +11,7 @@ import 'package:latlong2/latlong.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
-import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/select_route_controller.dart';
 
 class SelectRouteView extends GetView<SelectRouteController> {
@@ -73,7 +69,7 @@ class SelectRouteView extends GetView<SelectRouteController> {
           onTap: (polylines, tapPosition) {
             // debugPrint(
             //     'Tapped: ${polylines.map((polyline) => polyline.tag).join(',')} at ${tapPosition.globalPosition}');
-            controller.route.selectRoute(polylines.first.tag);
+            // controller.route.selectRoute(polylines.first.tag);
           },
           onMiss: (tapPosition) {
             // debugPrint(
@@ -82,7 +78,7 @@ class SelectRouteView extends GetView<SelectRouteController> {
           onDoubleMiss: (tapPosition) {
             // debugPrint(
             //     'No polyline was double tapped at position ${tapPosition.globalPosition}');
-            controller.route.clearAllSelectedRoutes();
+            // controller.route.clearAllSelectedRoutes();
           },
         );
       },
@@ -150,40 +146,19 @@ class SelectRouteView extends GetView<SelectRouteController> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                padding: EdgeInsets.only(bottom: 15.h, right: 15.w),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: const CircleBorder(),
-                    backgroundColor: AppColors.white,
-                    padding: EdgeInsets.all(10.r),
-                    minimumSize: Size.zero,
-                  ),
-                  onPressed:
-                      controller.hyperMapController.moveToCurrentLocation,
-                  child: const Icon(
-                    Icons.my_location,
-                    color: AppColors.lightBlack,
-                  ),
-                ),
-              ),
-            ],
-          ),
           Container(
             width: double.infinity,
+            constraints: BoxConstraints(
+              maxHeight: 0.45.sh,
+            ),
             margin: EdgeInsets.only(
               bottom: 15.h,
               left: 15.w,
               right: 15.w,
             ),
             padding: EdgeInsets.only(
-              top: 15.h,
-              bottom: 15.h,
-              left: 18.w,
-              right: 18.w,
+              top: 10.h,
+              bottom: 10.h,
             ),
             decoration: BoxDecoration(
               color: AppColors.white,
@@ -193,138 +168,156 @@ class SelectRouteView extends GetView<SelectRouteController> {
             ),
             child: Column(
               children: [
-                Obx(
-                  () => controller.route.selectedRoute == null
-                      ? lightBub('Vui lòng chọn tuyến đường muốn đi')
-                      : Container(),
+                Expanded(
+                  child: Obx(
+                    () {
+                      return controller.step.value == 0
+                          ? _routeSelect()
+                          : _stationSelect();
+                    },
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Obx(
-                      () {
-                        Random rand = Random();
-                        int distance = rand.nextInt(3) + 3;
-                        int time = rand.nextInt(15) + 15;
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Khoảng cách',
-                              style:
-                                  body2.copyWith(color: AppColors.lightBlack),
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                text: controller.route.selectedStation == null
-                                    ? '0'
-                                    : '$distance',
-                                style:
-                                    h4.copyWith(fontWeight: FontWeights.medium),
-                                children: [
-                                  TextSpan(
-                                    text: 'km',
-                                    style: h6.copyWith(
-                                        fontWeight: FontWeights.regular),
+                Obx(() => Container(
+                      padding: EdgeInsets.symmetric(horizontal: 18.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          controller.step.value != 0
+                              ? ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      shape: const StadiumBorder()),
+                                  onPressed: () {
+                                    controller.previousStep();
+                                  },
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.navigate_before,
+                                        color: AppColors.white,
+                                        size: 20.r,
+                                      ),
+                                      Text(
+                                        'Trở lại',
+                                        style: subtitle2.copyWith(
+                                            color: AppColors.white),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                )
+                              : Container(),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                shape: const StadiumBorder()),
+                            onPressed: () {
+                              controller.nextStep();
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'Tiếp tục',
+                                  style: subtitle2.copyWith(
+                                      color: AppColors.white),
+                                ),
+                                Icon(
+                                  Icons.navigate_next,
+                                  color: AppColors.white,
+                                  size: 20.r,
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 3.h),
-                            RichText(
-                              text: TextSpan(
-                                text: 'Thời gian: ',
-                                style:
-                                    body2.copyWith(color: AppColors.lightBlack),
-                                children: [
-                                  TextSpan(
-                                    text:
-                                        controller.route.selectedStation == null
-                                            ? '0 phút'
-                                            : '$time phút',
-                                    style: subtitle2,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    Obx(() => ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              shape: const StadiumBorder()),
-                          onPressed: controller.route.selectedStation == null
-                              ? null
-                              : () {
-                                  Get.toNamed(Routes.SELECT_SCHEDULE);
-                                },
-                          child: Row(
-                            children: [
-                              Text(
-                                'Tiếp tục',
-                                style: subtitle2,
-                              ),
-                              Icon(
-                                Icons.navigate_next,
-                                color: AppColors.softBlack,
-                                size: 20.r,
-                              ),
-                            ],
                           ),
-                        )),
-                  ],
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                Obx(() => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        controller.route.autoSelectedStation == null
-                            ? selectStation(
-                                secondTitle: 'Chưa chọn trạm đi',
-                                iconColor: AppColors.green,
-                              )
-                            : selectStation(
-                                title: controller
-                                        .route.autoSelectedStation?.title ??
-                                    '',
-                                iconColor: AppColors.green,
-                              ),
-                        Container(
-                          padding: EdgeInsets.only(left: 11.r),
-                          child: Column(
-                            children: [
-                              SizedBox(height: 5.h),
-                              dot(),
-                              SizedBox(height: 5.h),
-                              dot(),
-                              SizedBox(height: 5.h),
-                              dot(),
-                              SizedBox(height: 5.h),
-                            ],
-                          ),
-                        ),
-                        controller.route.selectedStation == null
-                            ? selectStation(
-                                secondTitle: 'Chưa chọn trạm đến',
-                                iconColor: AppColors.secondary,
-                              )
-                            : selectStation(
-                                title:
-                                    controller.route.selectedStation?.title ??
-                                        '',
-                                iconColor: AppColors.secondary,
-                              ),
-                      ],
-                    )),
+                        ],
+                      ),
+                    ))
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Column _routeSelect() {
+    return Column(
+      children: [
+        Text('Chọn tuyến', style: subtitle2),
+        SizedBox(
+          height: 3.h,
+        ),
+        const Divider(),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _routeLineItem('0'),
+                _routeLineItem('1'),
+              ],
+            ),
+          ),
+        ),
+        const Divider(),
+      ],
+    );
+  }
+
+  Column _stationSelect() {
+    return Column(
+      children: [
+        Text('Chọn trạm', style: subtitle2),
+        SizedBox(
+          height: 3.h,
+        ),
+        const Divider(),
+        Obx(() => Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: controller.route.stationItems,
+                ),
+              ),
+            )),
+        const Divider(),
+      ],
+    );
+  }
+
+  Widget _routeLineItem(String id) {
+    return Column(
+      children: [
+        Material(
+          child: InkWell(
+            onTap: () {
+              controller.route.selectRoute(id);
+            },
+            child: Obx(
+              () {
+                String? selectedId = controller.route.selectedRouteId;
+                return Container(
+                  color:
+                      id == selectedId ? AppColors.gray.withOpacity(0.3) : null,
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  alignment: Alignment.centerLeft,
+                  width: double.infinity,
+                  height: 40.h,
+                  child: Text(
+                    '${controller.route.routes[id]?.title}',
+                    style: subtitle2.copyWith(
+                        fontWeight: id == selectedId
+                            ? FontWeights.medium
+                            : FontWeights.regular),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 1,
+        ),
+      ],
     );
   }
 }

@@ -17,6 +17,7 @@ abstract class Routes {
   static const SELECT_SCHEDULE = _Paths.SELECT_SCHEDULE;
   static const CONFIRM_TICKET = _Paths.CONFIRM_TICKET;
   static const CURRENT_TRIP = _Paths.CURRENT_TRIP;
+  static const FEED_BACK = _Paths.FEED_BACK;
 }
 
 abstract class _Paths {
@@ -33,4 +34,5 @@ abstract class _Paths {
   static const SELECT_SCHEDULE = '/select-schedule';
   static const CONFIRM_TICKET = '/confirm-ticket';
   static const CURRENT_TRIP = '/current-trip';
+  static const FEED_BACK = '/feed-back';
 }
