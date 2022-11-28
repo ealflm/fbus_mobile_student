@@ -46,6 +46,7 @@ class SelectRouteView extends GetView<SelectRouteController> {
                 Stack(
                   children: [
                     controller.routesPolyline(),
+                    controller.selectedRoutePolyline(),
                     // _routes(),
                     // _busStationMarker(),
                     // _currentLocationMarker(),
@@ -53,12 +54,152 @@ class SelectRouteView extends GetView<SelectRouteController> {
                 ),
               ],
             ),
-            // _bottom(),
+            _bottom(),
           ],
         ),
       ),
     );
   }
+
+  Widget _bottom() {
+    return Container(
+      alignment: Alignment.bottomCenter,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: double.infinity,
+            constraints: BoxConstraints(
+              maxHeight: 0.45.sh,
+            ),
+            margin: EdgeInsets.only(
+              bottom: 15.h,
+              left: 15.w,
+              right: 15.w,
+            ),
+            padding: EdgeInsets.only(
+              top: 10.h,
+              bottom: 10.h,
+            ),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.all(
+                Radius.circular(9.r),
+              ),
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text('Chọn tuyến', style: subtitle2),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      const Divider(),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: controller.routeSelectList(),
+                        ),
+                      ),
+                      const Divider(),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shape: const StadiumBorder()),
+                        onPressed: () {
+                          // PREVIOUS
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.navigate_before,
+                              color: AppColors.white,
+                              size: 20.r,
+                            ),
+                            Text(
+                              'Trở lại',
+                              style: subtitle2.copyWith(color: AppColors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shape: const StadiumBorder()),
+                        onPressed: () {
+                          // NEXT
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Tiếp tục',
+                              style: subtitle2.copyWith(color: AppColors.white),
+                            ),
+                            Icon(
+                              Icons.navigate_next,
+                              color: AppColors.white,
+                              size: 20.r,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget _routeLineItem(String id) {
+  //   return Column(
+  //     children: [
+  //       Material(
+  //         child: InkWell(
+  //           onTap: () {
+  //             controller.routeController.selectRoute(id);
+  //           },
+  //           child: Obx(
+  //             () {
+  //               String? selectedId = controller.routeController.selectedRouteId;
+  //               return Container(
+  //                 color:
+  //                     id == selectedId ? AppColors.gray.withOpacity(0.3) : null,
+  //                 padding: EdgeInsets.symmetric(horizontal: 15.w),
+  //                 alignment: Alignment.centerLeft,
+  //                 width: double.infinity,
+  //                 height: 40.h,
+  //                 child: Text(
+  //                   '${controller.routeController.routes[id]?.title}',
+  //                   style: subtitle2.copyWith(
+  //                       fontWeight: id == selectedId
+  //                           ? FontWeights.medium
+  //                           : FontWeights.regular),
+  //                 ),
+  //               );
+  //             },
+  //           ),
+  //         ),
+  //       ),
+  //       const SizedBox(
+  //         height: 1,
+  //       ),
+  //     ],
+  //   );
+  // }
 
   // Obx _routes() {
   //   return Obx(
@@ -138,105 +279,6 @@ class SelectRouteView extends GetView<SelectRouteController> {
   //           ],
   //         ),
   //       ),
-  //     ),
-  //   );
-  // }
-
-  // Widget _bottom() {
-  //   return Container(
-  //     alignment: Alignment.bottomCenter,
-  //     child: Column(
-  //       mainAxisSize: MainAxisSize.min,
-  //       children: [
-  //         Container(
-  //           width: double.infinity,
-  //           constraints: BoxConstraints(
-  //             maxHeight: 0.45.sh,
-  //           ),
-  //           margin: EdgeInsets.only(
-  //             bottom: 15.h,
-  //             left: 15.w,
-  //             right: 15.w,
-  //           ),
-  //           padding: EdgeInsets.only(
-  //             top: 10.h,
-  //             bottom: 10.h,
-  //           ),
-  //           decoration: BoxDecoration(
-  //             color: AppColors.white,
-  //             borderRadius: BorderRadius.all(
-  //               Radius.circular(9.r),
-  //             ),
-  //           ),
-  //           child: Column(
-  //             children: [
-  //               Expanded(
-  //                 child: Obx(
-  //                   () {
-  //                     return controller.step.value == 0
-  //                         ? _routeSelect()
-  //                         : _stationSelect();
-  //                   },
-  //                 ),
-  //               ),
-  //               Obx(() => Container(
-  //                     padding: EdgeInsets.symmetric(horizontal: 18.w),
-  //                     child: Row(
-  //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                       children: [
-  //                         controller.step.value != 0
-  //                             ? ElevatedButton(
-  //                                 style: ElevatedButton.styleFrom(
-  //                                     shape: const StadiumBorder()),
-  //                                 onPressed: () {
-  //                                   controller.previousStep();
-  //                                 },
-  //                                 child: Row(
-  //                                   mainAxisSize: MainAxisSize.min,
-  //                                   children: [
-  //                                     Icon(
-  //                                       Icons.navigate_before,
-  //                                       color: AppColors.white,
-  //                                       size: 20.r,
-  //                                     ),
-  //                                     Text(
-  //                                       'Trở lại',
-  //                                       style: subtitle2.copyWith(
-  //                                           color: AppColors.white),
-  //                                     ),
-  //                                   ],
-  //                                 ),
-  //                               )
-  //                             : Container(),
-  //                         ElevatedButton(
-  //                           style: ElevatedButton.styleFrom(
-  //                               shape: const StadiumBorder()),
-  //                           onPressed: () {
-  //                             controller.nextStep();
-  //                           },
-  //                           child: Row(
-  //                             mainAxisSize: MainAxisSize.min,
-  //                             children: [
-  //                               Text(
-  //                                 'Tiếp tục',
-  //                                 style: subtitle2.copyWith(
-  //                                     color: AppColors.white),
-  //                               ),
-  //                               Icon(
-  //                                 Icons.navigate_next,
-  //                                 color: AppColors.white,
-  //                                 size: 20.r,
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ))
-  //             ],
-  //           ),
-  //         ),
-  //       ],
   //     ),
   //   );
   // }

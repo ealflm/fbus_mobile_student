@@ -56,6 +56,9 @@ class RouteDataService extends BaseController {
       onSuccess: (List<Route> response) {
         routes = routeListToRouteMap(response);
         stations = routeListToStationMap(response);
+        if (routes.isNotEmpty && routes.values.first.id != null) {
+          selectedRouteId = routes.values.first.id!;
+        }
       },
       onError: ((exception) {
         showToast('Không thể kết nối');
@@ -85,5 +88,10 @@ class RouteDataService extends BaseController {
       }
     }
     return result;
+  }
+
+  void selectRoute(String? id) {
+    if (id == null) return;
+    _selectedRouteId.value = id;
   }
 }
