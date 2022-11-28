@@ -208,6 +208,69 @@ class SelectRouteController extends GetxController {
     );
   }
 
+  Widget untouchableStation() {
+    return Obx(
+      () {
+        Station station;
+        if (routeDataService.startStation != null) {
+          station = routeDataService.startStation!;
+        } else {
+          station = routeDataService.endStation!;
+        }
+        return MarkerLayer(
+          markers: [
+            Marker(
+              width: 200.r,
+              height: 90.r,
+              point: station.location ?? LatLng(0, 0),
+              builder: (context) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 6.w,
+                        vertical: 3.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(8.r),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: const Offset(0, 2),
+                            blurRadius: 2,
+                            spreadRadius: 0,
+                            color: AppColors.black.withOpacity(0.2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        '${station.name}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: body2.copyWith(
+                          color: AppColors.softBlack,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    SvgPicture.asset(
+                      AppSvgAssets.busIconTo,
+                      height: 25.r,
+                      width: 25.r,
+                    ),
+                  ],
+                );
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
   Widget routeSelect() {
     return Obx(
       () {
@@ -263,6 +326,9 @@ class SelectRouteController extends GetxController {
             selectItem(
               name: station.name,
               isSelected: station.id == routeDataService.selectedStationId,
+              description: routeDataService.startStation != null
+                  ? 'Trạm xuống'
+                  : 'Trạm lên',
               onPressed: () {
                 routeDataService.selectStation(station.id ?? '');
                 moveScreenToSelectedStation();
@@ -271,9 +337,24 @@ class SelectRouteController extends GetxController {
           );
         }
 
+        if (routeDataService.startStation != null) {
+          lines.first = selectedItem(
+              name: routeDataService.startStation?.name,
+              description: 'Trạm lên');
+        } else {
+          lines.last = selectedItem(
+              name: routeDataService.endStation?.name,
+              description: 'Trạm xuống');
+        }
+
         return Column(
           children: [
-            Text('Chọn trạm', style: subtitle2),
+            Text(
+              routeDataService.startStation != null
+                  ? 'Chọn trạm xuống'
+                  : 'Chọn trạm lên',
+              style: subtitle2,
+            ),
             SizedBox(
               height: 3.h,
             ),
@@ -293,11 +374,11 @@ class SelectRouteController extends GetxController {
     );
   }
 
-  Widget selectItem({
-    Function()? onPressed,
-    bool isSelected = false,
-    String? name,
-  }) {
+  Widget selectItem(
+      {Function()? onPressed,
+      bool isSelected = false,
+      String? name,
+      String? description}) {
     return Column(
       children: [
         Material(
@@ -306,16 +387,60 @@ class SelectRouteController extends GetxController {
             child: Container(
               color: isSelected ? AppColors.gray.withOpacity(0.3) : null,
               padding: EdgeInsets.symmetric(horizontal: 15.w),
-              alignment: Alignment.centerLeft,
               width: double.infinity,
               height: 40.h,
-              child: Text(
-                '$name',
-                style: subtitle2.copyWith(
-                    fontWeight:
-                        isSelected ? FontWeights.medium : FontWeights.regular),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '$name',
+                    style: subtitle2.copyWith(
+                        fontWeight: isSelected
+                            ? FontWeights.medium
+                            : FontWeights.regular),
+                  ),
+                  if (isSelected && description != null)
+                    Text(
+                      description,
+                      style:
+                          subtitle2.copyWith(fontWeight: FontWeights.regular),
+                    ),
+                ],
               ),
             ),
+          ),
+        ),
+        const SizedBox(
+          height: 1,
+        ),
+      ],
+    );
+  }
+
+  Widget selectedItem({String? name, String? description}) {
+    return Column(
+      children: [
+        Container(
+          color: AppColors.gray.withOpacity(0.3),
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          width: double.infinity,
+          height: 40.h,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '$name',
+                style: subtitle2.copyWith(
+                  fontWeight: FontWeights.medium,
+                ),
+              ),
+              Text(
+                '$description',
+                style: subtitle2.copyWith(
+                  fontWeight: FontWeights.regular,
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(

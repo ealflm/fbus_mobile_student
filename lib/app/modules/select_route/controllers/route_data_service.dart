@@ -30,6 +30,34 @@ class RouteDataService extends BaseController {
     return routes[_selectedRouteId.value];
   }
 
+  // Start station
+  Station? get startStation {
+    if (selectedRoute == null) return null;
+
+    List<Station> stations = selectedRoute?.stations ?? [];
+
+    if (stations.isEmpty) return null;
+
+    if (stations.first.name?.toLowerCase().contains('fpt') ?? false) {
+      return stations.first;
+    }
+    return null;
+  }
+
+  // End station
+  Station? get endStation {
+    if (selectedRoute == null) return null;
+
+    List<Station> stations = selectedRoute?.stations ?? [];
+
+    if (stations.isEmpty) return null;
+
+    if (stations.last.name?.toLowerCase().contains('fpt') ?? false) {
+      return stations.last;
+    }
+    return null;
+  }
+
   // Stations
   final Rx<Map<String, Station>> _stations = Rx<Map<String, Station>>({});
   Map<String, Station> get stations => _stations.value;

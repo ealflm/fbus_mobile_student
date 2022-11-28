@@ -50,6 +50,7 @@ class SelectRouteView extends GetView<SelectRouteController> {
                     controller.selectedRoutePolyline(),
                     controller.stationMarkers(),
                     controller.selectedRouteStationMarkers(),
+                    controller.untouchableStation(),
                     controller.selectedStationMarker(),
                     // _routes(),
                     // _busStationMarker(),
