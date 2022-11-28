@@ -48,6 +48,9 @@ class SelectRouteView extends GetView<SelectRouteController> {
                   children: [
                     controller.routesPolyline(),
                     controller.selectedRoutePolyline(),
+                    controller.stationMarkers(),
+                    controller.selectedRouteStationMarkers(),
+                    controller.selectedStationMarker(),
                     // _routes(),
                     // _busStationMarker(),
                     // _currentLocationMarker(),
@@ -106,6 +109,8 @@ class SelectRouteView extends GetView<SelectRouteController> {
                                       shape: const StadiumBorder()),
                                   onPressed: () {
                                     controller.selectModeController.back();
+                                    controller.routeDataService
+                                        .selectStation('');
                                   },
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,

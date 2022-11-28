@@ -84,13 +84,11 @@ class RouteDataService extends BaseController {
     return result;
   }
 
-  void selectRoute(String? id) {
-    if (id == null) return;
-    _selectedRouteId.value = id;
+  void selectRoute(String id) {
+    selectedRouteId = id;
   }
 
-  void selectStation(String? id) {
-    if (id == null) return;
-    _selectedStationId.value = id;
+  void selectStation(String id) {
+    selectedStationId = id;
   }
 }

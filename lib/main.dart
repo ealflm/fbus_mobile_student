@@ -77,5 +77,17 @@ void _loadAssets() {
           SvgPicture.svgStringDecoder, AppSvgAssets.fbusIsometric),
       null,
     ),
+    precachePicture(
+      ExactAssetPicture(SvgPicture.svgStringDecoder, AppSvgAssets.busIcon),
+      null,
+    ),
+    precachePicture(
+      ExactAssetPicture(SvgPicture.svgStringDecoder, AppSvgAssets.busIconTo),
+      null,
+    ),
+    precachePicture(
+      ExactAssetPicture(SvgPicture.svgStringDecoder, AppSvgAssets.busIconFrom),
+      null,
+    ),
   ]);
 }

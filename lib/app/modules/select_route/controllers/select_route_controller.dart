@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../core/utils/map_utils.dart';
 import '../../../core/values/app_colors.dart';
+import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/app_values.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
@@ -39,8 +41,8 @@ class SelectRouteController extends GetxController {
         for (var route in routeDataService.routes.values) {
           polylines.add(
             Polyline(
-              color: AppColors.caption,
-              borderColor: AppColors.description,
+              color: AppColors.indicator,
+              borderColor: AppColors.caption,
               strokeWidth: 4.r,
               borderStrokeWidth: 3.r,
               points: route.points ?? [],
@@ -50,7 +52,7 @@ class SelectRouteController extends GetxController {
 
         return PolylineLayer(
           polylineCulling: true,
-          saveLayers: true,
+          // saveLayers: true,
           polylines: polylines,
         );
       },
@@ -81,17 +83,124 @@ class SelectRouteController extends GetxController {
     );
   }
 
-  Widget stationMarker() {
+  Widget stationMarkers() {
     return Obx(
       () {
         List<Marker> markers = [];
 
         for (Station station in routeDataService.stations.values) {
-          // markers.add();
+          markers.add(
+            Marker(
+              width: 80.r,
+              height: 80.r,
+              point: station.location ?? LatLng(0, 0),
+              builder: (context) {
+                return Container(
+                  padding: EdgeInsets.all(30.r),
+                  child: Opacity(
+                    opacity: 0.6,
+                    child: SvgPicture.asset(
+                      AppSvgAssets.busIcon,
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
         }
 
         return MarkerLayer(
           markers: markers,
+        );
+      },
+    );
+  }
+
+  Widget selectedRouteStationMarkers() {
+    return Obx(
+      () {
+        List<Marker> markers = [];
+
+        for (Station station
+            in routeDataService.selectedRoute?.stations ?? []) {
+          markers.add(
+            Marker(
+              width: 80.r,
+              height: 80.r,
+              point: station.location ?? LatLng(0, 0),
+              builder: (context) {
+                return Container(
+                  padding: EdgeInsets.all(30.r),
+                  child: SvgPicture.asset(
+                    AppSvgAssets.busIcon,
+                  ),
+                );
+              },
+            ),
+          );
+        }
+
+        return MarkerLayer(
+          markers: markers,
+        );
+      },
+    );
+  }
+
+  Widget selectedStationMarker() {
+    return Obx(
+      () {
+        if (routeDataService.selectedStation == null) return Container();
+        Station station = routeDataService.selectedStation!;
+        return MarkerLayer(
+          markers: [
+            Marker(
+              width: 200.r,
+              height: 90.r,
+              point: station.location ?? LatLng(0, 0),
+              builder: (context) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 6.w,
+                        vertical: 3.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(8.r),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: const Offset(0, 2),
+                            blurRadius: 2,
+                            spreadRadius: 0,
+                            color: AppColors.black.withOpacity(0.2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        '${station.name}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: body2.copyWith(
+                          color: AppColors.softBlack,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    SvgPicture.asset(
+                      AppSvgAssets.busIconTo,
+                      height: 25.r,
+                      width: 25.r,
+                    ),
+                  ],
+                );
+              },
+            )
+          ],
         );
       },
     );
@@ -108,7 +217,7 @@ class SelectRouteController extends GetxController {
               name: route.name,
               isSelected: route.id == routeDataService.selectedRouteId,
               onPressed: () {
-                routeDataService.selectRoute(route.id);
+                routeDataService.selectRoute(route.id ?? '');
                 moveScreenToSelectedRoute();
               },
             ),
@@ -149,7 +258,7 @@ class SelectRouteController extends GetxController {
               name: station.name,
               isSelected: station.id == routeDataService.selectedStationId,
               onPressed: () {
-                routeDataService.selectStation(station.id);
+                routeDataService.selectStation(station.id ?? '');
                 moveScreenToSelectedStation();
               },
             ),
@@ -229,7 +338,7 @@ class SelectRouteController extends GetxController {
         bounds.extend(point);
       }
 
-      bounds = MapUtils.padTop(bounds, 0.3, 1.5);
+      bounds = MapUtils.padTop(bounds, 0.3, 1);
 
       hyperMapController.centerZoomFitBounds(bounds);
     }
@@ -241,8 +350,10 @@ class SelectRouteController extends GetxController {
     if (station != null && station.location != null) {
       var bounds = LatLngBounds();
       bounds.extend(station.location!);
+      LatLng extendLatLng = LatLng(
+          station.location!.latitude - 0.0125, station.location!.longitude);
+      bounds.extend(extendLatLng);
 
-      bounds = MapUtils.padTop(bounds, 0.3, 1.5);
       hyperMapController.centerZoomFitBounds(bounds,
           zoom: AppValues.focusZoomLevel);
     }
