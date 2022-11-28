@@ -6,6 +6,12 @@ import '../../../data/models/route_model.dart';
 import '../../../data/models/station_model.dart';
 
 class RouteDataService extends BaseController {
+  final Rx<bool> _isLoading = Rx<bool>(false);
+  bool get isLoading => _isLoading.value;
+  set isLoading(bool value) {
+    _isLoading.value = value;
+  }
+
   // Routes
   final Rx<Map<String, Route>> _routes = Rx<Map<String, Route>>({});
   Map<String, Route> get routes => _routes.value;
@@ -43,6 +49,7 @@ class RouteDataService extends BaseController {
   }
 
   Future<void> fetchRoutes() async {
+    isLoading = true;
     var routesService = repository.getRoute();
 
     await callDataService(
@@ -58,6 +65,7 @@ class RouteDataService extends BaseController {
         showToast('Không thể kết nối');
       }),
     );
+    isLoading = false;
   }
 
   Map<String, Route> routeListToRouteMap(List<Route> value) {

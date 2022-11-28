@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:lottie/lottie.dart' hide Marker;
 
 import '../../../core/utils/map_utils.dart';
+import '../../../core/values/app_animation_assets.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/app_values.dart';
@@ -224,24 +226,28 @@ class SelectRouteController extends GetxController {
           );
         }
 
-        return Column(
-          children: [
-            Text('Chọn tuyến', style: subtitle2),
-            SizedBox(
-              height: 3.h,
-            ),
-            const Divider(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: lines,
-                ),
-              ),
-            ),
-            const Divider(),
-          ],
-        );
+        return routeDataService.isLoading
+            ? Center(
+                child: Lottie.asset(AppAnimationAssets.dot, height: 60.h),
+              )
+            : Column(
+                children: [
+                  Text('Chọn tuyến', style: subtitle2),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  const Divider(),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: lines,
+                      ),
+                    ),
+                  ),
+                  const Divider(),
+                ],
+              );
       },
     );
   }
@@ -338,7 +344,7 @@ class SelectRouteController extends GetxController {
         bounds.extend(point);
       }
 
-      bounds = MapUtils.padTop(bounds, 0.3, 1);
+      bounds = MapUtils.padTop(bounds, 0.3, 0.92);
 
       hyperMapController.centerZoomFitBounds(bounds);
     }
@@ -357,5 +363,73 @@ class SelectRouteController extends GetxController {
       hyperMapController.centerZoomFitBounds(bounds,
           zoom: AppValues.focusZoomLevel);
     }
+  }
+
+  Widget backButton() {
+    return Obx(
+      (() {
+        return selectModeController.canBack()
+            ? ElevatedButton(
+                style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+                onPressed: () {
+                  selectModeController.back();
+                  routeDataService.selectStation('');
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.navigate_before,
+                      color: AppColors.white,
+                      size: 20.r,
+                    ),
+                    Text(
+                      'Trở lại',
+                      style: subtitle2.copyWith(color: AppColors.white),
+                    ),
+                    SizedBox(
+                      width: 9.w,
+                    ),
+                  ],
+                ),
+              )
+            : Container();
+      }),
+    );
+  }
+
+  Widget nextButton() {
+    return Obx(
+      (() {
+        return ElevatedButton(
+          style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+          onPressed: routeDataService.isLoading ||
+                  (selectModeController.mode == SelectMode.station &&
+                      routeDataService.selectedStation == null)
+              ? null
+              : () {
+                  selectModeController.next();
+                },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 9.w,
+              ),
+              Text(
+                'Tiếp tục',
+                style: subtitle2.copyWith(color: AppColors.white),
+              ),
+              Icon(
+                Icons.navigate_next,
+                color: AppColors.white,
+                size: 20.r,
+              ),
+            ],
+          ),
+        );
+      }),
+    );
   }
 }

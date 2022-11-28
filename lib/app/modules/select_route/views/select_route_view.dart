@@ -101,57 +101,8 @@ class SelectRouteView extends GetView<SelectRouteController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Obx(
-                        (() {
-                          return controller.selectModeController.canBack()
-                              ? ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      shape: const StadiumBorder()),
-                                  onPressed: () {
-                                    controller.selectModeController.back();
-                                    controller.routeDataService
-                                        .selectStation('');
-                                  },
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        Icons.navigate_before,
-                                        color: AppColors.white,
-                                        size: 20.r,
-                                      ),
-                                      Text(
-                                        'Trở lại',
-                                        style: subtitle2.copyWith(
-                                            color: AppColors.white),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : Container();
-                        }),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            shape: const StadiumBorder()),
-                        onPressed: () {
-                          controller.selectModeController.next();
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Tiếp tục',
-                              style: subtitle2.copyWith(color: AppColors.white),
-                            ),
-                            Icon(
-                              Icons.navigate_next,
-                              color: AppColors.white,
-                              size: 20.r,
-                            ),
-                          ],
-                        ),
-                      ),
+                      controller.backButton(),
+                      controller.nextButton(),
                     ],
                   ),
                 )
