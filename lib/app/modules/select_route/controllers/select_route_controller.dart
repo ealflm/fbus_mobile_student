@@ -228,7 +228,7 @@ class SelectRouteController extends GetxController {
 
         return routeDataService.isLoading
             ? Center(
-                child: Lottie.asset(AppAnimationAssets.dot, height: 60.h),
+                child: Lottie.asset(AppAnimationAssets.dot, height: 50.h),
               )
             : Column(
                 children: [
@@ -374,6 +374,7 @@ class SelectRouteController extends GetxController {
                 onPressed: () {
                   selectModeController.back();
                   routeDataService.selectStation('');
+                  moveScreenToSelectedRoute();
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
