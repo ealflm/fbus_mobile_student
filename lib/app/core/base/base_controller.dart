@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 import '../../../config/build_config.dart';
+import '../../data/repository/goong_repository.dart';
+import '../../data/repository/repository.dart';
 import '/app/core/model/page_state.dart';
 import '/app/network/exceptions/api_exception.dart';
 import '/app/network/exceptions/app_exception.dart';
@@ -14,6 +16,10 @@ import '/app/network/exceptions/service_unavailable_exception.dart';
 import '/app/network/exceptions/unauthorize_exception.dart';
 
 abstract class BaseController extends GetxController {
+  final Repository repository = Get.find(tag: (Repository).toString());
+  final GoongRepository goongRepository =
+      Get.find(tag: (GoongRepository).toString());
+
   final Logger logger = BuildConfig.instance.config.logger;
 
   final logoutController = false.obs;

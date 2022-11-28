@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../data/repository/repository.dart';
 import '../../routes/app_pages.dart';
 import '../base/base_controller.dart';
 import 'google_auth_service.dart';
@@ -13,8 +12,6 @@ class AuthService extends BaseController {
   static final AuthService _instance = AuthService._internal();
   static AuthService get instance => _instance;
   AuthService._internal();
-
-  final Repository _repository = Get.find(tag: (Repository).toString());
 
   String? _token;
 
@@ -56,7 +53,7 @@ class AuthService extends BaseController {
 
         // Call data service to get token from server
         String? token;
-        var loginService = _instance._repository.login(idToken);
+        var loginService = _instance.repository.login(idToken);
         await _instance.callDataService(
           loginService,
           onSuccess: (String response) {

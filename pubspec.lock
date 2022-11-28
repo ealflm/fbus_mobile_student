@@ -301,13 +301,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.6.5"
-  glassmorphism:
-    dependency: "direct main"
-    description:
-      name: glassmorphism
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0"
   google_sign_in:
     dependency: "direct main"
     description:
@@ -574,6 +567,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  polyline_do:
+    dependency: "direct main"
+    description:
+      name: polyline_do
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   positioned_tap_detector_2:
     dependency: transitive
     description:

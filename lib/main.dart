@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import 'app/app.dart';
 import 'app/core/utils/auth_service.dart';
 import 'app/core/values/app_svg_assets.dart';
+import 'app/data/repository/goong_repository.dart';
+import 'app/data/repository/goong_repository_impl.dart';
 import 'app/data/repository/repository.dart';
 import 'app/data/repository/repository_impl.dart';
 import 'config/build_config.dart';
@@ -22,6 +24,11 @@ void main() async {
   Get.lazyPut<Repository>(
     () => RepositoryImpl(),
     tag: (Repository).toString(),
+  );
+
+  Get.lazyPut<GoongRepository>(
+    () => GoongRepositoryImpl(),
+    tag: (GoongRepository).toString(),
   );
 
   // Set vi locale
@@ -68,11 +75,6 @@ void _loadAssets() {
     precachePicture(
       ExactAssetPicture(
           SvgPicture.svgStringDecoder, AppSvgAssets.fbusIsometric),
-      null,
-    ),
-    precachePicture(
-      ExactAssetPicture(
-          SvgPicture.svgStringDecoder, AppSvgAssets.blueBackground),
       null,
     ),
   ]);

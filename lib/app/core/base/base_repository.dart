@@ -9,6 +9,7 @@ import '/app/network/exceptions/base_exception.dart';
 abstract class BaseRepository {
   Dio get dioClient => DioProvider.httpDio;
   Dio get dioTokenClient => DioProvider.dioWithHeaderToken;
+  Dio get dioGoong => DioProvider.dioWithGoongAPIKey;
 
   final logger = BuildConfig.instance.config.logger;
 

@@ -243,6 +243,9 @@ class HomeView extends GetView<HomeController> {
                                       text: 'Đánh giá',
                                       icon: Icons.thumb_up_alt_outlined,
                                       iconColor: AppColors.yellow,
+                                      // onPressed: () {
+                                      //   Get.toNamed(Routes.FEED_BACK);
+                                      // },
                                     ),
                                     _mainButton(
                                       text: 'Bản đồ',

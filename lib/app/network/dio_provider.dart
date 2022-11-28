@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import '../../config/build_config.dart';
 import '../../config/environment.dart';
 import '/app/network/pretty_dio_logger.dart';
+import 'dio_goong.dart';
 import 'dio_token_manager.dart';
 
 class DioProvider {
@@ -54,6 +55,14 @@ class DioProvider {
     _instance!.interceptors.clear();
     _instance!.interceptors.add(TokenManager());
     _instance!.interceptors.add(_prettyDioLogger);
+  }
+
+  static Dio get dioWithGoongAPIKey {
+    _instance ??= httpDio;
+    _instance!.interceptors.clear();
+    _instance!.interceptors.add(DioGoong());
+
+    return _instance!;
   }
 
   static String _buildContentType(String version) {

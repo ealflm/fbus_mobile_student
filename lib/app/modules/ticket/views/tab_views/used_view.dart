@@ -22,7 +22,7 @@ class UsedView extends GetView<TicketController> {
               height: 10.h,
             ),
             TicketItem(
-              title: '',
+              title: 'Đã sử dụng',
               model: TicketModel(
                 startStation: 'FPT University',
                 endStation: 'Vimhomes grand park',
@@ -38,7 +38,7 @@ class UsedView extends GetView<TicketController> {
               height: 10.h,
             ),
             TicketItem(
-              title: '',
+              title: 'Đã sử dụng',
               model: TicketModel(
                 startStation: 'FPT University',
                 endStation: 'Vimhomes grand park',
@@ -54,7 +54,7 @@ class UsedView extends GetView<TicketController> {
               height: 10.h,
             ),
             TicketItem(
-              title: '',
+              title: 'Đã sử dụng',
               model: TicketModel(
                 startStation: 'FPT University',
                 endStation: 'Vimhomes grand park',
@@ -70,7 +70,7 @@ class UsedView extends GetView<TicketController> {
               height: 10.h,
             ),
             TicketItem(
-              title: '',
+              title: 'Đã sử dụng',
               model: TicketModel(
                 startStation: 'FPT University',
                 endStation: 'Vimhomes grand park',

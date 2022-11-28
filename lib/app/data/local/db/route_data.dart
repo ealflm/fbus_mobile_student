@@ -1,6 +1,6 @@
 import 'package:latlong2/latlong.dart';
 
-import '../../models/route_model.dart';
+import '../../models/routez_model.dart';
 
 final lines = [
   [
@@ -308,12 +308,12 @@ final titles = [
   'Cổng khu công nghệ cao - FPT University'
 ];
 
-Map<String, Route> getRoutes() {
-  Map<String, Route> result = {};
+Map<String, Routez> getRoutes() {
+  Map<String, Routez> result = {};
 
   for (int i = 0; i < lines.length; i++) {
     var points = lines[i].map((e) => LatLng(e[1], e[0])).toList();
-    result['$i'] = Route(
+    result['$i'] = Routez(
         id: '$i',
         title: titles[i],
         points: points,

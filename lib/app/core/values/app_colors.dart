@@ -6,7 +6,7 @@ abstract class AppColors {
   static const Color primary700 = Color(0xFF0029E0);
   static const Color primary600 = Color(0xFF0035ED);
   static const Color primary500 = Color(0xFF003FF9);
-  static const Color primary400 = Color(0xFF475FFD);
+  static const Color primary400 = Color(0xFF475FFD); // <<
   static const Color primary300 = Color(0xFF6F7EFE);
   static const Color primary200 = Color(0xFF9DA3FE);
   static const Color primary100 = Color(0xFFC6C7FE);
