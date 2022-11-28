@@ -13,6 +13,7 @@ import '../../../core/values/app_colors.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/status_bar.dart';
+import '../controllers/select_mode_controller.dart';
 import '../controllers/select_route_controller.dart';
 
 class SelectRouteView extends GetView<SelectRouteController> {
@@ -90,53 +91,46 @@ class SelectRouteView extends GetView<SelectRouteController> {
             child: Column(
               children: [
                 Expanded(
-                  child: Column(
-                    children: [
-                      Text('Chọn tuyến', style: subtitle2),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      const Divider(),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: controller.routeSelectList(),
-                        ),
-                      ),
-                      const Divider(),
-                    ],
-                  ),
+                  child: controller.bottomDetail(),
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 18.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            shape: const StadiumBorder()),
-                        onPressed: () {
-                          // PREVIOUS
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.navigate_before,
-                              color: AppColors.white,
-                              size: 20.r,
-                            ),
-                            Text(
-                              'Trở lại',
-                              style: subtitle2.copyWith(color: AppColors.white),
-                            ),
-                          ],
-                        ),
+                      Obx(
+                        (() {
+                          return controller.selectModeController.canBack()
+                              ? ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      shape: const StadiumBorder()),
+                                  onPressed: () {
+                                    controller.selectModeController.back();
+                                  },
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.navigate_before,
+                                        color: AppColors.white,
+                                        size: 20.r,
+                                      ),
+                                      Text(
+                                        'Trở lại',
+                                        style: subtitle2.copyWith(
+                                            color: AppColors.white),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Container();
+                        }),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             shape: const StadiumBorder()),
                         onPressed: () {
-                          // NEXT
+                          controller.selectModeController.next();
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,

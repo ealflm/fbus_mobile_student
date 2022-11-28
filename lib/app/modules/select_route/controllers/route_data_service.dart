@@ -6,12 +6,6 @@ import '../../../data/models/route_model.dart';
 import '../../../data/models/station_model.dart';
 
 class RouteDataService extends BaseController {
-  @override
-  void onInit() {
-    fetchRoutes();
-    super.onInit();
-  }
-
   // Routes
   final Rx<Map<String, Route>> _routes = Rx<Map<String, Route>>({});
   Map<String, Route> get routes => _routes.value;
@@ -93,5 +87,10 @@ class RouteDataService extends BaseController {
   void selectRoute(String? id) {
     if (id == null) return;
     _selectedRouteId.value = id;
+  }
+
+  void selectStation(String? id) {
+    if (id == null) return;
+    _selectedStationId.value = id;
   }
 }

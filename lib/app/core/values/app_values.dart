@@ -5,5 +5,5 @@ abstract class AppValues {
   static const int loggerMethodCount = 2;
 
   // Map config.
-  static const double focusZoomLevel = 13.7;
+  static const double focusZoomLevel = 15;
 }

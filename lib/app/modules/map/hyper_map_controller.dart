@@ -35,6 +35,17 @@ class HyperMapController extends GetxController
     }
   }
 
+  /// Zoom fit bounds
+  void centerZoomFitBounds(LatLngBounds bounds, {double? zoom}) {
+    var centerZoom = mapController.centerZoomFitBounds(bounds);
+    _animatedMapMove(centerZoom.center, zoom: zoom ?? centerZoom.zoom);
+  }
+
+  /// Move to location
+  void moveToLocation(LatLng location) {
+    _animatedMapMove(location);
+  }
+
   /// Moving to current location.
   void moveToCurrentLocationWithoutAnimation() async {
     if (currentLocation != null) {
