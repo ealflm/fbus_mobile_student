@@ -9,6 +9,16 @@ class Route {
   List<Station>? stations;
   List<LatLng>? points;
 
+  // Convert station list to list of station location
+  List<LatLng> get stationLocations {
+    List<LatLng> result = [];
+    for (Station station in stations!) {
+      if (station.location == null) continue;
+      result.add(station.location!);
+    }
+    return result;
+  }
+
   Route({
     this.id,
     this.name,

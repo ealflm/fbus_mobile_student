@@ -43,13 +43,8 @@ class RepositoryImpl extends BaseRepository implements Repository {
           GoongRepository goongRepository =
               Get.find(tag: (GoongRepository).toString());
           for (Route route in routes) {
-            if (route.stations == null) continue;
-            List<LatLng> locations = [];
-            for (Station station in route.stations!) {
-              if (station.location == null) continue;
-              locations.add(station.location!);
-            }
-            route.points = await goongRepository.getRoutePoints(locations);
+            route.points =
+                await goongRepository.getRoutePoints(route.stationLocations);
           }
 
           return routes;
