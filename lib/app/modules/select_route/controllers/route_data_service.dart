@@ -28,6 +28,11 @@ class RouteDataService extends BaseController {
   String get selectedRouteId => _selectedRouteId.value;
   set selectedRouteId(String value) {
     _selectedRouteId.value = value;
+
+    // Selected trip
+    selectedTrip.selectedRoute = routes[_selectedRouteId.value];
+    selectedTrip.startStation = startStation;
+    selectedTrip.startStation = endStation;
   }
 
   Route? get selectedRoute {
@@ -74,6 +79,9 @@ class RouteDataService extends BaseController {
   String get selectedStationId => _selectedStationId.value;
   set selectedStationId(String value) {
     _selectedStationId.value = value;
+
+    // Selected trip
+    selectedTrip.startStation = endStation;
   }
 
   Station? get selectedStation {
@@ -81,45 +89,7 @@ class RouteDataService extends BaseController {
   }
 
   // Selected trip
-  final Rx<SelectedTrip?> _selectedTrip = Rx<SelectedTrip?>(SelectedTrip());
-  SelectedTrip? get selectedTrip => _selectedTrip.value;
-  set selectedTrip(SelectedTrip? value) {
-    _selectedTrip.value = value;
-  }
-
-  // void updateSelectedTrip({
-  //   Route? selectedRoute,
-  //   Trip? selectedTrip,
-  //   Route? startRoute,
-  //   Route? endRoute,
-  //   List<LatLng>? points,
-  //   DateTime? startTime,
-  //   DateTime? endTime,
-  // }) {
-  //   _selectedTrip.update((value) {
-  //     if (selectedRoute != null) {
-  //       value?.selectedRoute = selectedRoute;
-  //     }
-  //     if (selectedTrip != null) {
-  //       value?.selectedTrip = selectedTrip;
-  //     }
-  //     if (startRoute != null) {
-  //       value?.startRoute = startRoute;
-  //     }
-  //     if (endRoute != null) {
-  //       value?.endRoute = endRoute;
-  //     }
-  //     if (points != null) {
-  //       value?.points = points;
-  //     }
-  //     if (startTime != null) {
-  //       value?.startTime = startTime;
-  //     }
-  //     if (endTime != null) {
-  //       value?.endTime = endTime;
-  //     }
-  //   });
-  // }
+  SelectedTrip selectedTrip = SelectedTrip();
 
   Future<void> fetchRoutes() async {
     isLoading = true;

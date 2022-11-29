@@ -216,8 +216,7 @@ class SelectRouteController extends GetxController {
         Station station;
         if (routeDataService.startStation != null) {
           station = routeDataService.startStation!;
-        }
-        if (routeDataService.endStation != null) {
+        } else if (routeDataService.endStation != null) {
           station = routeDataService.endStation!;
         } else {
           return Container();
