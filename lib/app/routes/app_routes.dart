@@ -14,10 +14,10 @@ abstract class Routes {
   static const SCAN = _Paths.SCAN;
   static const SEARCH = _Paths.SEARCH;
   static const SELECT_ROUTE = _Paths.SELECT_ROUTE;
-  static const SELECT_SCHEDULE = _Paths.SELECT_SCHEDULE;
   static const CONFIRM_TICKET = _Paths.CONFIRM_TICKET;
   static const CURRENT_TRIP = _Paths.CURRENT_TRIP;
   static const FEED_BACK = _Paths.FEED_BACK;
+  static const SELECT_TRIP = _Paths.SELECT_TRIP;
 }
 
 abstract class _Paths {
@@ -31,8 +31,8 @@ abstract class _Paths {
   static const SCAN = '/scan';
   static const SEARCH = '/search';
   static const SELECT_ROUTE = '/select-route';
-  static const SELECT_SCHEDULE = '/select-schedule';
   static const CONFIRM_TICKET = '/confirm-ticket';
   static const CURRENT_TRIP = '/current-trip';
   static const FEED_BACK = '/feed-back';
+  static const SELECT_TRIP = '/select-trip';
 }

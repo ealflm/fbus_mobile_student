@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../../../routes/app_pages.dart';
+
 class SelectModeController {
   final Rx<SelectMode> _mode = Rx<SelectMode>(SelectMode.route);
   SelectMode get mode => _mode.value;
@@ -10,6 +12,8 @@ class SelectModeController {
   void next() {
     if (mode == SelectMode.route) {
       mode = SelectMode.station;
+    } else if (mode == SelectMode.station) {
+      Get.toNamed(Routes.SELECT_TRIP);
     }
   }
 

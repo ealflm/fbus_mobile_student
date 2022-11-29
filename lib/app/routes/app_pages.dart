@@ -11,8 +11,6 @@ import '../modules/current_trip/views/current_trip_view.dart';
 import '../modules/feed_back/bindings/feed_back_binding.dart';
 import '../modules/feed_back/views/feed_back_view.dart';
 import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
@@ -26,8 +24,8 @@ import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
 import '../modules/select_route/bindings/select_route_binding.dart';
 import '../modules/select_route/views/select_route_view.dart';
-import '../modules/select_schedule/bindings/select_schedule_binding.dart';
-import '../modules/select_schedule/views/select_schedule_view.dart';
+import '../modules/select_trip/bindings/select_trip_binding.dart';
+import '../modules/select_trip/views/select_trip_view.dart';
 import '../modules/ticket/bindings/ticket_binding.dart';
 import '../modules/ticket/views/ticket_view.dart';
 
@@ -100,12 +98,6 @@ class AppPages {
       transition: Transition.noTransition,
     ),
     GetPage(
-      name: _Paths.SELECT_SCHEDULE,
-      page: () => const SelectScheduleView(),
-      binding: SelectScheduleBinding(),
-      transition: Transition.noTransition,
-    ),
-    GetPage(
       name: _Paths.CONFIRM_TICKET,
       page: () => const ConfirmTicketView(),
       binding: ConfirmTicketBinding(),
@@ -115,11 +107,19 @@ class AppPages {
       name: _Paths.CURRENT_TRIP,
       page: () => const CurrentTripView(),
       binding: CurrentTripBinding(),
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: _Paths.FEED_BACK,
       page: () => const FeedBackView(),
       binding: FeedBackBinding(),
+      transition: Transition.noTransition,
+    ),
+    GetPage(
+      name: _Paths.SELECT_TRIP,
+      page: () => const SelectTripView(),
+      binding: SelectTripBinding(),
+      transition: Transition.noTransition,
     ),
   ];
 }
