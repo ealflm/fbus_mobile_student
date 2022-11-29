@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../core/widget/shared.dart';
+import 'direction_model.dart';
 import 'route_model.dart';
 import 'station_model.dart';
 import 'trip_model.dart';
@@ -62,6 +63,20 @@ class SelectedTrip extends BaseController {
   DateTime? get endTime => _endTime.value;
   set endTime(DateTime? value) {
     _endTime.value = value;
+  }
+
+  // Distance
+  final Rx<double> _distance = Rx<double>(0);
+  double get distance => _distance.value;
+  set distance(double value) {
+    _distance.value = value;
+  }
+
+  // Duration
+  final Rx<Duration?> _duration = Rx<Duration?>(null);
+  Duration? get duration => _duration.value;
+  set duration(Duration? value) {
+    _duration.value = value;
   }
 
   // stations
@@ -124,12 +139,16 @@ class SelectedTrip extends BaseController {
 
     if (locations.isEmpty) return;
 
-    var pointsService = goongRepository.getRoutePoints(locations);
+    var pointsService = goongRepository.getDirection(locations);
 
     await callDataService(
       pointsService,
-      onSuccess: (List<LatLng> response) {
-        points = response;
+      onSuccess: (Direction? response) {
+        if (response != null) {
+          distance = response.distance ?? 0;
+          duration = response.duration;
+          points = response.points;
+        }
       },
       onError: ((exception) {
         showToast('Không thể kết nối');
