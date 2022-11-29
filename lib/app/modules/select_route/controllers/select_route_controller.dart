@@ -85,6 +85,37 @@ class SelectRouteController extends GetxController {
     );
   }
 
+  Widget selectedRouteTripPolyline() {
+    return Obx(
+      () {
+        List<LatLng> points = routeDataService.selectedTrip.points ?? [];
+
+        if (points.isEmpty) return Container();
+
+        return PolylineLayer(
+          polylineCulling: true,
+          saveLayers: true,
+          polylines: [
+            Polyline(
+              // color: AppColors.blue,
+              gradientColors: [
+                AppColors.purpleStart,
+                AppColors.purpleStart,
+                AppColors.purpleStart,
+                AppColors.purpleStart,
+                AppColors.purpleEnd,
+              ],
+              borderColor: AppColors.white,
+              strokeWidth: 7.r,
+              borderStrokeWidth: 3.r,
+              points: points,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget stationMarkers() {
     return Obx(
       () {
@@ -398,18 +429,28 @@ class SelectRouteController extends GetxController {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '$name',
-                    style: subtitle2.copyWith(
-                        fontWeight: isSelected
-                            ? FontWeights.medium
-                            : FontWeights.regular),
+                  Expanded(
+                    child: Text(
+                      '$name',
+                      overflow: TextOverflow.ellipsis,
+                      style: subtitle2.copyWith(
+                          fontWeight: isSelected
+                              ? FontWeights.medium
+                              : FontWeights.regular),
+                    ),
                   ),
                   if (isSelected && description != null)
-                    Text(
-                      description,
-                      style:
-                          subtitle2.copyWith(fontWeight: FontWeights.regular),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Text(
+                          description,
+                          style: subtitle2.copyWith(
+                              fontWeight: FontWeights.regular),
+                        ),
+                      ],
                     ),
                 ],
               ),
@@ -434,11 +475,17 @@ class SelectRouteController extends GetxController {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '$name',
-                style: subtitle2.copyWith(
-                  fontWeight: FontWeights.medium,
+              Expanded(
+                child: Text(
+                  '$name',
+                  overflow: TextOverflow.ellipsis,
+                  style: subtitle2.copyWith(
+                    fontWeight: FontWeights.medium,
+                  ),
                 ),
+              ),
+              SizedBox(
+                width: 10.w,
               ),
               Text(
                 '$description',

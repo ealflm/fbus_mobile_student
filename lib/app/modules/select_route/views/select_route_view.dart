@@ -48,6 +48,7 @@ class SelectRouteView extends GetView<SelectRouteController> {
                   children: [
                     controller.routesPolyline(),
                     controller.selectedRoutePolyline(),
+                    controller.selectedRouteTripPolyline(),
                     _currentLocationMarker(),
                     controller.stationMarkers(),
                     controller.selectedRouteStationMarkers(),

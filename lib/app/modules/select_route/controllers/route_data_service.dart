@@ -6,7 +6,6 @@ import '../../../core/widget/shared.dart';
 import '../../../data/models/route_model.dart';
 import '../../../data/models/selected_trip_model.dart';
 import '../../../data/models/station_model.dart';
-import '../../../data/models/trip_model.dart';
 
 class RouteDataService extends BaseController {
   // Loading
@@ -32,7 +31,7 @@ class RouteDataService extends BaseController {
     // Selected trip
     selectedTrip.selectedRoute = routes[_selectedRouteId.value];
     selectedTrip.startStation = startStation;
-    selectedTrip.startStation = endStation;
+    selectedTrip.endStation = endStation;
   }
 
   Route? get selectedRoute {
@@ -81,7 +80,7 @@ class RouteDataService extends BaseController {
     _selectedStationId.value = value;
 
     // Selected trip
-    selectedTrip.startStation = endStation;
+    selectedTrip.selectedStation = stations[_selectedStationId.value];
   }
 
   Station? get selectedStation {
