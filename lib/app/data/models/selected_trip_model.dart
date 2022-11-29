@@ -1,7 +1,6 @@
 import 'package:fbus_mobile_student/app/core/base/base_controller.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../core/widget/shared.dart';
 import 'route_model.dart';
@@ -28,12 +27,6 @@ class SelectedTrip extends BaseController {
   Station? get selectedStation => _selectedStation.value;
   set selectedStation(Station? value) {
     _selectedStation.value = value;
-
-    clearPoints();
-
-    if (value != null) {
-      fetchPoints();
-    }
   }
 
   // Start station
@@ -71,38 +64,61 @@ class SelectedTrip extends BaseController {
     _endTime.value = value;
   }
 
-  Future<void> fetchPoints() async {
-    List<LatLng> locations = [];
-    List<Station> stations = selectedRoute?.stations ?? [];
+  // stations
+  List<Station> stations = [];
 
-    if (stations.isEmpty || selectedStation == null) return;
+  void updatePoints(Function() screenAnimation) async {
+    updateStations();
+
+    clearPoints();
+
+    if (selectedStation != null) {
+      await fetchPoints();
+      screenAnimation();
+    }
+  }
+
+  void updateStations() {
+    List<Station> result = [];
+
+    List<Station> stationList = selectedRoute?.stations ?? [];
+
+    if (stationList.isEmpty || selectedStation == null) return;
 
     if (startStation != null) {
       int n = 0;
-      while (n < stations.length) {
-        if (selectedStation?.id == stations[n++].id) {
+      while (n < stationList.length) {
+        if (selectedStation?.id == stationList[n++].id) {
           break;
         }
       }
 
       for (int i = 0; i < n; i++) {
-        if (stations[i].location != null) {
-          locations.add(stations[i].location!);
-        }
+        result.add(stationList[i]);
       }
     } else if (endStation != null) {
       int i = 0;
-      while (i < stations.length) {
-        if (selectedStation?.id == stations[i].id) {
+      while (i < stationList.length) {
+        if (selectedStation?.id == stationList[i].id) {
           break;
         }
         i++;
       }
 
-      for (; i < stations.length; i++) {
-        if (stations[i].location != null) {
-          locations.add(stations[i].location!);
-        }
+      for (; i < stationList.length; i++) {
+        result.add(stationList[i]);
+      }
+    }
+
+    stations = result;
+  }
+
+  Future<void> fetchPoints() async {
+    List<LatLng> locations = [];
+
+    for (Station station in stations) {
+      if (station.location != null) {
+        locations.add(station.location!);
       }
     }
 

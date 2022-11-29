@@ -368,7 +368,8 @@ class SelectRouteController extends GetxController {
                   : 'Trạm lên',
               onPressed: () {
                 routeDataService.selectStation(station.id ?? '');
-                moveScreenToSelectedStation();
+                routeDataService.selectedTrip
+                    .updatePoints(moveScreenToSelectedRouteTrip);
               },
             ),
           );
@@ -528,18 +529,18 @@ class SelectRouteController extends GetxController {
     }
   }
 
-  void moveScreenToSelectedStation() {
-    Station? station = routeDataService.selectedStation;
+  void moveScreenToSelectedRouteTrip() {
+    List<LatLng> points = routeDataService.selectedTrip.points ?? [];
 
-    if (station != null && station.location != null) {
+    if (points.isNotEmpty) {
       var bounds = LatLngBounds();
-      bounds.extend(station.location!);
-      LatLng extendLatLng = LatLng(
-          station.location!.latitude - 0.0125, station.location!.longitude);
-      bounds.extend(extendLatLng);
+      for (LatLng point in points) {
+        bounds.extend(point);
+      }
 
-      hyperMapController.centerZoomFitBounds(bounds,
-          zoom: AppValues.focusZoomLevel);
+      bounds = MapUtils.padTop(bounds, 0.3, 0.92);
+
+      hyperMapController.centerZoomFitBounds(bounds);
     }
   }
 
