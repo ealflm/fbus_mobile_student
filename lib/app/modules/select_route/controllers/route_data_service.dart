@@ -1,11 +1,15 @@
 import 'package:fbus_mobile_student/app/core/base/base_controller.dart';
 import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../core/widget/shared.dart';
 import '../../../data/models/route_model.dart';
+import '../../../data/models/selected_trip_model.dart';
 import '../../../data/models/station_model.dart';
+import '../../../data/models/trip_model.dart';
 
 class RouteDataService extends BaseController {
+  // Loading
   final Rx<bool> _isLoading = Rx<bool>(false);
   bool get isLoading => _isLoading.value;
   set isLoading(bool value) {
@@ -75,6 +79,47 @@ class RouteDataService extends BaseController {
   Station? get selectedStation {
     return stations[_selectedStationId.value];
   }
+
+  // Selected trip
+  final Rx<SelectedTrip?> _selectedTrip = Rx<SelectedTrip?>(SelectedTrip());
+  SelectedTrip? get selectedTrip => _selectedTrip.value;
+  set selectedTrip(SelectedTrip? value) {
+    _selectedTrip.value = value;
+  }
+
+  // void updateSelectedTrip({
+  //   Route? selectedRoute,
+  //   Trip? selectedTrip,
+  //   Route? startRoute,
+  //   Route? endRoute,
+  //   List<LatLng>? points,
+  //   DateTime? startTime,
+  //   DateTime? endTime,
+  // }) {
+  //   _selectedTrip.update((value) {
+  //     if (selectedRoute != null) {
+  //       value?.selectedRoute = selectedRoute;
+  //     }
+  //     if (selectedTrip != null) {
+  //       value?.selectedTrip = selectedTrip;
+  //     }
+  //     if (startRoute != null) {
+  //       value?.startRoute = startRoute;
+  //     }
+  //     if (endRoute != null) {
+  //       value?.endRoute = endRoute;
+  //     }
+  //     if (points != null) {
+  //       value?.points = points;
+  //     }
+  //     if (startTime != null) {
+  //       value?.startTime = startTime;
+  //     }
+  //     if (endTime != null) {
+  //       value?.endTime = endTime;
+  //     }
+  //   });
+  // }
 
   Future<void> fetchRoutes() async {
     isLoading = true;

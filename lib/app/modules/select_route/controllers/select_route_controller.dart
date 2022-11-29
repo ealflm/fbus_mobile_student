@@ -194,7 +194,9 @@ class SelectRouteController extends GetxController {
                       height: 10.h,
                     ),
                     SvgPicture.asset(
-                      AppSvgAssets.busIconTo,
+                      routeDataService.startStation != null
+                          ? AppSvgAssets.busIconFrom
+                          : AppSvgAssets.busIconTo,
                       height: 25.r,
                       width: 25.r,
                     ),
@@ -214,8 +216,11 @@ class SelectRouteController extends GetxController {
         Station station;
         if (routeDataService.startStation != null) {
           station = routeDataService.startStation!;
-        } else {
+        }
+        if (routeDataService.endStation != null) {
           station = routeDataService.endStation!;
+        } else {
+          return Container();
         }
         return MarkerLayer(
           markers: [
@@ -257,7 +262,9 @@ class SelectRouteController extends GetxController {
                       height: 10.h,
                     ),
                     SvgPicture.asset(
-                      AppSvgAssets.busIconTo,
+                      routeDataService.startStation != null
+                          ? AppSvgAssets.busIconTo
+                          : AppSvgAssets.busIconFrom,
                       height: 25.r,
                       width: 25.r,
                     ),

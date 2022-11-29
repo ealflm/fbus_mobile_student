@@ -48,6 +48,7 @@ class SelectRouteView extends GetView<SelectRouteController> {
                   children: [
                     controller.routesPolyline(),
                     controller.selectedRoutePolyline(),
+                    _currentLocationMarker(),
                     controller.stationMarkers(),
                     controller.selectedRouteStationMarkers(),
                     controller.untouchableStation(),
@@ -115,204 +116,50 @@ class SelectRouteView extends GetView<SelectRouteController> {
     );
   }
 
-  // Widget _routeLineItem(String id) {
-  //   return Column(
-  //     children: [
-  //       Material(
-  //         child: InkWell(
-  //           onTap: () {
-  //             controller.routeController.selectRoute(id);
-  //           },
-  //           child: Obx(
-  //             () {
-  //               String? selectedId = controller.routeController.selectedRouteId;
-  //               return Container(
-  //                 color:
-  //                     id == selectedId ? AppColors.gray.withOpacity(0.3) : null,
-  //                 padding: EdgeInsets.symmetric(horizontal: 15.w),
-  //                 alignment: Alignment.centerLeft,
-  //                 width: double.infinity,
-  //                 height: 40.h,
-  //                 child: Text(
-  //                   '${controller.routeController.routes[id]?.title}',
-  //                   style: subtitle2.copyWith(
-  //                       fontWeight: id == selectedId
-  //                           ? FontWeights.medium
-  //                           : FontWeights.regular),
-  //                 ),
-  //               );
-  //             },
-  //           ),
-  //         ),
-  //       ),
-  //       const SizedBox(
-  //         height: 1,
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  // Obx _routes() {
-  //   return Obx(
-  //     () {
-  //       return HyperPolylineLayer(
-  //         // Will only render visible polylines, increasing performance
-  //         polylineCulling: true,
-  //         pointerDistanceTolerance: 50,
-  //         polylines: controller.routeController.polyline,
-  //         onTap: (polylines, tapPosition) {
-  //           // debugPrint(
-  //           //     'Tapped: ${polylines.map((polyline) => polyline.tag).join(',')} at ${tapPosition.globalPosition}');
-  //           // controller.route.selectRoute(polylines.first.tag);
-  //         },
-  //         onMiss: (tapPosition) {
-  //           // debugPrint(
-  //           //     'No polyline was tapped at position ${tapPosition.globalPosition}');
-  //         },
-  //         onDoubleMiss: (tapPosition) {
-  //           // debugPrint(
-  //           //     'No polyline was double tapped at position ${tapPosition.globalPosition}');
-  //           // controller.route.clearAllSelectedRoutes();
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
-
-  // Obx _busStationMarker() {
-  //   return Obx(
-  //     () => MarkerLayer(
-  //       markers: controller.routeController.stationMarkers,
-  //     ),
-  //   );
-  // }
-
-  // Widget _currentLocationMarker() {
-  //   return IgnorePointer(
-  //     child: CurrentLocationLayer(
-  //       positionStream:
-  //           controller.hyperMapController.geolocatorPositionStream(),
-  //       style: LocationMarkerStyle(
-  //         markerDirection: MarkerDirection.heading,
-  //         showHeadingSector: false,
-  //         markerSize: Size(60.r, 60.r),
-  //         marker: Stack(
-  //           children: [
-  //             Center(
-  //               child: Container(
-  //                 decoration: BoxDecoration(
-  //                   shape: BoxShape.circle,
-  //                   boxShadow: [
-  //                     BoxShadow(
-  //                       offset: const Offset(0, 0),
-  //                       blurRadius: 4,
-  //                       spreadRadius: 0,
-  //                       color: AppColors.black.withOpacity(0.4),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 height: 26.r,
-  //                 width: 26.r,
-  //                 child: DefaultLocationMarker(
-  //                   child: Container(
-  //                     padding: EdgeInsets.only(bottom: 2.r),
-  //                     child: Center(
-  //                       child: Icon(
-  //                         Icons.navigation,
-  //                         color: Colors.white,
-  //                         size: 16.r,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Column _routeSelect() {
-  //   return Column(
-  //     children: [
-  //       Text('Chọn tuyến', style: subtitle2),
-  //       SizedBox(
-  //         height: 3.h,
-  //       ),
-  //       const Divider(),
-  //       Expanded(
-  //         child: SingleChildScrollView(
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               _routeLineItem('0'),
-  //               _routeLineItem('1'),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //       const Divider(),
-  //     ],
-  //   );
-  // }
-
-  // Column _stationSelect() {
-  //   return Column(
-  //     children: [
-  //       Text('Chọn trạm', style: subtitle2),
-  //       SizedBox(
-  //         height: 3.h,
-  //       ),
-  //       const Divider(),
-  //       Obx(() => Expanded(
-  //             child: SingleChildScrollView(
-  //               child: Column(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: controller.routeController.stationItems,
-  //               ),
-  //             ),
-  //           )),
-  //       const Divider(),
-  //     ],
-  //   );
-  // }
-
-  // Widget _routeLineItem(String id) {
-  //   return Column(
-  //     children: [
-  //       Material(
-  //         child: InkWell(
-  //           onTap: () {
-  //             controller.routeController.selectRoute(id);
-  //           },
-  //           child: Obx(
-  //             () {
-  //               String? selectedId = controller.routeController.selectedRouteId;
-  //               return Container(
-  //                 color:
-  //                     id == selectedId ? AppColors.gray.withOpacity(0.3) : null,
-  //                 padding: EdgeInsets.symmetric(horizontal: 15.w),
-  //                 alignment: Alignment.centerLeft,
-  //                 width: double.infinity,
-  //                 height: 40.h,
-  //                 child: Text(
-  //                   '${controller.routeController.routes[id]?.title}',
-  //                   style: subtitle2.copyWith(
-  //                       fontWeight: id == selectedId
-  //                           ? FontWeights.medium
-  //                           : FontWeights.regular),
-  //                 ),
-  //               );
-  //             },
-  //           ),
-  //         ),
-  //       ),
-  //       const SizedBox(
-  //         height: 1,
-  //       ),
-  //     ],
-  //   );
-  // }
+  Widget _currentLocationMarker() {
+    return IgnorePointer(
+      child: CurrentLocationLayer(
+        positionStream:
+            controller.hyperMapController.geolocatorPositionStream(),
+        style: LocationMarkerStyle(
+          markerDirection: MarkerDirection.heading,
+          showHeadingSector: false,
+          markerSize: Size(60.r, 60.r),
+          marker: Stack(
+            children: [
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        offset: const Offset(0, 0),
+                        blurRadius: 4,
+                        spreadRadius: 0,
+                        color: AppColors.black.withOpacity(0.4),
+                      ),
+                    ],
+                  ),
+                  height: 26.r,
+                  width: 26.r,
+                  child: DefaultLocationMarker(
+                    child: Container(
+                      padding: EdgeInsets.only(bottom: 2.r),
+                      child: Center(
+                        child: Icon(
+                          Icons.navigation,
+                          color: Colors.white,
+                          size: 16.r,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
