@@ -169,7 +169,11 @@ class SelectTripController extends BaseController {
         backgroundColor: AppColors.white,
         textColor: AppColors.softBlack,
         onPressed: () {
-          selectedId = trip.id;
+          if (selectedId == trip.id) {
+            selectedId = null;
+          } else {
+            selectedId = trip.id;
+          }
         },
         actionButtonOnPressed: () {
           HyperDialog.show(

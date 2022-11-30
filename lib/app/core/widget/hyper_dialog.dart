@@ -78,8 +78,8 @@ abstract class HyperDialog {
         ),
         contentPadding: EdgeInsets.only(left: 24.w, right: 24.w, top: 20.h),
         content: Lottie.asset(
-          AppAnimationAssets.earthLoadingClean,
-          height: 60.r,
+          AppAnimationAssets.loading,
+          height: 100.r,
         ),
         actions: [
           if (secondaryButtonText != null && secondaryButtonText.isNotEmpty)

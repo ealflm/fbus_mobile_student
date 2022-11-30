@@ -36,4 +36,6 @@ abstract class AppAnimationAssets {
   static const String lookingDriver = 'assets/lottiefiles/looking-driver.json';
 
   static const String cantMatching = 'assets/lottiefiles/cant-matching.json';
+
+  static const String loading = 'assets/lottiefiles/loading.json';
 }
