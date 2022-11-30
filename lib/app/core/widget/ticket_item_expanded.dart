@@ -20,7 +20,6 @@ class TicketItemExpanded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 15.w, right: 15.w),
       alignment: Alignment.bottomCenter,
       child: Wrap(
         children: [
@@ -68,8 +67,8 @@ class TicketItemExpanded extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           station(
-                            title: 'Hello',
-                            time: 'Hello',
+                            title: '${trip.fromStation?.name}',
+                            time: trip.startTimeStr,
                             iconColor: AppColors.green,
                             textColor: textColor,
                           ),
@@ -87,8 +86,8 @@ class TicketItemExpanded extends StatelessWidget {
                             ),
                           ),
                           station(
-                            title: 'end',
-                            time: 'end',
+                            title: '${trip.toStation?.name}',
+                            time: trip.endTimeStr,
                             iconColor: AppColors.secondary,
                             textColor: textColor,
                           ),
@@ -116,7 +115,7 @@ class TicketItemExpanded extends StatelessWidget {
                             ),
                             RichText(
                               text: TextSpan(
-                                text: 'distance',
+                                text: trip.distanceStr,
                                 style: TextStyle(
                                   color: textColor,
                                   fontSize: 20.sp,
@@ -148,7 +147,7 @@ class TicketItemExpanded extends StatelessWidget {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: 'time',
+                                    text: trip.estimatedTimeStr,
                                     style: TextStyle(
                                       color: textColor,
                                       fontSize: 12.sp,

@@ -1,4 +1,5 @@
 import '../models/route_model.dart';
+import '../models/selected_trip_model.dart';
 import '../models/trip_model.dart';
 
 abstract class Repository {
@@ -11,5 +12,6 @@ abstract class Repository {
   Future<List<Route>> getRoute();
 
   /// Get trip with routeId and datetime
-  Future<List<Trip>> getTrip(String routeId, DateTime dateTime);
+  Future<List<Trip>> getTrip(
+      String routeId, DateTime dateTime, SelectedTrip selectedTrip);
 }

@@ -1,12 +1,13 @@
-import 'package:fbus_mobile_student/app/core/utils/utils.dart';
 import 'package:fbus_mobile_student/app/core/values/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hyper_app_settings/hyper_app_settings.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../core/values/app_animation_assets.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/ticket_item_expanded.dart';
@@ -68,11 +69,15 @@ class SelectTripController extends GetxController {
                 return isSameDay(selectedDay, day);
               },
               calendarFormat: CalendarFormat.week,
-              onDaySelected: (selectedDay, focusedDay) {
-                this.selectedDay = selectedDay;
-                this.focusedDay = focusedDay;
-                fetchTrip();
-              },
+              onDaySelected: !selectedTripDataService.isLoading
+                  ? (selectedDay, focusedDay) {
+                      this.selectedDay = selectedDay;
+                      this.focusedDay = focusedDay;
+                      fetchTrip();
+                    }
+                  : (selectedDay, focusedDay) {
+                      showToast('Vui lòng chờ');
+                    },
               availableCalendarFormats: const {CalendarFormat.week: ''},
               calendarBuilders: CalendarBuilders(
                 headerTitleBuilder: (context, day) {
@@ -91,10 +96,13 @@ class SelectTripController extends GetxController {
   }
 
   void fetchTrip() {
-    if (selectedDay != null && selectedTrip?.selectedRoute?.id != null) {
+    if (selectedDay != null &&
+        selectedTrip != null &&
+        selectedTrip?.selectedRoute?.id != null) {
       selectedTripDataService.fetchTrip(
         selectedTrip?.selectedRoute?.id ?? '',
         selectedDay!,
+        selectedTrip!,
       );
     }
   }
@@ -106,11 +114,26 @@ class SelectTripController extends GetxController {
 
         for (Trip trip in selectedTripDataService.trips ?? []) {
           tripItems.add(tripItem(trip));
+          tripItems.add(SizedBox(
+            height: 10.h,
+          ));
         }
 
-        return Column(
-          children: tripItems,
-        );
+        return tripItems.isNotEmpty
+            ? SingleChildScrollView(
+                child: Column(
+                  children: tripItems,
+                ),
+              )
+            : Container(
+                margin: EdgeInsets.only(top: 10.h),
+                child: !selectedTripDataService.isLoading
+                    ? Text(
+                        'Không có chuyến',
+                        style: body2,
+                      )
+                    : Lottie.asset(AppAnimationAssets.dot, height: 50.h),
+              );
       }),
     );
   }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../core/base/base_repository.dart';
 import '../../network/dio_provider.dart';
+import '../models/selected_trip_model.dart';
 import 'goong_repository.dart';
 import 'repository.dart';
 
@@ -55,7 +56,8 @@ class RepositoryImpl extends BaseRepository implements Repository {
   }
 
   @override
-  Future<List<Trip>> getTrip(String routeId, DateTime date) {
+  Future<List<Trip>> getTrip(
+      String routeId, DateTime date, SelectedTrip selectedTrip) {
     var endPoint = '${DioProvider.baseUrl}/trip';
     var data = {
       'id': routeId,
@@ -67,7 +69,7 @@ class RepositoryImpl extends BaseRepository implements Repository {
       return callApi(dioCall).then(((response) {
         List<Trip> trips = [];
         response.data['body'].forEach((value) {
-          trips.add(Trip.fromJson(value));
+          trips.add(Trip.fromJson(value)..mapSelectedTrip(selectedTrip));
         });
         return trips;
       }));
