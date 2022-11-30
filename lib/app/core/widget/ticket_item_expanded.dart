@@ -18,7 +18,8 @@ class TicketItemExpanded extends StatelessWidget {
     this.expandedBackgroundColor = AppColors.green,
     this.expandedTextColor = AppColors.white,
     this.state = TicketItemExpandedState.less,
-    this.expandedOnPressed,
+    this.onPressed,
+    this.actionButtonOnPressed,
   }) : super(key: key);
 
   final Trip trip;
@@ -27,7 +28,8 @@ class TicketItemExpanded extends StatelessWidget {
   final Color expandedBackgroundColor;
   final Color expandedTextColor;
   final TicketItemExpandedState state;
-  final Function()? expandedOnPressed;
+  final Function()? actionButtonOnPressed;
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -37,160 +39,163 @@ class TicketItemExpanded extends StatelessWidget {
       backgroundColor = expandedBackgroundColor;
       textColor = expandedTextColor;
     }
-    return Container(
-      alignment: Alignment.bottomCenter,
-      child: Wrap(
-        children: [
-          Container(
-            padding: EdgeInsets.only(
-                left: 15.w,
-                right: 15.w,
-                bottom: state == TicketItemExpandedState.more ? 10.h : 20.h,
-                top: 10.h),
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              borderRadius: BorderRadius.all(
-                Radius.circular(9.r),
-              ),
-              boxShadow: kElevationToShadow[1],
-            ),
-            child: Column(
-              children: [
-                // if (title != null)
-                //   Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Text(
-                //         '$title',
-                //         style: subtitle2.copyWith(
-                //           fontWeight: FontWeights.light,
-                //           color: textColor,
-                //         ),
-                //       ),
-                //       Text(
-                //         model.date,
-                //         style: subtitle2.copyWith(
-                //           fontWeight: FontWeights.light,
-                //           color: textColor,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                SizedBox(
-                  height: 10.h,
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        child: Wrap(
+          children: [
+            Container(
+              padding: EdgeInsets.only(
+                  left: 15.w,
+                  right: 15.w,
+                  bottom: state == TicketItemExpandedState.more ? 10.h : 20.h,
+                  top: 10.h),
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(9.r),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _station(
-                            title: '${trip.fromStation?.name}',
-                            time: trip.startTimeStr,
-                            iconColor: AppColors.green,
-                            textColor: textColor,
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 11.r),
-                            child: Column(
-                              children: [
-                                _dot(textColor),
-                                SizedBox(height: 3.h),
-                                _dot(textColor),
-                                SizedBox(height: 3.h),
-                                _dot(textColor),
-                                SizedBox(height: 3.h),
-                              ],
-                            ),
-                          ),
-                          _station(
-                            title: '${trip.toStation?.name}',
-                            time: trip.endTimeStr,
-                            iconColor: AppColors.secondary,
-                            textColor: textColor,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
+                boxShadow: kElevationToShadow[1],
+              ),
+              child: Column(
+                children: [
+                  // if (title != null)
+                  //   Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Text(
+                  //         '$title',
+                  //         style: subtitle2.copyWith(
+                  //           fontWeight: FontWeights.light,
+                  //           color: textColor,
+                  //         ),
+                  //       ),
+                  //       Text(
+                  //         model.date,
+                  //         style: subtitle2.copyWith(
+                  //           fontWeight: FontWeights.light,
+                  //           color: textColor,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Khoảng cách',
-                              style: TextStyle(
-                                color: textColor,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeights.regular,
-                                letterSpacing: 0.0025.sp,
-                              ),
+                            _station(
+                              title: '${trip.fromStation?.name}',
+                              time: trip.startTimeStr,
+                              iconColor: AppColors.green,
+                              textColor: textColor,
                             ),
-                            RichText(
-                              text: TextSpan(
-                                text: trip.distanceStr,
-                                style: TextStyle(
-                                  color: textColor,
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeights.medium,
-                                  letterSpacing: 0.0025.sp,
-                                ),
+                            Container(
+                              padding: EdgeInsets.only(left: 11.r),
+                              child: Column(
                                 children: [
-                                  TextSpan(
-                                    text: 'km',
-                                    style: TextStyle(
-                                      color: textColor,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeights.medium,
-                                      letterSpacing: 0.0025.sp,
-                                    ),
-                                  ),
+                                  _dot(textColor),
+                                  SizedBox(height: 3.h),
+                                  _dot(textColor),
+                                  SizedBox(height: 3.h),
+                                  _dot(textColor),
+                                  SizedBox(height: 3.h),
                                 ],
                               ),
                             ),
-                            SizedBox(height: 1.h),
-                            RichText(
-                              text: TextSpan(
-                                text: 'Thời gian: ',
+                            _station(
+                              title: '${trip.toStation?.name}',
+                              time: trip.endTimeStr,
+                              iconColor: AppColors.secondary,
+                              textColor: textColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Khoảng cách',
                                 style: TextStyle(
                                   color: textColor,
                                   fontSize: 12.sp,
                                   fontWeight: FontWeights.regular,
                                   letterSpacing: 0.0025.sp,
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: trip.estimatedTimeStr,
-                                    style: TextStyle(
-                                      color: textColor,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeights.medium,
-                                      letterSpacing: 0.0025.sp,
-                                    ),
-                                  ),
-                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                if (state == TicketItemExpandedState.more)
-                  _more(backgroundColor, textColor),
-              ],
+                              RichText(
+                                text: TextSpan(
+                                  text: trip.distanceStr,
+                                  style: TextStyle(
+                                    color: textColor,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeights.medium,
+                                    letterSpacing: 0.0025.sp,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: 'km',
+                                      style: TextStyle(
+                                        color: textColor,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeights.medium,
+                                        letterSpacing: 0.0025.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 1.h),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Thời gian: ',
+                                  style: TextStyle(
+                                    color: textColor,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeights.regular,
+                                    letterSpacing: 0.0025.sp,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: trip.estimatedTimeStr,
+                                      style: TextStyle(
+                                        color: textColor,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeights.medium,
+                                        letterSpacing: 0.0025.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  if (state == TicketItemExpandedState.more)
+                    _more(backgroundColor, textColor),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -393,7 +398,7 @@ class TicketItemExpanded extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
-            onPressed: expandedOnPressed,
+            onPressed: actionButtonOnPressed,
             child: Text(
               'Đặt ngay',
               style: subtitle2.copyWith(color: AppColors.white),

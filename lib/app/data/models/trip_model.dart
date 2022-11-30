@@ -99,7 +99,7 @@ class Trip {
   });
 
   Trip.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['tripId'];
     bus = Bus.fromJson(json['bus']);
     driver = Driver.fromJson(json['driver']);
     route = Route.fromJson(json['route']);

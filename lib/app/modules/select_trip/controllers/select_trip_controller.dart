@@ -32,6 +32,12 @@ class SelectTripController extends GetxController {
 
   SelectedTrip? selectedTrip = SelectedTrip();
 
+  final Rx<String?> _selectedId = Rx<String?>(null);
+  String? get selectedId => _selectedId.value;
+  set selectedId(String? value) {
+    _selectedId.value = value;
+  }
+
   @override
   void onInit() {
     Map<String, dynamic> arg = {};
@@ -153,9 +159,14 @@ class SelectTripController extends GetxController {
       padding: EdgeInsets.only(left: 15.w, right: 15.w),
       child: TicketItemExpanded(
         trip: trip,
-        state: TicketItemExpandedState.more,
+        state: selectedId == trip.id
+            ? TicketItemExpandedState.more
+            : TicketItemExpandedState.less,
         backgroundColor: AppColors.white,
         textColor: AppColors.softBlack,
+        onPressed: () {
+          selectedId = trip.id;
+        },
       ),
     );
   }
