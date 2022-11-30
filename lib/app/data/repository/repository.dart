@@ -28,5 +28,5 @@ abstract class Repository {
   Future<List<Notification>> getNotifications(String studentId);
 
   /// Get ticket list
-  Future<List<StudentTrip>> getTickets(String studentId);
+  Future<List<Ticket>> getTickets(String studentId);
 }

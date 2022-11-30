@@ -4,7 +4,7 @@ import 'route_model.dart';
 import 'station_model.dart';
 import 'trip_model.dart';
 
-class StudentTrip {
+class Ticket {
   String? id;
   Trip? trip;
   Station? station;
@@ -16,7 +16,7 @@ class StudentTrip {
   bool? type;
   int? status;
 
-  StudentTrip({
+  Ticket({
     this.id,
     this.trip,
     this.station,
@@ -29,15 +29,18 @@ class StudentTrip {
     this.status,
   });
 
-  StudentTrip.fromJson(Map<String, dynamic> json) {
+  Ticket.fromJson(Map<String, dynamic> json) {
     id = json['studentTripId'];
     trip = Trip.fromJson(json['trip']);
     station = Station.fromJson(json['station']);
-    route = Route.fromJson(jsonDecode(json['route']));
+    Map<String, dynamic> routeJson = jsonDecode(json['copyOfRoute'] ?? '{}');
+    route = Route.fromJson(routeJson);
     rate = json['rate'];
     feedBack = json['feedBack'];
-    createdDate = DateTime.parse(json['createdDate']);
-    modifiedDate = DateTime.parse(json['modifiedDate']);
+    createdDate =
+        json['createDate'] != null ? DateTime.parse(json['createDate']) : null;
+    modifiedDate =
+        json['modifyDate'] != null ? DateTime.parse(json['modifyDate']) : null;
     type = json['type'];
     status = json['status'];
   }

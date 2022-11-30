@@ -139,7 +139,7 @@ class RepositoryImpl extends BaseRepository implements Repository {
   }
 
   @override
-  Future<List<StudentTrip>> getTickets(String studentId) {
+  Future<List<Ticket>> getTickets(String studentId) {
     var endPoint = '${DioProvider.baseUrl}/student-trip';
 
     var data = {'id': studentId};
@@ -148,9 +148,9 @@ class RepositoryImpl extends BaseRepository implements Repository {
     try {
       return callApi(dioCall).then(
         (response) {
-          List<StudentTrip> studentTrips = [];
+          List<Ticket> studentTrips = [];
           response.data['body'].forEach((value) {
-            studentTrips.add(StudentTrip.fromJson(value));
+            studentTrips.add(Ticket.fromJson(value));
           });
           return studentTrips;
         },
