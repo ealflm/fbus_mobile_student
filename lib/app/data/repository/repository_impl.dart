@@ -1,10 +1,9 @@
 import 'package:fbus_mobile_student/app/data/models/route_model.dart';
+import 'package:fbus_mobile_student/app/data/models/trip_model.dart';
 import 'package:get/get.dart';
-import 'package:latlong2/latlong.dart';
 
 import '../../core/base/base_repository.dart';
 import '../../network/dio_provider.dart';
-import '../models/station_model.dart';
 import 'goong_repository.dart';
 import 'repository.dart';
 
@@ -50,6 +49,28 @@ class RepositoryImpl extends BaseRepository implements Repository {
           return routes;
         },
       );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<Trip>> getTrip(String routeId, DateTime date) {
+    var endPoint = '${DioProvider.baseUrl}/trip';
+    var data = {
+      'id': routeId,
+      'date': date,
+    };
+    var dioCall = dioTokenClient.get(endPoint, queryParameters: data);
+
+    try {
+      return callApi(dioCall).then(((response) {
+        List<Trip> trips = [];
+        response.data['body'].forEach((value) {
+          trips.add(Trip.fromJson(value));
+        });
+        return trips;
+      }));
     } catch (e) {
       rethrow;
     }

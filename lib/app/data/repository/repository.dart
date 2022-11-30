@@ -1,4 +1,5 @@
 import '../models/route_model.dart';
+import '../models/trip_model.dart';
 
 abstract class Repository {
   /// Google login.
@@ -8,4 +9,7 @@ abstract class Repository {
 
   /// Return list of route
   Future<List<Route>> getRoute();
+
+  /// Get trip with routeId and datetime
+  Future<List<Trip>> getTrip(String routeId, DateTime dateTime);
 }

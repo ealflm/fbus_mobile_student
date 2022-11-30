@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:hyper_app_settings/hyper_app_settings.dart';
@@ -16,35 +17,14 @@ class SelectTripView extends GetView<SelectTripController> {
     return StatusBar(
       brightness: Brightness.dark,
       child: Scaffold(
-        body: SafeArea(
-          child: Obx(
-            () {
-              return TableCalendar(
-                firstDay: DateTime.now(),
-                lastDay: DateTime.now().add(
-                    Duration(days: AppSettings.get('maxDayTicketBooking'))),
-                focusedDay: controller.focusedDay ?? DateTime.now(),
-                selectedDayPredicate: (day) {
-                  return isSameDay(controller.selectedDay, day);
-                },
-                calendarFormat: CalendarFormat.week,
-                onDaySelected: (selectedDay, focusedDay) {
-                  controller.selectedDay = selectedDay;
-                  controller.focusedDay = focusedDay;
-                },
-                availableCalendarFormats: const {CalendarFormat.week: ''},
-                calendarBuilders: CalendarBuilders(
-                  headerTitleBuilder: (context, day) {
-                    return Center(
-                        child: Text(
-                      '${DateFormat('MMMM', 'vi').format(day)} năm ${DateFormat('yyyy', 'vi').format(day)}',
-                      style: subtitle1,
-                    ));
-                  },
-                ),
-              );
-            },
-          ),
+        body: Column(
+          children: [
+            controller.calendar(),
+            SizedBox(
+              height: 10.h,
+            ),
+            controller.tripList(),
+          ],
         ),
       ),
     );

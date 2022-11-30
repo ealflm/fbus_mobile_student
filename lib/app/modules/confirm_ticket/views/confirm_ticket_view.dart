@@ -11,7 +11,7 @@ import '../../../core/widget/hyper_dialog.dart';
 import '../../../core/widget/shared.dart' hide dot, station;
 import '../../../core/widget/status_bar.dart';
 import '../../../data/local/db/trip_data.dart';
-import '../../../data/models/trip_model.dart';
+import '../../../data/models/tripz_model.dart';
 import '../../../routes/app_pages.dart';
 import '../../booking/views/booking_view.dart';
 import '../controllers/confirm_ticket_controller.dart';
@@ -245,7 +245,7 @@ class ConfirmTicketView extends GetView<ConfirmTicketController> {
 }
 
 AppointmentDataSource getCalendarDataSource(List<String> selectedTripIds) {
-  Map<String, Trip> trips = getTrips();
+  Map<String, Tripz> trips = getTrips();
 
   List<Appointment> appointments = [];
 

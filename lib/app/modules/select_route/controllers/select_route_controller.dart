@@ -589,7 +589,7 @@ class SelectRouteController extends GetxController {
                       routeDataService.selectedStation == null)
               ? null
               : () {
-                  selectModeController.next();
+                  selectModeController.next(routeDataService.selectedTrip);
                 },
           child: Row(
             mainAxisSize: MainAxisSize.min,
