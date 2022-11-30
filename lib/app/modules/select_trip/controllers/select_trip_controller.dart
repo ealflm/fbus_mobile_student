@@ -1,4 +1,3 @@
-import 'package:fbus_mobile_student/app/core/values/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -7,15 +6,20 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../core/base/base_controller.dart';
+import '../../../core/utils/auth_service.dart';
 import '../../../core/values/app_animation_assets.dart';
+import '../../../core/values/app_colors.dart';
 import '../../../core/values/text_styles.dart';
+import '../../../core/widget/hyper_dialog.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/ticket_item_expanded.dart';
 import '../../../data/models/selected_trip_model.dart';
 import '../../../data/models/trip_model.dart';
+import '../../../routes/app_pages.dart';
 import 'select_trip_data_service.dart';
 
-class SelectTripController extends GetxController {
+class SelectTripController extends BaseController {
   final Rx<DateTime?> _selectedDay = Rx<DateTime?>(null);
   DateTime? get selectedDay => _selectedDay.value;
   set selectedDay(DateTime? value) {
@@ -167,7 +171,77 @@ class SelectTripController extends GetxController {
         onPressed: () {
           selectedId = trip.id;
         },
+        actionButtonOnPressed: () {
+          HyperDialog.show(
+            title: 'Xác nhận',
+            content: 'Bạn có chắc chắn muốn đặt chuyến xe này không?',
+            primaryButtonText: 'Xác nhận',
+            secondaryButtonText: 'Huỷ',
+            primaryOnPressed: () async {
+              HyperDialog.showLoading();
+              bool isSuccess = await bookTrip();
+              if (isSuccess) {
+                HyperDialog.showSuccess(
+                  title: 'Thành công',
+                  content: 'Đặt vé thành công!',
+                  barrierDismissible: false,
+                  primaryButtonText: 'Trở về trang chủ',
+                  secondaryButtonText: 'Tiếp tục đặt',
+                  primaryOnPressed: () {
+                    Get.offAllNamed(Routes.MAIN);
+                  },
+                  secondaryOnPressed: () {
+                    Get.back();
+                  },
+                );
+              } else {
+                HyperDialog.showFail(
+                  title: 'Thất bại',
+                  content:
+                      'Chuyến đi bạn đặt đã bị trùng lịch. Vui lòng chọn chuyến đi khác.',
+                  barrierDismissible: false,
+                  primaryButtonText: 'Trở về trang chủ',
+                  secondaryButtonText: 'Tiếp tục đặt',
+                  primaryOnPressed: () {
+                    Get.offAllNamed(Routes.MAIN);
+                  },
+                  secondaryOnPressed: () {
+                    Get.back();
+                  },
+                );
+              }
+            },
+            secondaryOnPressed: () {
+              Get.back();
+            },
+          );
+        },
       ),
     );
+  }
+
+  Future<bool> bookTrip() async {
+    String studentId = AuthService.student?.id ?? '';
+    String tripId = selectedId ?? '';
+    String selectedStationId = selectedTrip?.selectedStation?.id ?? '';
+    bool type = selectedTrip?.type ?? false;
+    var bookTripService = repository.bookTrip(
+      studentId,
+      tripId,
+      selectedStationId,
+      type,
+    );
+
+    bool result = false;
+
+    await callDataService(
+      bookTripService,
+      onSuccess: (response) {
+        result = true;
+      },
+      onError: (exception) {},
+    );
+
+    return result;
   }
 }

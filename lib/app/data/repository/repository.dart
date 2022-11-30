@@ -14,4 +14,8 @@ abstract class Repository {
   /// Get trip with routeId and datetime
   Future<List<Trip>> getTrip(
       String routeId, DateTime dateTime, SelectedTrip selectedTrip);
+
+  /// Booking trip
+  Future<void> bookTrip(
+      String studentId, String tripId, String selectedStationId, bool type);
 }

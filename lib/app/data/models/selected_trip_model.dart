@@ -79,6 +79,17 @@ class SelectedTrip extends BaseController {
     _duration.value = value;
   }
 
+  // Type
+  // True: from home to school
+  // False: from school to home
+  bool? get type {
+    if (endStation != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   // stations
   List<Station> stations = [];
 

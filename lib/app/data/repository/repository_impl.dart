@@ -77,4 +77,24 @@ class RepositoryImpl extends BaseRepository implements Repository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> bookTrip(
+      String studentId, String tripId, String selectedStationId, bool type) {
+    var endPoint = '${DioProvider.baseUrl}/student-trip';
+    var data = {
+      'studentId': studentId,
+      'tripId': tripId,
+      'stationId': selectedStationId,
+      'type': type,
+    };
+
+    var dioCall = dioTokenClient.post(endPoint, data: data);
+
+    try {
+      return callApi(dioCall);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

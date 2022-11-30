@@ -63,13 +63,15 @@ abstract class HyperDialog {
     String content = '',
     String primaryButtonText = '',
     String? secondaryButtonText,
-    bool barrierDismissible = true,
+    bool barrierDismissible = false,
     Function()? primaryOnPressed,
     Function()? secondaryOnPressed,
   }) async {
     navigator?.popUntil((route) => !Get.isDialogOpen!);
     await Get.dialog(
       AlertDialog(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text(
           title,
           style: subtitle1.copyWith(color: AppColors.softBlack),
@@ -197,14 +199,7 @@ abstract class HyperDialog {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Giao dịch thất bại',
-              style: subtitle1.copyWith(
-                fontWeight: FontWeights.medium,
-                color: AppColors.lightBlack,
-              ),
-            ),
-            Text(
-              'Đã có lỗi xảy ra trong quá trình giao dịch',
+              content,
               style: body2.copyWith(
                 color: AppColors.lightBlack,
               ),

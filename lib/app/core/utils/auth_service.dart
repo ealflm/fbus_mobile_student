@@ -1,9 +1,11 @@
+import 'package:fbus_mobile_student/app/core/widget/shared.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../data/models/student_model.dart';
 import '../../routes/app_pages.dart';
 import '../base/base_controller.dart';
 import 'google_auth_service.dart';
@@ -32,6 +34,16 @@ class AuthService extends BaseController {
     return _instance._token;
   }
 
+  /// Get student model
+  static Student? get student {
+    Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
+
+    if (payload.isNotEmpty) {
+      return Student.fromJson(payload);
+    }
+    return null;
+  }
+
   static Future<void> init() async {
     var prefs = await SharedPreferences.getInstance();
     _instance._token = prefs.getString('token');
@@ -58,6 +70,9 @@ class AuthService extends BaseController {
           loginService,
           onSuccess: (String response) {
             token = response;
+          },
+          onError: (exception) {
+            showToast('Không thể kết nối');
           },
         );
 
