@@ -1,6 +1,7 @@
 import '../models/notification_model.dart';
 import '../models/route_model.dart';
 import '../models/selected_trip_model.dart';
+import '../models/student_trip_model.dart';
 import '../models/trip_model.dart';
 
 abstract class Repository {
@@ -25,4 +26,7 @@ abstract class Repository {
 
   /// Get list of notification
   Future<List<Notification>> getNotifications(String studentId);
+
+  /// Get ticket list
+  Future<List<StudentTrip>> getTickets(String studentId);
 }

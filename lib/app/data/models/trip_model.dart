@@ -16,6 +16,7 @@ class Trip {
   Duration? startTime;
   Duration? endTime;
   double? rate;
+  int? status;
 
   Route? selectedRoute;
   Station? selectedStation;
@@ -96,6 +97,7 @@ class Trip {
     this.startTime,
     this.endTime,
     this.rate,
+    this.status,
   });
 
   Trip.fromJson(Map<String, dynamic> json) {
@@ -107,6 +109,7 @@ class Trip {
     startTime = parseDuration(json['timeStart']);
     endTime = parseDuration(json['timeEnd']);
     rate = json['rate'];
+    status = json['status'];
   }
 
   void mapSelectedTrip(SelectedTrip selectedTrip) {

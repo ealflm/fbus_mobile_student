@@ -1,5 +1,6 @@
 import 'package:fbus_mobile_student/app/data/models/notification_model.dart';
 import 'package:fbus_mobile_student/app/data/models/route_model.dart';
+import 'package:fbus_mobile_student/app/data/models/student_trip_model.dart';
 import 'package:fbus_mobile_student/app/data/models/trip_model.dart';
 import 'package:get/get.dart';
 
@@ -130,6 +131,28 @@ class RepositoryImpl extends BaseRepository implements Repository {
             notifications.add(Notification.fromJson(value));
           });
           return notifications;
+        },
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<StudentTrip>> getTickets(String studentId) {
+    var endPoint = '${DioProvider.baseUrl}/student-trip';
+
+    var data = {'id': studentId};
+    var dioCall = dioTokenClient.get(endPoint, queryParameters: data);
+
+    try {
+      return callApi(dioCall).then(
+        (response) {
+          List<StudentTrip> studentTrips = [];
+          response.data['body'].forEach((value) {
+            studentTrips.add(StudentTrip.fromJson(value));
+          });
+          return studentTrips;
         },
       );
     } catch (e) {
