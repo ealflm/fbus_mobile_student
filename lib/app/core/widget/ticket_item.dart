@@ -1,182 +1,414 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fbus_mobile_student/app/core/values/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
-import '../../data/models/ticket_model.dart';
+import '../../data/models/trip_model.dart';
 import '../values/app_colors.dart';
+import '../values/app_svg_assets.dart';
 import '../values/font_weights.dart';
-import '../values/text_styles.dart';
 
 class TicketItem extends StatelessWidget {
   const TicketItem({
     Key? key,
-    required this.model,
+    required this.trip,
     this.backgroundColor = AppColors.green,
     this.textColor = AppColors.white,
-    this.title,
+    this.expandedBackgroundColor = AppColors.green,
+    this.expandedTextColor = AppColors.white,
+    this.state = TicketItemExpandedState.less,
+    this.onPressed,
+    this.actionButtonOnPressed,
   }) : super(key: key);
 
-  final TicketModel model;
+  final Trip trip;
   final Color backgroundColor;
   final Color textColor;
-  final String? title;
+  final Color expandedBackgroundColor;
+  final Color expandedTextColor;
+  final TicketItemExpandedState state;
+  final Function()? actionButtonOnPressed;
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 15.w, right: 15.w),
-      alignment: Alignment.bottomCenter,
-      child: Wrap(
-        children: [
-          Container(
-            padding: EdgeInsets.only(
-                left: 15.w, right: 15.w, bottom: 20.h, top: 10.h),
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              borderRadius: BorderRadius.all(
-                Radius.circular(9.r),
-              ),
-              boxShadow: kElevationToShadow[1],
-            ),
-            child: Column(
-              children: [
-                if (title != null)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '$title',
-                        style: subtitle2.copyWith(
-                          fontWeight: FontWeights.light,
-                          color: textColor,
-                        ),
-                      ),
-                      Text(
-                        model.date,
-                        style: subtitle2.copyWith(
-                          fontWeight: FontWeights.light,
-                          color: textColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                SizedBox(
-                  height: 10.h,
+    Color backgroundColor = this.backgroundColor;
+    Color textColor = this.textColor;
+    if (state == TicketItemExpandedState.more) {
+      backgroundColor = expandedBackgroundColor;
+      textColor = expandedTextColor;
+    }
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        child: Wrap(
+          children: [
+            Container(
+              padding: EdgeInsets.only(
+                  left: 15.w,
+                  right: 15.w,
+                  bottom: state == TicketItemExpandedState.more ? 10.h : 20.h,
+                  top: 10.h),
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(9.r),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          station(
-                            title: model.startStation,
-                            time: model.startTimeStr,
-                            iconColor: AppColors.green,
-                            textColor: textColor,
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 11.r),
-                            child: Column(
-                              children: [
-                                dot(textColor),
-                                SizedBox(height: 3.h),
-                                dot(textColor),
-                                SizedBox(height: 3.h),
-                                dot(textColor),
-                                SizedBox(height: 3.h),
-                              ],
-                            ),
-                          ),
-                          station(
-                            title: model.endStation,
-                            time: model.endTimeStr,
-                            iconColor: AppColors.secondary,
-                            textColor: textColor,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
+                boxShadow: kElevationToShadow[1],
+              ),
+              child: Column(
+                children: [
+                  // if (title != null)
+                  //   Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Text(
+                  //         '$title',
+                  //         style: subtitle2.copyWith(
+                  //           fontWeight: FontWeights.light,
+                  //           color: textColor,
+                  //         ),
+                  //       ),
+                  //       Text(
+                  //         model.date,
+                  //         style: subtitle2.copyWith(
+                  //           fontWeight: FontWeights.light,
+                  //           color: textColor,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Khoảng cách',
-                              style: TextStyle(
-                                color: textColor,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeights.regular,
-                                letterSpacing: 0.0025.sp,
-                              ),
+                            _station(
+                              title: '${trip.fromStation?.name}',
+                              time: trip.startTimeStr,
+                              iconColor: AppColors.green,
+                              textColor: textColor,
                             ),
-                            RichText(
-                              text: TextSpan(
-                                text: '${model.distance.toInt()}',
-                                style: TextStyle(
-                                  color: textColor,
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeights.medium,
-                                  letterSpacing: 0.0025.sp,
-                                ),
+                            Container(
+                              padding: EdgeInsets.only(left: 11.r),
+                              child: Column(
                                 children: [
-                                  TextSpan(
-                                    text: 'km',
-                                    style: TextStyle(
-                                      color: textColor,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeights.medium,
-                                      letterSpacing: 0.0025.sp,
-                                    ),
-                                  ),
+                                  _dot(textColor),
+                                  SizedBox(height: 3.h),
+                                  _dot(textColor),
+                                  SizedBox(height: 3.h),
+                                  _dot(textColor),
+                                  SizedBox(height: 3.h),
                                 ],
                               ),
                             ),
-                            SizedBox(height: 1.h),
-                            RichText(
-                              text: TextSpan(
-                                text: 'Thời gian: ',
+                            _station(
+                              title: '${trip.toStation?.name}',
+                              time: trip.endTimeStr,
+                              iconColor: AppColors.secondary,
+                              textColor: textColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Khoảng cách',
                                 style: TextStyle(
                                   color: textColor,
                                   fontSize: 12.sp,
                                   fontWeight: FontWeights.regular,
                                   letterSpacing: 0.0025.sp,
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: model.estimatedTimeStr,
-                                    style: TextStyle(
-                                      color: textColor,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeights.medium,
-                                      letterSpacing: 0.0025.sp,
-                                    ),
-                                  ),
-                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                              RichText(
+                                text: TextSpan(
+                                  text: trip.distanceStr,
+                                  style: TextStyle(
+                                    color: textColor,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeights.medium,
+                                    letterSpacing: 0.0025.sp,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: 'km',
+                                      style: TextStyle(
+                                        color: textColor,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeights.medium,
+                                        letterSpacing: 0.0025.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 1.h),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Thời gian: ',
+                                  style: TextStyle(
+                                    color: textColor,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeights.regular,
+                                    letterSpacing: 0.0025.sp,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: trip.estimatedTimeStr,
+                                      style: TextStyle(
+                                        color: textColor,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeights.medium,
+                                        letterSpacing: 0.0025.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  if (state == TicketItemExpandedState.more)
+                    _more(backgroundColor, textColor),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Container dot(Color color) {
+  Widget _more(Color backgroundColor, Color textColor) {
+    return Column(
+      children: [
+        const Divider(),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipOval(
+              child: SizedBox.fromSize(
+                size: Size.fromRadius(14.r), // Image radius
+                child: CachedNetworkImage(
+                  fadeInDuration: const Duration(),
+                  fadeOutDuration: const Duration(),
+                  placeholder: (context, url) {
+                    return SvgPicture.asset(AppSvgAssets.male);
+                  },
+                  imageUrl: '${trip.driver?.photoUrl}',
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) {
+                    return SvgPicture.asset(AppSvgAssets.male);
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 8.w,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Tài xế',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.regular,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                              Text(
+                                '${trip.driver?.fullName}',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 20.w,
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            'Số điện thoại',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.regular,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                          Text(
+                            '${trip.driver?.phone}',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.medium,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Biển số xe',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.regular,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                              Text(
+                                '${trip.bus?.licensePlates}',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Màu sắc',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.regular,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                              Text(
+                                '${trip.bus?.color}',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Số ghế',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.regular,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                              Text(
+                                '${trip.bus?.seat}',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Container(
+          alignment: Alignment.centerRight,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+            onPressed: actionButtonOnPressed,
+            child: Text(
+              'Đặt ngay',
+              style: subtitle2.copyWith(color: AppColors.white),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Container _dot(Color color) {
     return Container(
       width: 2.r,
       height: 2.r,
@@ -187,7 +419,7 @@ class TicketItem extends StatelessWidget {
     );
   }
 
-  Row station(
+  Row _station(
       {required String title,
       required String time,
       Color? iconColor,
@@ -241,3 +473,5 @@ class TicketItem extends StatelessWidget {
     );
   }
 }
+
+enum TicketItemExpandedState { less, more }

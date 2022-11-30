@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/values/app_colors.dart';
-import '../../../../core/widget/ticket_item.dart';
+import '../../../../core/widget/ticket_itemz.dart';
 import '../../../../data/models/ticket_model.dart';
 import '../../controllers/ticket_controller.dart';
 
@@ -20,7 +20,7 @@ class CanceledView extends GetView<TicketController> {
             SizedBox(
               height: 10.h,
             ),
-            TicketItem(
+            TicketItemZ(
               title: 'Đã huỷ',
               model: TicketModel(
                 startStation: 'FPT University',
@@ -36,7 +36,7 @@ class CanceledView extends GetView<TicketController> {
             SizedBox(
               height: 10.h,
             ),
-            TicketItem(
+            TicketItemZ(
               title: 'Đã huỷ',
               model: TicketModel(
                 startStation: 'FPT University',
@@ -52,7 +52,7 @@ class CanceledView extends GetView<TicketController> {
             SizedBox(
               height: 10.h,
             ),
-            TicketItem(
+            TicketItemZ(
               title: 'Đã huỷ',
               model: TicketModel(
                 startStation: 'FPT University',
@@ -68,7 +68,7 @@ class CanceledView extends GetView<TicketController> {
             SizedBox(
               height: 10.h,
             ),
-            TicketItem(
+            TicketItemZ(
               title: 'Đã huỷ',
               model: TicketModel(
                 startStation: 'FPT University',

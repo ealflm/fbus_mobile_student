@@ -13,7 +13,7 @@ import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/status_bar.dart';
-import '../../../core/widget/ticket_item.dart';
+import '../../../core/widget/ticket_itemz.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
@@ -116,7 +116,7 @@ class HomeView extends GetView<HomeController> {
                       SizedBox(
                         height: 15.h,
                       ),
-                      TicketItem(
+                      TicketItemZ(
                         title: 'Chuyến đi hiện tại',
                         model: TicketModel(
                           startStation: 'FPT University',
