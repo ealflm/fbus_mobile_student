@@ -1,4 +1,5 @@
 import 'package:fbus_mobile_student/app/core/widget/shared.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -61,8 +62,38 @@ class SelectRouteView extends GetView<SelectRouteController> {
                 ),
               ],
             ),
+            _top(),
             _bottom(),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _top() {
+    return SafeArea(
+      child: Container(
+        margin: EdgeInsets.only(top: 10.h, left: 15.w),
+        child: ElevatedButton(
+          onPressed: () async {
+            Get.back();
+          },
+          style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(),
+            backgroundColor: AppColors.white,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            padding: const EdgeInsets.all(0),
+            minimumSize: Size(40.r, 40.r),
+          ),
+          child: SizedBox(
+            height: 40.r,
+            width: 40.r,
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              size: 18.r,
+              color: AppColors.gray,
+            ),
+          ),
         ),
       ),
     );

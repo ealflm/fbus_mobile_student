@@ -112,7 +112,15 @@ class SelectTripController extends GetxController {
       (() {
         List<Widget> tripItems = [];
 
-        for (Trip trip in selectedTripDataService.trips ?? []) {
+        List<Trip> trips = selectedTripDataService.trips ?? [];
+
+        trips.sort(
+          (a, b) {
+            return a.startTimeEstimated!.compareTo(b.startTimeEstimated!);
+          },
+        );
+
+        for (Trip trip in trips) {
           tripItems.add(tripItem(trip));
           tripItems.add(SizedBox(
             height: 10.h,

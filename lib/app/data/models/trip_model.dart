@@ -40,6 +40,22 @@ class Trip {
     }
   }
 
+  DateTime? get startTimeEstimated {
+    if (startTime == null || date == null) return null;
+    if (endStation != null && estimatedTime != null) {
+      return date!.add(endTime!).subtract(estimatedTime!);
+    }
+    return date!.add(startTime!);
+  }
+
+  DateTime? get endTimeEstimated {
+    if (endTime == null || date == null) return null;
+    if (startStation != null && estimatedTime != null) {
+      return date!.add(startTime!).add(estimatedTime!);
+    }
+    return date!.add(endTime!);
+  }
+
   String get startTimeStr {
     if (startTime == null) return '-';
     if (endStation != null && estimatedTime != null) {
