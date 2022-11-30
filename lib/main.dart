@@ -63,11 +63,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Init notification service
-  NotificationService.init();
-
   // Load token from storage
   await AuthService.init();
+
+  // Init notification service
+  NotificationService.init();
 
   _loadAssets();
 

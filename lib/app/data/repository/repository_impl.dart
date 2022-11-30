@@ -106,7 +106,7 @@ class RepositoryImpl extends BaseRepository implements Repository {
       "id": studentId,
       "notificationToken": code,
     };
-    var dioCall = dioClient.post(endpoint, data: data);
+    var dioCall = dioTokenClient.post(endpoint, data: data);
 
     try {
       return callApi(dioCall);

@@ -71,6 +71,7 @@ class AuthService extends BaseController {
           loginService,
           onSuccess: (String response) {
             token = response;
+            debugPrint('Logged in with token: $token');
             NotificationService.registerNotification();
           },
           onError: (exception) {
