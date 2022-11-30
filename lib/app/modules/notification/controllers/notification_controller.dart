@@ -1,82 +1,40 @@
+import 'package:fbus_mobile_student/app/core/base/base_controller.dart';
+import 'package:flutter/material.dart' hide Notification;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/auth_service.dart';
+import '../../../core/values/app_colors.dart';
+import '../../../core/values/text_styles.dart';
 import '../../../data/models/notification_model.dart';
+import '../widgets/transaction_item.dart';
 
-class NotificationController extends GetxController {
-  Rx<List<Notification>> notifications = Rx<List<Notification>>([]);
-
-  String nam = 'text';
+class NotificationController extends BaseController {
+  final Rx<List<Notification>> _notifications = Rx<List<Notification>>([]);
+  List<Notification> get notifications => _notifications.value;
+  set notifications(List<Notification> value) {
+    _notifications.value = value;
+  }
 
   @override
   void onInit() {
-    updateNotification();
+    fetchNotifications();
     super.onInit();
   }
 
-  void updateNotification() {
+  void fetchNotifications() async {
     List<Notification> result = [];
 
-    result.add(
-      Notification(
-        id: '1',
-        title: 'Xe sắp đến điểm đón',
-        message: 'Bạn có một chuyến xe vào lúc 13:50',
-        createdDate: DateTime.now(),
-      ),
-    );
+    String studentId = AuthService.student?.id ?? '';
+    var fetchNotificationsDataService = repository.getNotifications(studentId);
 
-    result.add(
-      Notification(
-        id: '1',
-        title: 'Xe sắp đến điểm đón',
-        message: 'Bạn có một chuyến xe vào lúc 10:30',
-        createdDate: DateTime.now(),
-      ),
-    );
-
-    result.add(
-      Notification(
-        id: '1',
-        title: 'Xe sắp đến điểm đón',
-        message: 'Bạn có một chuyến xe vào lúc 6:35',
-        createdDate: DateTime.now(),
-      ),
-    );
-
-    result.add(
-      Notification(
-        id: '1',
-        title: 'Xe sắp đến điểm đón',
-        message: 'Bạn có một chuyến xe vào lúc 17:30',
-        createdDate: DateTime.now().subtract(const Duration(days: 1)),
-      ),
-    );
-
-    result.add(
-      Notification(
-        id: '1',
-        title: 'Xe sắp đến điểm đón',
-        message: 'Bạn có một chuyến xe vào lúc 15:30',
-        createdDate: DateTime.now().subtract(const Duration(days: 3)),
-      ),
-    );
-
-    result.add(
-      Notification(
-        id: '1',
-        title: 'Xe sắp đến điểm đón',
-        message: 'Bạn có một chuyến xe vào lúc 13:30',
-        createdDate: DateTime.now().subtract(const Duration(days: 5)),
-      ),
-    );
-
-    result.add(
-      Notification(
-        id: '1',
-        title: 'Xe sắp đến điểm đón',
-        message: 'Bạn có một chuyến xe vào lúc 9:10',
-        createdDate: DateTime.now().subtract(const Duration(days: 8)),
-      ),
+    await callDataService(
+      fetchNotificationsDataService,
+      onSuccess: (List<Notification> response) {
+        result = response;
+        debugPrint('Nam: $result');
+      },
+      onError: (exception) {},
     );
 
     result.sort(((a, b) {
@@ -94,11 +52,88 @@ class NotificationController extends GetxController {
       }
     }
 
-    notifications(result);
+    notifications = result;
   }
 
   bool compare(DateTime? a, DateTime? b) {
     if (a == null || b == null) return false;
     return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+
+  Widget notificationList() {
+    return Obx(
+      () {
+        return notifications.isNotEmpty
+            ? Expanded(
+                child: ListView.builder(
+                    itemCount: notifications.length,
+                    itemBuilder: (context, index) {
+                      var item = notifications[index];
+                      if (item.filter == 0) {
+                        return Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                  left: 18.w, right: 18.w, top: 10.h),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Hôm nay',
+                                    style: h6.copyWith(
+                                        color: AppColors.softBlack,
+                                        fontSize: 18.sp),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            NotificationItem(
+                              model: item,
+                            ),
+                          ],
+                        );
+                      } else if (item.filter == 1) {
+                        return Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                  left: 18.w, right: 18.w, top: 10.h),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Trước đó',
+                                    style: h6.copyWith(
+                                        color: AppColors.softBlack,
+                                        fontSize: 18.sp),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            NotificationItem(
+                              model: item,
+                            ),
+                          ],
+                        );
+                      }
+                      return NotificationItem(
+                        model: item,
+                      );
+                    }),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 20.h),
+                    child: Text(
+                      'Không có thông báo',
+                      style: body2.copyWith(
+                        color: AppColors.description,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+      },
+    );
   }
 }

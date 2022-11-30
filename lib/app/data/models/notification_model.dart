@@ -1,14 +1,18 @@
 class Notification {
-  String? id;
   String? title;
-  String? message;
+  String? content;
   DateTime? createdDate;
   int? filter;
 
   Notification({
-    this.id,
     this.title,
-    this.message,
+    this.content,
     this.createdDate,
   });
+
+  Notification.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
+    content = json['content'];
+    createdDate = DateTime.parse(json['createdDate']);
+  }
 }

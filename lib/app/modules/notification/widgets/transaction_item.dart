@@ -50,7 +50,7 @@ class NotificationItem extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            model?.message ?? '',
+                            model?.content ?? '',
                             style: body2.copyWith(
                               color: AppColors.softBlack,
                               fontSize: 14.r,
