@@ -18,6 +18,7 @@ class TicketItemExpanded extends StatelessWidget {
     this.expandedBackgroundColor = AppColors.green,
     this.expandedTextColor = AppColors.white,
     this.state = TicketItemExpandedState.less,
+    this.expandedOnPressed,
   }) : super(key: key);
 
   final Trip trip;
@@ -26,6 +27,7 @@ class TicketItemExpanded extends StatelessWidget {
   final Color expandedBackgroundColor;
   final Color expandedTextColor;
   final TicketItemExpandedState state;
+  final Function()? expandedOnPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,10 @@ class TicketItemExpanded extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.only(
-                left: 15.w, right: 15.w, bottom: 20.h, top: 10.h),
+                left: 15.w,
+                right: 15.w,
+                bottom: state == TicketItemExpandedState.more ? 10.h : 20.h,
+                top: 10.h),
             decoration: BoxDecoration(
               color: backgroundColor,
               borderRadius: BorderRadius.all(
@@ -197,59 +202,67 @@ class TicketItemExpanded extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Flexible(
-              flex: 68,
+            ClipOval(
+              child: SizedBox.fromSize(
+                size: Size.fromRadius(14.r), // Image radius
+                child: CachedNetworkImage(
+                  fadeInDuration: const Duration(),
+                  fadeOutDuration: const Duration(),
+                  placeholder: (context, url) {
+                    return SvgPicture.asset(AppSvgAssets.male);
+                  },
+                  imageUrl:
+                      'https://fbusstorage.blob.core.windows.net/driver/${trip.driver?.photoUrl}',
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) {
+                    return SvgPicture.asset(AppSvgAssets.male);
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 8.w,
+            ),
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ClipOval(
-                        child: SizedBox.fromSize(
-                          size: Size.fromRadius(14.r), // Image radius
-                          child: CachedNetworkImage(
-                            fadeInDuration: const Duration(),
-                            fadeOutDuration: const Duration(),
-                            placeholder: (context, url) {
-                              return SvgPicture.asset(AppSvgAssets.male);
-                            },
-                            imageUrl:
-                                'https://fbusstorage.blob.core.windows.net/driver/${trip.driver?.photoUrl}',
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) {
-                              return SvgPicture.asset(AppSvgAssets.male);
-                            },
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Tài xế',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.regular,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                              Text(
+                                '${trip.driver?.fullName}',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
+                        ],
                       ),
                       SizedBox(
-                        width: 8.w,
+                        width: 20.w,
                       ),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Tài xế',
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeights.regular,
-                              letterSpacing: 0.0025.sp,
-                            ),
-                          ),
-                          Text(
-                            '${trip.driver?.fullName}',
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeights.medium,
-                              letterSpacing: 0.0025.sp,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
                           Text(
                             'Số điện thoại',
                             style: TextStyle(
@@ -272,96 +285,97 @@ class TicketItemExpanded extends StatelessWidget {
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            Flexible(
-              flex: 32,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Biển số xe',
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeights.regular,
-                              letterSpacing: 0.0025.sp,
-                            ),
-                          ),
-                          Text(
-                            '${trip.bus?.licensePlates}',
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeights.medium,
-                              letterSpacing: 0.0025.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
                   SizedBox(
                     height: 10.h,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
                         children: [
-                          Text(
-                            'Màu sắc',
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeights.regular,
-                              letterSpacing: 0.0025.sp,
-                            ),
-                          ),
-                          Text(
-                            '${trip.bus?.color}',
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeights.medium,
-                              letterSpacing: 0.0025.sp,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Biển số xe',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.regular,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                              Text(
+                                '${trip.bus?.licensePlates}',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Row(
                         children: [
-                          Text(
-                            'Số ghế',
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeights.regular,
-                              letterSpacing: 0.0025.sp,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Màu sắc',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.regular,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                              Text(
+                                '${trip.bus?.color}',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            '${trip.bus?.seat}',
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeights.medium,
-                              letterSpacing: 0.0025.sp,
-                            ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Số ghế',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.regular,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                              Text(
+                                '${trip.bus?.seat}',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -372,6 +386,20 @@ class TicketItemExpanded extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Container(
+          alignment: Alignment.centerRight,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+            onPressed: expandedOnPressed,
+            child: Text(
+              'Đặt ngay',
+              style: subtitle2.copyWith(color: AppColors.white),
+            ),
+          ),
+        )
       ],
     );
   }
