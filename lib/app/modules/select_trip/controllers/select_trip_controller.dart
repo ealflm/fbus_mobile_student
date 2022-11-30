@@ -1,23 +1,15 @@
 import 'package:get/get.dart';
 
 class SelectTripController extends GetxController {
-  //TODO: Implement SelectTripController
-
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  final Rx<DateTime?> _selectedDay = Rx<DateTime?>(null);
+  DateTime? get selectedDay => _selectedDay.value;
+  set selectedDay(DateTime? value) {
+    _selectedDay.value = value;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  final Rx<DateTime?> _focusedDay = Rx<DateTime?>(null);
+  DateTime? get focusedDay => _focusedDay.value;
+  set focusedDay(DateTime? value) {
+    _focusedDay.value = value;
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }
