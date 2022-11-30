@@ -11,7 +11,7 @@ class Driver {
     id = json['id'];
     fullName = json['fullName'];
     phone = json['phone'];
-    photoUrl = json['photoUrl'];
+    photoUrl = json['photoUrl'].trim();
     address = json['address'];
   }
 }

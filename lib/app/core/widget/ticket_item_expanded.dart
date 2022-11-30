@@ -1,8 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fbus_mobile_student/app/core/values/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../data/models/trip_model.dart';
 import '../values/app_colors.dart';
+import '../values/app_svg_assets.dart';
 import '../values/font_weights.dart';
 
 class TicketItemExpanded extends StatelessWidget {
@@ -11,14 +15,26 @@ class TicketItemExpanded extends StatelessWidget {
     required this.trip,
     this.backgroundColor = AppColors.green,
     this.textColor = AppColors.white,
+    this.expandedBackgroundColor = AppColors.green,
+    this.expandedTextColor = AppColors.white,
+    this.state = TicketItemExpandedState.less,
   }) : super(key: key);
 
   final Trip trip;
   final Color backgroundColor;
   final Color textColor;
+  final Color expandedBackgroundColor;
+  final Color expandedTextColor;
+  final TicketItemExpandedState state;
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = this.backgroundColor;
+    Color textColor = this.textColor;
+    if (state == TicketItemExpandedState.more) {
+      backgroundColor = expandedBackgroundColor;
+      textColor = expandedTextColor;
+    }
     return Container(
       alignment: Alignment.bottomCenter,
       child: Wrap(
@@ -66,7 +82,7 @@ class TicketItemExpanded extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          station(
+                          _station(
                             title: '${trip.fromStation?.name}',
                             time: trip.startTimeStr,
                             iconColor: AppColors.green,
@@ -76,16 +92,16 @@ class TicketItemExpanded extends StatelessWidget {
                             padding: EdgeInsets.only(left: 11.r),
                             child: Column(
                               children: [
-                                dot(textColor),
+                                _dot(textColor),
                                 SizedBox(height: 3.h),
-                                dot(textColor),
+                                _dot(textColor),
                                 SizedBox(height: 3.h),
-                                dot(textColor),
+                                _dot(textColor),
                                 SizedBox(height: 3.h),
                               ],
                             ),
                           ),
-                          station(
+                          _station(
                             title: '${trip.toStation?.name}',
                             time: trip.endTimeStr,
                             iconColor: AppColors.secondary,
@@ -164,6 +180,8 @@ class TicketItemExpanded extends StatelessWidget {
                     ),
                   ],
                 ),
+                if (state == TicketItemExpandedState.more)
+                  _more(backgroundColor, textColor),
               ],
             ),
           ),
@@ -172,7 +190,193 @@ class TicketItemExpanded extends StatelessWidget {
     );
   }
 
-  Container dot(Color color) {
+  Widget _more(Color backgroundColor, Color textColor) {
+    return Column(
+      children: [
+        const Divider(),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              flex: 68,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipOval(
+                        child: SizedBox.fromSize(
+                          size: Size.fromRadius(14.r), // Image radius
+                          child: CachedNetworkImage(
+                            fadeInDuration: const Duration(),
+                            fadeOutDuration: const Duration(),
+                            placeholder: (context, url) {
+                              return SvgPicture.asset(AppSvgAssets.male);
+                            },
+                            imageUrl:
+                                'https://fbusstorage.blob.core.windows.net/driver/${trip.driver?.photoUrl}',
+                            fit: BoxFit.cover,
+                            errorWidget: (context, url, error) {
+                              return SvgPicture.asset(AppSvgAssets.male);
+                            },
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8.w,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Tài xế',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.regular,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                          Text(
+                            '${trip.driver?.fullName}',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.medium,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Text(
+                            'Số điện thoại',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.regular,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                          Text(
+                            '${trip.driver?.phone}',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.medium,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              flex: 32,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Biển số xe',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.regular,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                          Text(
+                            '${trip.bus?.licensePlates}',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.medium,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Màu sắc',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.regular,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                          Text(
+                            '${trip.bus?.color}',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.medium,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Số ghế',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.regular,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                          Text(
+                            '${trip.bus?.seat}',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.medium,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Container _dot(Color color) {
     return Container(
       width: 2.r,
       height: 2.r,
@@ -183,7 +387,7 @@ class TicketItemExpanded extends StatelessWidget {
     );
   }
 
-  Row station(
+  Row _station(
       {required String title,
       required String time,
       Color? iconColor,
@@ -237,3 +441,5 @@ class TicketItemExpanded extends StatelessWidget {
     );
   }
 }
+
+enum TicketItemExpandedState { less, more }

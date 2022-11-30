@@ -134,10 +134,11 @@ class SelectTripController extends GetxController {
                 ),
               )
             : Container(
-                margin: EdgeInsets.only(top: 10.h),
+                margin: EdgeInsets.only(top: 10.h, left: 70.w, right: 70.w),
                 child: !selectedTripDataService.isLoading
                     ? Text(
-                        'Không có chuyến',
+                        'Không có lịch di chuyển vui lòng chọn ngày khác',
+                        textAlign: TextAlign.center,
                         style: body2,
                       )
                     : Lottie.asset(AppAnimationAssets.dot, height: 50.h),
@@ -152,6 +153,9 @@ class SelectTripController extends GetxController {
       padding: EdgeInsets.only(left: 15.w, right: 15.w),
       child: TicketItemExpanded(
         trip: trip,
+        state: TicketItemExpandedState.more,
+        backgroundColor: AppColors.white,
+        textColor: AppColors.softBlack,
       ),
     );
   }
