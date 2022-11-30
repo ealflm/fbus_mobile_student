@@ -12,11 +12,11 @@ class TicketModel {
   Duration estimatedTime;
 
   String get startTimeStr {
-    return DateFormat('hh:mm a').format(startTime);
+    return DateFormat('HH:mm').format(startTime);
   }
 
   String get endTimeStr {
-    return DateFormat('hh:mm a').format(endTime);
+    return DateFormat('HH:mm').format(endTime);
   }
 
   String get distanceStr {

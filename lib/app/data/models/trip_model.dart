@@ -13,8 +13,8 @@ class Trip {
   Driver? driver;
   Route? route;
   DateTime? date;
-  Duration? timeStart;
-  Duration? timeEnd;
+  Duration? startTime;
+  Duration? endTime;
   double? rate;
 
   Route? selectedRoute;
@@ -41,13 +41,21 @@ class Trip {
   }
 
   String get startTimeStr {
-    if (timeStart == null) return '-';
-    return DateFormat('hh:mm a').format(DateTime(1, 1, 1).add(timeStart!));
+    if (startTime == null) return '-';
+    if (endStation != null && estimatedTime != null) {
+      return DateFormat('HH:mm')
+          .format(DateTime(1, 1, 1).add(endTime!).subtract(estimatedTime!));
+    }
+    return DateFormat('HH:mm').format(DateTime(1, 1, 1).add(startTime!));
   }
 
   String get endTimeStr {
-    if (timeEnd == null) return '-';
-    return DateFormat('hh:mm a').format(DateTime(1, 1, 1).add(timeEnd!));
+    if (endTime == null) return '-';
+    if (startStation != null && estimatedTime != null) {
+      return DateFormat('HH:mm')
+          .format(DateTime(1, 1, 1).add(startTime!).add(estimatedTime!));
+    }
+    return DateFormat('HH:mm').format(DateTime(1, 1, 1).add(endTime!));
   }
 
   String get distanceStr {
@@ -69,8 +77,8 @@ class Trip {
     this.driver,
     this.route,
     this.date,
-    this.timeStart,
-    this.timeEnd,
+    this.startTime,
+    this.endTime,
     this.rate,
   });
 
@@ -80,8 +88,8 @@ class Trip {
     driver = Driver.fromJson(json['driver']);
     route = Route.fromJson(json['route']);
     date = DateTime.parse(json['date']);
-    timeStart = parseDuration(json['timeStart']);
-    timeEnd = parseDuration(json['timeEnd']);
+    startTime = parseDuration(json['timeStart']);
+    endTime = parseDuration(json['timeEnd']);
     rate = json['rate'];
   }
 

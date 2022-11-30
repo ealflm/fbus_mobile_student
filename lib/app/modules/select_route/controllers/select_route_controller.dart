@@ -32,7 +32,6 @@ class SelectRouteController extends GetxController {
 
   void onMapReady() async {
     await hyperMapController.refreshCurrentLocation();
-    hyperMapController.moveToCurrentLocationWithoutAnimation();
   }
 
   Widget routesPolyline() {
