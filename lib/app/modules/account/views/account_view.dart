@@ -45,16 +45,12 @@ class AccountView extends GetView<AccountController> {
                               fadeInDuration: const Duration(),
                               fadeOutDuration: const Duration(),
                               placeholder: (context, url) {
-                                return 'False' != 'False'
-                                    ? SvgPicture.asset(AppSvgAssets.female)
-                                    : SvgPicture.asset(AppSvgAssets.male);
+                                return SvgPicture.asset(AppSvgAssets.male);
                               },
-                              imageUrl: null ?? '-',
+                              imageUrl: AuthService.student?.photoUrl ?? '',
                               fit: BoxFit.cover,
                               errorWidget: (context, url, error) {
-                                return 'False' != 'False'
-                                    ? SvgPicture.asset(AppSvgAssets.female)
-                                    : SvgPicture.asset(AppSvgAssets.male);
+                                return SvgPicture.asset(AppSvgAssets.male);
                               },
                             ),
                             // ),
@@ -64,7 +60,7 @@ class AccountView extends GetView<AccountController> {
                           height: 15.h,
                         ),
                         Text(
-                          'Nguyễn Hữu Toàn',
+                          '${AuthService.student?.fullName}',
                           style: h6.copyWith(
                               fontWeight: FontWeights.bold, fontSize: 19.sp),
                         ),

@@ -1,3 +1,5 @@
+import 'package:hyper_app_settings/hyper_app_settings.dart';
+
 class Driver {
   String? id;
   String? fullName;
@@ -11,7 +13,8 @@ class Driver {
     id = json['id'];
     fullName = json['fullName'];
     phone = json['phone'];
-    photoUrl = json['photoUrl'].trim();
+    photoUrl =
+        AppSettings.get('driverPhotoUrlHost') + '/' + json['photoUrl'].trim();
     address = json['address'];
   }
 }

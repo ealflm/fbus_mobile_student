@@ -1,3 +1,5 @@
+import 'package:hyper_app_settings/hyper_app_settings.dart';
+
 class Student {
   String? id;
   String? fullName;
@@ -23,7 +25,8 @@ class Student {
     phone = json['Phone'];
     email = json['Email'];
     address = json['Address'];
-    photoUrl = json['PhotoUrl'];
+    photoUrl =
+        AppSettings.get('studentPhotoUrlHost') + '/' + json['PhotoUrl'].trim();
     automaticScheduling = json['AutomaticScheduling'] == 'True' ? true : false;
   }
 }

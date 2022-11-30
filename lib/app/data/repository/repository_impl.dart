@@ -97,4 +97,21 @@ class RepositoryImpl extends BaseRepository implements Repository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> registerNotification(String studentId, String code) {
+    var endpoint = "${DioProvider.baseUrl}/noti-token";
+
+    var data = {
+      "id": studentId,
+      "notificationToken": code,
+    };
+    var dioCall = dioClient.post(endpoint, data: data);
+
+    try {
+      return callApi(dioCall);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

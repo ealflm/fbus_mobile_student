@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fbus_mobile_student/app/core/values/app_colors.dart';
 import 'package:fbus_mobile_student/app/core/values/app_png_assets.dart';
-import 'package:fbus_mobile_student/app/core/widget/shared.dart';
 import 'package:fbus_mobile_student/app/data/models/ticket_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 
+import '../../../core/utils/auth_service.dart';
 import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
@@ -53,30 +53,21 @@ class HomeView extends GetView<HomeController> {
                                     child: SizedBox.fromSize(
                                       size:
                                           Size.fromRadius(18.r), // Image radius
-                                      child:
-                                          // Obx(
-                                          //   () =>
-                                          CachedNetworkImage(
+                                      child: CachedNetworkImage(
                                         fadeInDuration: const Duration(),
                                         fadeOutDuration: const Duration(),
                                         placeholder: (context, url) {
-                                          return 'True' == 'False'
-                                              ? SvgPicture.asset(
-                                                  AppSvgAssets.female)
-                                              : SvgPicture.asset(
-                                                  AppSvgAssets.male);
+                                          return SvgPicture.asset(
+                                              AppSvgAssets.male);
                                         },
-                                        imageUrl: 'url',
+                                        imageUrl:
+                                            AuthService.student?.photoUrl ?? '',
                                         fit: BoxFit.cover,
                                         errorWidget: (context, url, error) {
-                                          return 'True' == 'False'
-                                              ? SvgPicture.asset(
-                                                  AppSvgAssets.female)
-                                              : SvgPicture.asset(
-                                                  AppSvgAssets.male);
+                                          return SvgPicture.asset(
+                                              AppSvgAssets.male);
                                         },
                                       ),
-                                      // ),
                                     ),
                                   ),
                                   SizedBox(
@@ -94,7 +85,7 @@ class HomeView extends GetView<HomeController> {
                                         ),
                                       ),
                                       Text(
-                                        'Nguyễn Hữu Toàn',
+                                        '${AuthService.student?.fullName}',
                                         style: subtitle1.copyWith(
                                           fontWeight: FontWeights.medium,
                                           color: AppColors.white,

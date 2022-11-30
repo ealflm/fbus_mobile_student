@@ -3,6 +3,7 @@ import 'package:fbus_mobile_student/app/core/values/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hyper_app_settings/hyper_app_settings.dart';
 
 import '../../data/models/trip_model.dart';
 import '../values/app_colors.dart';
@@ -216,8 +217,7 @@ class TicketItemExpanded extends StatelessWidget {
                   placeholder: (context, url) {
                     return SvgPicture.asset(AppSvgAssets.male);
                   },
-                  imageUrl:
-                      'https://fbusstorage.blob.core.windows.net/driver/${trip.driver?.photoUrl}',
+                  imageUrl: '${trip.driver?.photoUrl}',
                   fit: BoxFit.cover,
                   errorWidget: (context, url, error) {
                     return SvgPicture.asset(AppSvgAssets.male);

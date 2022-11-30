@@ -7,6 +7,7 @@ import 'package:hyper_app_settings/hyper_app_settings.dart';
 import 'package:intl/intl.dart';
 import 'app/app.dart';
 import 'app/core/utils/auth_service.dart';
+import 'app/core/utils/notification_service.dart';
 import 'app/core/values/app_svg_assets.dart';
 import 'app/data/repository/goong_repository.dart';
 import 'app/data/repository/goong_repository_impl.dart';
@@ -57,13 +58,16 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  // Load token from storage
-  await AuthService.init();
-
   // Initialize Firebase.
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Init notification service
+  NotificationService.init();
+
+  // Load token from storage
+  await AuthService.init();
 
   _loadAssets();
 

@@ -9,6 +9,7 @@ import '../../data/models/student_model.dart';
 import '../../routes/app_pages.dart';
 import '../base/base_controller.dart';
 import 'google_auth_service.dart';
+import 'notification_service.dart';
 
 class AuthService extends BaseController {
   static final AuthService _instance = AuthService._internal();
@@ -70,6 +71,7 @@ class AuthService extends BaseController {
           loginService,
           onSuccess: (String response) {
             token = response;
+            NotificationService.registerNotification();
           },
           onError: (exception) {
             showToast('Không thể kết nối');
@@ -95,6 +97,7 @@ class AuthService extends BaseController {
   }
 
   static Future<void> logout() async {
+    NotificationService.unregisterNotification();
     await GoogleAuthService.logout();
     clearToken();
     Get.offAllNamed(Routes.LOGIN);

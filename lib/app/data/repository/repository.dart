@@ -18,4 +18,7 @@ abstract class Repository {
   /// Booking trip
   Future<void> bookTrip(
       String studentId, String tripId, String selectedStationId, bool type);
+
+  /// Register notification
+  Future<void> registerNotification(String studentId, String code);
 }
