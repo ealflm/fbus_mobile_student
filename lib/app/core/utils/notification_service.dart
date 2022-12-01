@@ -4,7 +4,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 import '../../data/repository/repository.dart';
+import '../../modules/home/controllers/home_ticket_data_service.dart';
 import '../../modules/notification/controllers/notification_controller.dart';
+import '../../modules/ticket/controllers/ticket_controller.dart';
 import 'auth_service.dart';
 
 class NotificationService {
@@ -58,6 +60,8 @@ class NotificationService {
 
         // Reload when receive message
         Get.find<NotificationController>().fetchNotifications();
+        Get.find<TicketController>().ticketDataService.fetchTickets();
+        Get.find<HomeTicketDataService>().fetchTicket();
       },
     );
 

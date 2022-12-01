@@ -22,8 +22,8 @@ class Ticket {
   int? status;
 
   bool get isPassed {
-    if (trip!.date == null) return true;
-    return DateTime.now().compareTo(trip!.date!) > 0;
+    DateTime date = trip?.startTimeEstimated ?? DateTime(1, 1, 1);
+    return DateTime.now().compareTo(date) > 0;
   }
 
   Station? get fromStation {

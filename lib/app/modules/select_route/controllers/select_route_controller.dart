@@ -96,7 +96,7 @@ class SelectRouteController extends GetxController {
           saveLayers: true,
           polylines: [
             Polyline(
-              // color: AppColors.blue,
+              // color: AppColors.purpleEnd,
               gradientColors: [
                 AppColors.purpleStart,
                 AppColors.purpleStart,
