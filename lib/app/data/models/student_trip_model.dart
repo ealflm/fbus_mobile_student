@@ -20,6 +20,7 @@ class Ticket {
   DateTime? modifiedDate;
   bool? type;
   int? status;
+  String? title;
 
   bool get isPassed {
     DateTime date = trip?.startTimeEstimated ?? DateTime(1, 1, 1);

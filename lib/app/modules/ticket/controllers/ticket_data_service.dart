@@ -32,6 +32,7 @@ class TicketDataService extends BaseController {
       DateTime now = DateTime.now();
 
       if (compareDate(date, now) == 0) {
+        ticket.title = 'Hôm nay';
         result.add(ticket);
       }
     }
@@ -46,6 +47,7 @@ class TicketDataService extends BaseController {
       DateTime now = DateTime.now();
 
       if (compareDate(date, now) < 0) {
+        ticket.title = 'Đã sử dụng';
         result.add(ticket);
       }
     }
@@ -60,6 +62,7 @@ class TicketDataService extends BaseController {
       DateTime now = DateTime.now();
 
       if (compareDate(date, now) > 0) {
+        ticket.title = 'Sắp tới';
         result.add(ticket);
       }
     }
