@@ -1,6 +1,7 @@
 import '../models/notification_model.dart';
 import '../models/route_model.dart';
 import '../models/selected_trip_model.dart';
+import '../models/statistic_model.dart';
 import '../models/student_trip_model.dart';
 import '../models/trip_model.dart';
 
@@ -32,4 +33,7 @@ abstract class Repository {
 
   /// Get current Ticket
   Future<Ticket?> getCurrentTicket(String studentId);
+
+  /// Get current Ticket
+  Future<Statistic> getStatistic(String studentId);
 }

@@ -1,5 +1,6 @@
 import 'package:fbus_mobile_student/app/data/models/notification_model.dart';
 import 'package:fbus_mobile_student/app/data/models/route_model.dart';
+import 'package:fbus_mobile_student/app/data/models/statistic_model.dart';
 import 'package:fbus_mobile_student/app/data/models/student_trip_model.dart';
 import 'package:fbus_mobile_student/app/data/models/trip_model.dart';
 import 'package:get/get.dart';
@@ -264,5 +265,11 @@ class RepositoryImpl extends BaseRepository implements Repository {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<Statistic> getStatistic(String studentId) {
+    // TODO: implement getStatistic
+    throw UnimplementedError();
   }
 }
