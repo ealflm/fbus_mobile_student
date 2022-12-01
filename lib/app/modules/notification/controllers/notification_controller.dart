@@ -2,14 +2,22 @@ import 'package:fbus_mobile_student/app/core/base/base_controller.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../core/utils/auth_service.dart';
+import '../../../core/values/app_animation_assets.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../data/models/notification_model.dart';
 import '../widgets/transaction_item.dart';
 
 class NotificationController extends BaseController {
+  final Rx<bool> _isLoading = Rx<bool>(false);
+  bool get isLoading => _isLoading.value;
+  set isLoading(bool value) {
+    _isLoading.value = value;
+  }
+
   final Rx<List<Notification>> _notifications = Rx<List<Notification>>([]);
   List<Notification> get notifications => _notifications.value;
   set notifications(List<Notification> value) {
@@ -23,6 +31,8 @@ class NotificationController extends BaseController {
   }
 
   void fetchNotifications() async {
+    isLoading = true;
+
     List<Notification> result = [];
 
     String studentId = AuthService.student?.id ?? '';
@@ -53,6 +63,7 @@ class NotificationController extends BaseController {
     }
 
     notifications = result;
+    isLoading = false;
   }
 
   bool compare(DateTime? a, DateTime? b) {
@@ -63,6 +74,15 @@ class NotificationController extends BaseController {
   Widget notificationList() {
     return Obx(
       () {
+        if (isLoading) {
+          return Center(
+            child: Lottie.asset(
+              AppAnimationAssets.loading,
+              height: 100.r,
+            ),
+          );
+        }
+
         return notifications.isNotEmpty
             ? Expanded(
                 child: ListView.builder(
