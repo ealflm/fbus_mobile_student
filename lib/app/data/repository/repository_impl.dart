@@ -193,6 +193,7 @@ class RepositoryImpl extends BaseRepository implements Repository {
                 Get.find(tag: (GoongRepository).toString());
             Direction? direction =
                 await goongRepository.getDirection(locations);
+            await Future.delayed(const Duration(milliseconds: 100));
 
             ticket.direction = direction;
             //////////////

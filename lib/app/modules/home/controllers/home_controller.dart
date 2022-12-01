@@ -5,29 +5,38 @@ import 'package:get/get.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/widget/ticket_item.dart';
 import '../../../data/models/student_trip_model.dart';
-import 'ticket_data_service.dart';
+import 'home_ticket_data_service.dart';
 
 class HomeController extends GetxController {
-  TicketDataService ticketDataService = TicketDataService();
+  HomeTicketDataService ticketDataService = Get.find<HomeTicketDataService>();
 
-  @override
-  void onInit() {
-    ticketDataService.fetchTicket();
-    super.onInit();
-  }
-
-  Widget currentTickets() {
+  Widget currentTicket() {
     return Obx(
       () {
         if (ticketDataService.ticket == null) return Container();
         Ticket ticket = ticketDataService.ticket!;
-        return ticketItem(
-            ticket, ticket.status == 1 ? 'Chuyến đi sắp tới' : 'Đang diễn ra');
+        return Column(
+          children: [
+            ticketItem(
+              ticket,
+              title: ticket.status == 1 ? 'Chuyến đi gần nhất' : 'Đang diễn ra',
+              backgroundColor:
+                  ticket.status == 1 ? AppColors.purple500 : AppColors.green,
+              textColor: ticket.status == 1 ? AppColors.white : AppColors.white,
+            ),
+            SizedBox(height: 15.h),
+          ],
+        );
       },
     );
   }
 
-  Widget ticketItem(Ticket ticket, String title) {
+  Widget ticketItem(
+    Ticket ticket, {
+    String title = '',
+    Color backgroundColor = AppColors.white,
+    Color textColor = AppColors.softBlack,
+  }) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.only(left: 15.w, right: 15.w),
@@ -35,8 +44,8 @@ class HomeController extends GetxController {
         title: title,
         ticket: ticket,
         state: TicketItemExpandedState.less,
-        backgroundColor: AppColors.white,
-        textColor: AppColors.softBlack,
+        backgroundColor: backgroundColor,
+        textColor: textColor,
         onPressed: () {
           // Get to
         },

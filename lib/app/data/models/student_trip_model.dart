@@ -21,6 +21,11 @@ class Ticket {
   bool? type;
   int? status;
 
+  bool get isPassed {
+    if (trip!.date == null) return true;
+    return DateTime.now().compareTo(trip!.date!) > 0;
+  }
+
   Station? get fromStation {
     if (type == false) {
       return route?.stations?.first;

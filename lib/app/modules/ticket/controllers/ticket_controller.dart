@@ -8,6 +8,7 @@ import '../../../core/values/app_animation_assets.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/widget/ticket_item.dart';
 import '../../../data/models/student_trip_model.dart';
+import '../../home/controllers/home_ticket_data_service.dart';
 import '../views/tab_views/today_ticket_view.dart';
 import '../views/tab_views/future_ticket_view.dart';
 import '../views/tab_views/past_ticket_view.dart';
@@ -19,8 +20,8 @@ class TicketController extends GetxController
 
   final tabs = [
     const Tab(text: 'Hôm nay'),
-    const Tab(text: 'Đã qua'),
-    const Tab(text: 'Sắp tới'),
+    const Tab(text: 'Trước đó'),
+    const Tab(text: 'Sau này'),
   ];
 
   Rx<int> tabIndex = 0.obs;
@@ -43,6 +44,9 @@ class TicketController extends GetxController
     ticketDataService.fetchTickets();
     super.onInit();
   }
+
+  HomeTicketDataService homeTicketDataService =
+      Get.find<HomeTicketDataService>();
 
   Widget todayTickets() {
     return Obx(
@@ -141,6 +145,27 @@ class TicketController extends GetxController
   }
 
   Widget ticketItem(Ticket ticket, String title) {
+    Color backgroundColor = AppColors.white;
+    Color textColor = AppColors.softBlack;
+    Ticket? currentTicket = homeTicketDataService.ticket;
+
+    if (currentTicket?.id == ticket.id) {
+      if (ticket.status == 2) {
+        backgroundColor = AppColors.green;
+        textColor = AppColors.white;
+        title = 'Đang diễn ra';
+      } else {
+        backgroundColor = AppColors.purple500;
+        textColor = AppColors.white;
+        title = 'Chuyến đi gần nhất';
+      }
+    }
+
+    if (ticket.isPassed) {
+      backgroundColor = AppColors.caption;
+      textColor = AppColors.white;
+      title = 'Đã sử dụng';
+    }
     return Container(
       width: double.infinity,
       padding: EdgeInsets.only(left: 15.w, right: 15.w),
@@ -148,8 +173,8 @@ class TicketController extends GetxController
         title: title,
         ticket: ticket,
         state: TicketItemExpandedState.less,
-        backgroundColor: AppColors.white,
-        textColor: AppColors.softBlack,
+        backgroundColor: backgroundColor,
+        textColor: textColor,
         onPressed: () {
           // Get to
         },

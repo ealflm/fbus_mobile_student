@@ -116,20 +116,7 @@ class HomeView extends GetView<HomeController> {
                       SizedBox(
                         height: 15.h,
                       ),
-                      TicketItemZ(
-                        title: 'Chuyến đi hiện tại',
-                        model: TicketModel(
-                          startStation: 'FPT University',
-                          endStation: 'Vimhomes grand park',
-                          startTime: DateTime.now(),
-                          endTime: DateTime.now().add(const Duration(hours: 1)),
-                          distance: 15,
-                          estimatedTime: const Duration(minutes: 30),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
+                      controller.currentTicket(),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 15.w),
                         child: Container(
@@ -234,9 +221,9 @@ class HomeView extends GetView<HomeController> {
                                       text: 'Đánh giá',
                                       icon: Icons.thumb_up_alt_outlined,
                                       iconColor: AppColors.yellow,
-                                      // onPressed: () {
-                                      //   Get.toNamed(Routes.FEED_BACK);
-                                      // },
+                                      onPressed: () {
+                                        // Get.toNamed(Routes.FEED_BACK);
+                                      },
                                     ),
                                     _mainButton(
                                       text: 'Bản đồ',
