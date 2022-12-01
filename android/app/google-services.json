@@ -104,6 +104,14 @@
           }
         },
         {
+          "client_id": "394615991951-g8dcvql5lu07jmgn461avcisjutmcrpn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fbus.fbus_mobile_student",
+            "certificate_hash": "ef1bbc72fd4397fdbb65ff70440d7c85714fb4f2"
+          }
+        },
+        {
           "client_id": "394615991951-85f7uf1dkhbhmgcq9pneie1ft9mvcm6n.apps.googleusercontent.com",
           "client_type": 3
         }
