@@ -1,7 +1,10 @@
+import 'package:fbus_mobile_student/app/core/values/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
+import '../../../core/values/app_animation_assets.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/widget/ticket_item.dart';
 import '../../../data/models/student_trip_model.dart';
@@ -44,6 +47,15 @@ class TicketController extends GetxController
   Widget todayTickets() {
     return Obx(
       () {
+        if (ticketDataService.isLoading) {
+          return Center(
+            child: Lottie.asset(
+              AppAnimationAssets.loading,
+              height: 100.r,
+            ),
+          );
+        }
+
         List<Widget> ticketList = [];
 
         for (Ticket ticket in ticketDataService.todayTickets) {
@@ -51,6 +63,10 @@ class TicketController extends GetxController
           ticketList.add(SizedBox(
             height: 10.h,
           ));
+        }
+
+        if (ticketList.isEmpty) {
+          return Center(child: Text('Không có vé', style: body2));
         }
 
         return Column(
@@ -63,6 +79,15 @@ class TicketController extends GetxController
   Widget pastTickets() {
     return Obx(
       () {
+        if (ticketDataService.isLoading) {
+          return Center(
+            child: Lottie.asset(
+              AppAnimationAssets.loading,
+              height: 100.r,
+            ),
+          );
+        }
+
         List<Widget> ticketList = [];
 
         for (Ticket ticket in ticketDataService.pastTickets) {
@@ -70,6 +95,10 @@ class TicketController extends GetxController
           ticketList.add(SizedBox(
             height: 10.h,
           ));
+        }
+
+        if (ticketList.isEmpty) {
+          return Center(child: Text('Không có vé', style: body2));
         }
 
         return Column(
@@ -82,6 +111,15 @@ class TicketController extends GetxController
   Widget futureTickets() {
     return Obx(
       () {
+        if (ticketDataService.isLoading) {
+          return Center(
+            child: Lottie.asset(
+              AppAnimationAssets.loading,
+              height: 100.r,
+            ),
+          );
+        }
+
         List<Widget> ticketList = [];
 
         for (Ticket ticket in ticketDataService.futureTickets) {
@@ -89,6 +127,10 @@ class TicketController extends GetxController
           ticketList.add(SizedBox(
             height: 10.h,
           ));
+        }
+
+        if (ticketList.isEmpty) {
+          return Center(child: Text('Không có vé', style: body2));
         }
 
         return Column(

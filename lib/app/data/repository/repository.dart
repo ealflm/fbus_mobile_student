@@ -29,4 +29,7 @@ abstract class Repository {
 
   /// Get ticket list
   Future<List<Ticket>> getTickets(String studentId);
+
+  /// Get current Ticket
+  Future<Ticket> getCurrentTicket(String studentId);
 }

@@ -5,6 +5,12 @@ import '../../../core/utils/auth_service.dart';
 import '../../../data/models/student_trip_model.dart';
 
 class TicketDataService extends BaseController {
+  final Rx<bool> _isLoading = Rx<bool>(false);
+  bool get isLoading => _isLoading.value;
+  set isLoading(bool value) {
+    _isLoading.value = value;
+  }
+
   final Rx<List<Ticket>?> _tickets = Rx<List<Ticket>?>(null);
   List<Ticket>? get tickets => _tickets.value;
   set tickets(List<Ticket>? value) {
@@ -60,6 +66,7 @@ class TicketDataService extends BaseController {
   }
 
   Future<void> fetchTickets() async {
+    isLoading = true;
     String studentId = AuthService.student?.id ?? '';
     var fetchTicketsService = repository.getTickets(studentId);
 
@@ -70,5 +77,6 @@ class TicketDataService extends BaseController {
       },
       onError: (exception) {},
     );
+    isLoading = false;
   }
 }

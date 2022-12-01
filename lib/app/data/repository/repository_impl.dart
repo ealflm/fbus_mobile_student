@@ -207,4 +207,60 @@ class RepositoryImpl extends BaseRepository implements Repository {
       rethrow;
     }
   }
+
+  @override
+  Future<Ticket> getCurrentTicket(String studentId) {
+    var endPoint = '${DioProvider.baseUrl}/student-trip/current/$studentId';
+    var dioCall = dioTokenClient.get(endPoint);
+
+    try {
+      return callApi(dioCall).then(
+        (response) async {
+          Ticket ticket = Ticket.fromJson(response.data['body']);
+
+          ticket.trip?.route = ticket.route;
+
+          // Fetch points
+          List<LatLng> locations = [];
+          List<Station> stationList = ticket.trip?.route?.stations ?? [];
+
+          if (ticket.type == false) {
+            int n = 0;
+            while (n < stationList.length) {
+              if (ticket.selectedStation?.id == stationList[n++].id) {
+                break;
+              }
+            }
+
+            for (int i = 0; i < n; i++) {
+              locations.add(stationList[i].location!);
+            }
+          } else if (ticket.type == true) {
+            int i = 0;
+            while (i < stationList.length) {
+              if (ticket.selectedStation?.id == stationList[i].id) {
+                break;
+              }
+              i++;
+            }
+
+            for (; i < stationList.length; i++) {
+              locations.add(stationList[i].location!);
+            }
+          }
+
+          // Fetch route points for all route
+          GoongRepository goongRepository =
+              Get.find(tag: (GoongRepository).toString());
+          Direction? direction = await goongRepository.getDirection(locations);
+
+          ticket.direction = direction;
+
+          return ticket;
+        },
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
