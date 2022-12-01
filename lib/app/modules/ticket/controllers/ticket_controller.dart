@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/values/app_colors.dart';
-import '../../../core/widget/ticket_item_expanded.dart';
+import '../../../core/widget/ticket_item.dart';
 import '../../../data/models/student_trip_model.dart';
 import '../views/tab_views/Used_view.dart';
 import '../views/tab_views/booked_view.dart';
@@ -61,12 +61,11 @@ class TicketController extends GetxController
   }
 
   Widget ticketItem(Ticket ticket) {
-    if (ticket.trip == null) return Container();
     return Container(
       width: double.infinity,
       padding: EdgeInsets.only(left: 15.w, right: 15.w),
-      child: TicketItemExpanded(
-        trip: ticket.trip!,
+      child: TicketItem(
+        ticket: ticket,
         state: TicketItemExpandedState.less,
         backgroundColor: AppColors.white,
         textColor: AppColors.softBlack,

@@ -9,6 +9,15 @@ class Route {
   List<Station>? stations;
   List<LatLng>? points;
 
+  String get distanceStr {
+    if (distance != null) {
+      double value = distance! / 1000;
+      return value.toStringAsFixed(1);
+    } else {
+      return '-';
+    }
+  }
+
   // Convert station list to list of station location
   List<LatLng> get stationLocations {
     List<LatLng> result = [];
@@ -35,6 +44,18 @@ class Route {
       stations = <Station>[];
       json['stationList'].forEach((value) {
         stations?.add(Station.fromJson(value));
+      });
+    }
+  }
+
+  Route.fromJsonCapitalizeFirstLetter(Map<String, dynamic> json) {
+    id = json['RouteId'];
+    name = json['Name'];
+    distance = json['Distance'];
+    if (json['StationList'] != null) {
+      stations = <Station>[];
+      json['StationList'].forEach((value) {
+        stations?.add(Station.fromJsonCapitalizeFirstLetter(value));
       });
     }
   }

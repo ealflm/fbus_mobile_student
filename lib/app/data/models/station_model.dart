@@ -19,9 +19,19 @@ class Station {
     id = json['stationId'];
     name = json['name'];
     address = json['address'];
-    double lat = json['latitude'];
-    double lng = json['longitude'];
+    double lat = json['latitude'] ?? 0;
+    double lng = json['longitude'] ?? 0;
     location = LatLng(lat, lng);
     status = json['status'];
+  }
+
+  Station.fromJsonCapitalizeFirstLetter(Map<String, dynamic> json) {
+    id = json['StationId'];
+    name = json['Name'];
+    address = json['Address'];
+    double lat = json['Latitude'] ?? 0;
+    double lng = json['Longitude'] ?? 0;
+    location = LatLng(lat, lng);
+    status = json['Status'];
   }
 }

@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fbus_mobile_student/app/core/values/app_colors.dart';
 import 'package:fbus_mobile_student/app/core/values/app_png_assets.dart';
-import 'package:fbus_mobile_student/app/data/models/ticket_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,6 +13,7 @@ import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/status_bar.dart';
 import '../../../core/widget/ticket_itemz.dart';
+import '../../../data/models/ticket_modelz.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 

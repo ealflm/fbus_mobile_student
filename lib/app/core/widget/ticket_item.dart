@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../data/models/trip_model.dart';
+import '../../data/models/student_trip_model.dart';
 import '../values/app_colors.dart';
 import '../values/app_svg_assets.dart';
 import '../values/font_weights.dart';
@@ -12,7 +12,7 @@ import '../values/font_weights.dart';
 class TicketItem extends StatelessWidget {
   const TicketItem({
     Key? key,
-    required this.trip,
+    required this.ticket,
     this.backgroundColor = AppColors.green,
     this.textColor = AppColors.white,
     this.expandedBackgroundColor = AppColors.green,
@@ -22,7 +22,7 @@ class TicketItem extends StatelessWidget {
     this.actionButtonOnPressed,
   }) : super(key: key);
 
-  final Trip trip;
+  final Ticket ticket;
   final Color backgroundColor;
   final Color textColor;
   final Color expandedBackgroundColor;
@@ -92,8 +92,8 @@ class TicketItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _station(
-                              title: '${trip.fromStation?.name}',
-                              time: trip.startTimeStr,
+                              title: '${ticket.fromStation?.name}',
+                              time: ticket.startTimeStr,
                               iconColor: AppColors.green,
                               textColor: textColor,
                             ),
@@ -111,8 +111,8 @@ class TicketItem extends StatelessWidget {
                               ),
                             ),
                             _station(
-                              title: '${trip.toStation?.name}',
-                              time: trip.endTimeStr,
+                              title: '${ticket.toStation?.name}',
+                              time: ticket.endTimeStr,
                               iconColor: AppColors.secondary,
                               textColor: textColor,
                             ),
@@ -140,7 +140,7 @@ class TicketItem extends StatelessWidget {
                               ),
                               RichText(
                                 text: TextSpan(
-                                  text: trip.distanceStr,
+                                  text: ticket.distanceStr,
                                   style: TextStyle(
                                     color: textColor,
                                     fontSize: 20.sp,
@@ -172,7 +172,7 @@ class TicketItem extends StatelessWidget {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: trip.estimatedTimeStr,
+                                      text: ticket.estimatedTimeStr,
                                       style: TextStyle(
                                         color: textColor,
                                         fontSize: 12.sp,
@@ -216,7 +216,7 @@ class TicketItem extends StatelessWidget {
                   placeholder: (context, url) {
                     return SvgPicture.asset(AppSvgAssets.male);
                   },
-                  imageUrl: '${trip.driver?.photoUrl}',
+                  imageUrl: '${ticket.trip?.driver?.photoUrl}',
                   fit: BoxFit.cover,
                   errorWidget: (context, url, error) {
                     return SvgPicture.asset(AppSvgAssets.male);
@@ -250,7 +250,7 @@ class TicketItem extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${trip.driver?.fullName}',
+                                '${ticket.trip?.driver?.fullName}',
                                 style: TextStyle(
                                   color: textColor,
                                   fontSize: 12.sp,
@@ -277,7 +277,7 @@ class TicketItem extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${trip.driver?.phone}',
+                            '${ticket.trip?.driver?.phone}',
                             style: TextStyle(
                               color: textColor,
                               fontSize: 12.sp,
@@ -311,7 +311,7 @@ class TicketItem extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${trip.bus?.licensePlates}',
+                                '${ticket.trip?.bus?.licensePlates}',
                                 style: TextStyle(
                                   color: textColor,
                                   fontSize: 12.sp,
@@ -341,7 +341,7 @@ class TicketItem extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${trip.bus?.color}',
+                                '${ticket.trip?.bus?.color}',
                                 style: TextStyle(
                                   color: textColor,
                                   fontSize: 12.sp,
@@ -371,7 +371,7 @@ class TicketItem extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${trip.bus?.seat}',
+                                '${ticket.trip?.bus?.seat}',
                                 style: TextStyle(
                                   color: textColor,
                                   fontSize: 12.sp,

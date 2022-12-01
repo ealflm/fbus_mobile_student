@@ -3,10 +3,13 @@ import 'package:fbus_mobile_student/app/data/models/route_model.dart';
 import 'package:fbus_mobile_student/app/data/models/student_trip_model.dart';
 import 'package:fbus_mobile_student/app/data/models/trip_model.dart';
 import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../core/base/base_repository.dart';
 import '../../network/dio_provider.dart';
+import '../models/direction_model.dart';
 import '../models/selected_trip_model.dart';
+import '../models/station_model.dart';
 import 'goong_repository.dart';
 import 'repository.dart';
 
@@ -147,11 +150,55 @@ class RepositoryImpl extends BaseRepository implements Repository {
 
     try {
       return callApi(dioCall).then(
-        (response) {
+        (response) async {
           List<Ticket> studentTrips = [];
-          response.data['body'].forEach((value) {
-            studentTrips.add(Ticket.fromJson(value));
-          });
+
+          for (var value in response.data['body']) {
+            Ticket ticket = Ticket.fromJson(value);
+
+            ticket.trip?.route = ticket.route;
+
+            // Fetch points
+            List<LatLng> locations = [];
+            List<Station> stationList = ticket.trip?.route?.stations ?? [];
+
+            if (ticket.type == false) {
+              int n = 0;
+              while (n < stationList.length) {
+                if (ticket.selectedStation?.id == stationList[n++].id) {
+                  break;
+                }
+              }
+
+              for (int i = 0; i < n; i++) {
+                locations.add(stationList[i].location!);
+              }
+            } else if (ticket.type == true) {
+              int i = 0;
+              while (i < stationList.length) {
+                if (ticket.selectedStation?.id == stationList[i].id) {
+                  break;
+                }
+                i++;
+              }
+
+              for (; i < stationList.length; i++) {
+                locations.add(stationList[i].location!);
+              }
+            }
+
+            // Fetch route points for all route
+            GoongRepository goongRepository =
+                Get.find(tag: (GoongRepository).toString());
+            Direction? direction =
+                await goongRepository.getDirection(locations);
+
+            ticket.direction = direction;
+            //////////////
+
+            studentTrips.add(ticket);
+          }
+
           return studentTrips;
         },
       );

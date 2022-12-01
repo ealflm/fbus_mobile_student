@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
+import '../../core/utils/utils.dart';
+import 'direction_model.dart';
 import 'route_model.dart';
 import 'station_model.dart';
 import 'trip_model.dart';
@@ -7,8 +11,9 @@ import 'trip_model.dart';
 class Ticket {
   String? id;
   Trip? trip;
-  Station? station;
+  Station? selectedStation;
   Route? route;
+  Direction? direction;
   double? rate;
   String? feedBack;
   DateTime? createdDate;
@@ -16,10 +21,62 @@ class Ticket {
   bool? type;
   int? status;
 
+  Station? get fromStation {
+    if (type == false) {
+      return route?.stations?.first;
+    } else {
+      return selectedStation;
+    }
+  }
+
+  Station? get toStation {
+    if (type == true) {
+      return route?.stations?.last;
+    } else {
+      return selectedStation;
+    }
+  }
+
+  String get startTimeStr {
+    if (trip == null || direction == null || trip?.startTime == null) {
+      return '-';
+    }
+    if (type == true && direction!.duration != null) {
+      return DateFormat('HH:mm').format(
+          DateTime(1, 1, 1).add(trip!.endTime!).subtract(direction!.duration!));
+    }
+    return DateFormat('HH:mm').format(DateTime(1, 1, 1).add(trip!.startTime!));
+  }
+
+  String get endTimeStr {
+    if (trip == null || direction == null || trip?.endTime == null) {
+      return '-';
+    }
+    if (type == false && direction!.duration != null) {
+      return DateFormat('HH:mm').format(
+          DateTime(1, 1, 1).add(trip!.startTime!).add(direction!.duration!));
+    }
+    return DateFormat('HH:mm').format(DateTime(1, 1, 1).add(trip!.endTime!));
+  }
+
+  String get distanceStr {
+    if (direction != null && direction?.distance != null) {
+      double value = direction!.distance! / 1000;
+      return value.toStringAsFixed(1);
+    } else {
+      return '-';
+    }
+  }
+
+  String get estimatedTimeStr {
+    if (direction == null || direction!.duration == null) return '-';
+    return formatDurationOnlyHourMinite(direction!.duration!);
+  }
+
   Ticket({
     this.id,
     this.trip,
-    this.station,
+    this.selectedStation,
     this.route,
     this.rate,
     this.feedBack,
@@ -32,9 +89,9 @@ class Ticket {
   Ticket.fromJson(Map<String, dynamic> json) {
     id = json['studentTripId'];
     trip = Trip.fromJson(json['trip']);
-    station = Station.fromJson(json['station']);
+    selectedStation = Station.fromJson(json['station']);
     Map<String, dynamic> routeJson = jsonDecode(json['copyOfRoute'] ?? '{}');
-    route = Route.fromJson(routeJson);
+    route = Route.fromJsonCapitalizeFirstLetter(routeJson);
     rate = json['rate'];
     feedBack = json['feedBack'];
     createdDate =

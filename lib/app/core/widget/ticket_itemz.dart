@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../data/models/ticket_model.dart';
+import '../../data/models/ticket_modelz.dart';
 import '../values/app_colors.dart';
 import '../values/font_weights.dart';
 import '../values/text_styles.dart';

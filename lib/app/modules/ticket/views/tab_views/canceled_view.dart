@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/values/app_colors.dart';
 import '../../../../core/widget/ticket_itemz.dart';
-import '../../../../data/models/ticket_model.dart';
+import '../../../../data/models/ticket_modelz.dart';
 import '../../controllers/ticket_controller.dart';
 
 class CanceledView extends GetView<TicketController> {

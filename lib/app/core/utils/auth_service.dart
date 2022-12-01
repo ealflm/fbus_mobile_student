@@ -32,6 +32,7 @@ class AuthService extends BaseController {
         _instance._token = null;
       }
     }
+    debugPrint('Bearer token: ${_instance._token}');
     return _instance._token;
   }
 
