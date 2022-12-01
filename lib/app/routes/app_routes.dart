@@ -18,6 +18,7 @@ abstract class Routes {
   static const CURRENT_TRIP = _Paths.CURRENT_TRIP;
   static const FEED_BACK = _Paths.FEED_BACK;
   static const SELECT_TRIP = _Paths.SELECT_TRIP;
+  static const TICKET_DETAIL = _Paths.TICKET_DETAIL;
 }
 
 abstract class _Paths {
@@ -35,4 +36,5 @@ abstract class _Paths {
   static const CURRENT_TRIP = '/current-trip';
   static const FEED_BACK = '/feed-back';
   static const SELECT_TRIP = '/select-trip';
+  static const TICKET_DETAIL = '/ticket-detail';
 }

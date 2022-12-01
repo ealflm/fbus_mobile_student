@@ -28,6 +28,8 @@ import '../modules/select_trip/bindings/select_trip_binding.dart';
 import '../modules/select_trip/views/select_trip_view.dart';
 import '../modules/ticket/bindings/ticket_binding.dart';
 import '../modules/ticket/views/ticket_view.dart';
+import '../modules/ticket_detail/bindings/ticket_detail_binding.dart';
+import '../modules/ticket_detail/views/ticket_detail_view.dart';
 
 part 'app_routes.dart';
 
@@ -119,6 +121,12 @@ class AppPages {
       name: _Paths.SELECT_TRIP,
       page: () => const SelectTripView(),
       binding: SelectTripBinding(),
+      transition: Transition.noTransition,
+    ),
+    GetPage(
+      name: _Paths.TICKET_DETAIL,
+      page: () => const TicketDetailView(),
+      binding: TicketDetailBinding(),
       transition: Transition.noTransition,
     ),
   ];

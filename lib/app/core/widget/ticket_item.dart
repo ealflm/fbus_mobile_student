@@ -21,6 +21,7 @@ class TicketItem extends StatelessWidget {
     this.onPressed,
     this.actionButtonOnPressed,
     this.title,
+    this.button,
   }) : super(key: key);
 
   final Ticket ticket;
@@ -32,6 +33,7 @@ class TicketItem extends StatelessWidget {
   final Function()? actionButtonOnPressed;
   final Function()? onPressed;
   final String? title;
+  final Widget? button;
 
   @override
   Widget build(BuildContext context) {
@@ -44,158 +46,152 @@ class TicketItem extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        alignment: Alignment.bottomCenter,
-        child: Wrap(
+        padding: EdgeInsets.only(
+            left: 15.w,
+            right: 15.w,
+            bottom: state == TicketItemExpandedState.more ? 10.h : 20.h,
+            top: 10.h),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.all(
+            Radius.circular(9.r),
+          ),
+          boxShadow: kElevationToShadow[1],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              padding: EdgeInsets.only(
-                  left: 15.w,
-                  right: 15.w,
-                  bottom: state == TicketItemExpandedState.more ? 10.h : 20.h,
-                  top: 10.h),
-              decoration: BoxDecoration(
-                color: backgroundColor,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(9.r),
-                ),
-                boxShadow: kElevationToShadow[1],
-              ),
-              child: Column(
+            if (title != null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (title != null)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '$title',
-                          style: subtitle2.copyWith(
-                            fontWeight: FontWeights.light,
-                            color: textColor,
-                          ),
-                        ),
-                        Text(
-                          '${ticket.trip?.dateStr}',
-                          style: subtitle2.copyWith(
-                            fontWeight: FontWeights.light,
-                            color: textColor,
-                          ),
-                        ),
-                      ],
+                  Text(
+                    '$title',
+                    style: subtitle2.copyWith(
+                      fontWeight: FontWeights.light,
+                      color: textColor,
                     ),
-                  SizedBox(
-                    height: 10.h,
                   ),
-                  Row(
+                  Text(
+                    '${ticket.trip?.dateStr}',
+                    style: subtitle2.copyWith(
+                      fontWeight: FontWeights.light,
+                      color: textColor,
+                    ),
+                  ),
+                ],
+              ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
+                      _station(
+                        title: '${ticket.fromStation?.name}',
+                        time: ticket.startTimeStr,
+                        iconColor: AppColors.green,
+                        textColor: textColor,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 11.r),
                         child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _station(
-                              title: '${ticket.fromStation?.name}',
-                              time: ticket.startTimeStr,
-                              iconColor: AppColors.green,
-                              textColor: textColor,
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 11.r),
-                              child: Column(
-                                children: [
-                                  _dot(textColor),
-                                  SizedBox(height: 3.h),
-                                  _dot(textColor),
-                                  SizedBox(height: 3.h),
-                                  _dot(textColor),
-                                  SizedBox(height: 3.h),
-                                ],
-                              ),
-                            ),
-                            _station(
-                              title: '${ticket.toStation?.name}',
-                              time: ticket.endTimeStr,
-                              iconColor: AppColors.secondary,
-                              textColor: textColor,
-                            ),
+                            _dot(textColor),
+                            SizedBox(height: 3.h),
+                            _dot(textColor),
+                            SizedBox(height: 3.h),
+                            _dot(textColor),
+                            SizedBox(height: 3.h),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: 5.w,
+                      _station(
+                        title: '${ticket.toStation?.name}',
+                        time: ticket.endTimeStr,
+                        iconColor: AppColors.secondary,
+                        textColor: textColor,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 5.w,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Khoảng cách',
+                          style: TextStyle(
+                            color: textColor,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeights.regular,
+                            letterSpacing: 0.0025.sp,
+                          ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            text: ticket.distanceStr,
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 20.sp,
+                              fontWeight: FontWeights.medium,
+                              letterSpacing: 0.0025.sp,
+                            ),
                             children: [
-                              Text(
-                                'Khoảng cách',
+                              TextSpan(
+                                text: 'km',
                                 style: TextStyle(
                                   color: textColor,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeights.regular,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeights.medium,
                                   letterSpacing: 0.0025.sp,
-                                ),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  text: ticket.distanceStr,
-                                  style: TextStyle(
-                                    color: textColor,
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeights.medium,
-                                    letterSpacing: 0.0025.sp,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: 'km',
-                                      style: TextStyle(
-                                        color: textColor,
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeights.medium,
-                                        letterSpacing: 0.0025.sp,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 1.h),
-                              RichText(
-                                text: TextSpan(
-                                  text: 'Thời gian: ',
-                                  style: TextStyle(
-                                    color: textColor,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeights.regular,
-                                    letterSpacing: 0.0025.sp,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: ticket.estimatedTimeStr,
-                                      style: TextStyle(
-                                        color: textColor,
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeights.medium,
-                                        letterSpacing: 0.0025.sp,
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  if (state == TicketItemExpandedState.more)
-                    _more(backgroundColor, textColor),
-                ],
-              ),
+                        ),
+                        SizedBox(height: 1.h),
+                        RichText(
+                          text: TextSpan(
+                            text: 'Thời gian: ',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeights.regular,
+                              letterSpacing: 0.0025.sp,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: ticket.estimatedTimeStr,
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeights.medium,
+                                  letterSpacing: 0.0025.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
+            if (state == TicketItemExpandedState.more)
+              _more(backgroundColor, textColor),
           ],
         ),
       ),
@@ -397,14 +393,15 @@ class TicketItem extends StatelessWidget {
         ),
         Container(
           alignment: Alignment.centerRight,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
-            onPressed: actionButtonOnPressed,
-            child: Text(
-              'Đặt ngay',
-              style: subtitle2.copyWith(color: AppColors.white),
-            ),
-          ),
+          child: button ??
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+                onPressed: actionButtonOnPressed,
+                child: Text(
+                  'Đặt ngay',
+                  style: subtitle2.copyWith(color: AppColors.white),
+                ),
+              ),
         )
       ],
     );

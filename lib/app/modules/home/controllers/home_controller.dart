@@ -7,6 +7,7 @@ import '../../../core/values/app_animation_assets.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/widget/ticket_item.dart';
 import '../../../data/models/student_trip_model.dart';
+import '../../../routes/app_pages.dart';
 import 'home_ticket_data_service.dart';
 
 class HomeController extends GetxController {
@@ -62,7 +63,7 @@ class HomeController extends GetxController {
         backgroundColor: backgroundColor,
         textColor: textColor,
         onPressed: () {
-          // Get to
+          Get.toNamed(Routes.TICKET_DETAIL, arguments: {'ticket': ticket});
         },
       ),
     );
