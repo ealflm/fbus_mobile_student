@@ -20,6 +20,7 @@ class TicketItem extends StatelessWidget {
     this.state = TicketItemExpandedState.less,
     this.onPressed,
     this.actionButtonOnPressed,
+    this.title,
   }) : super(key: key);
 
   final Ticket ticket;
@@ -30,6 +31,7 @@ class TicketItem extends StatelessWidget {
   final TicketItemExpandedState state;
   final Function()? actionButtonOnPressed;
   final Function()? onPressed;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -60,26 +62,26 @@ class TicketItem extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  // if (title != null)
-                  //   Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Text(
-                  //         '$title',
-                  //         style: subtitle2.copyWith(
-                  //           fontWeight: FontWeights.light,
-                  //           color: textColor,
-                  //         ),
-                  //       ),
-                  //       Text(
-                  //         model.date,
-                  //         style: subtitle2.copyWith(
-                  //           fontWeight: FontWeights.light,
-                  //           color: textColor,
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
+                  if (title != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '$title',
+                          style: subtitle2.copyWith(
+                            fontWeight: FontWeights.light,
+                            color: textColor,
+                          ),
+                        ),
+                        Text(
+                          '${ticket.trip?.dateStr}',
+                          style: subtitle2.copyWith(
+                            fontWeight: FontWeights.light,
+                            color: textColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   SizedBox(
                     height: 10.h,
                   ),

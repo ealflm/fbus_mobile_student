@@ -88,6 +88,11 @@ class Trip {
     return formatDurationOnlyHourMinite(estimatedTime);
   }
 
+  String get dateStr {
+    if (date == null) return '-';
+    return DateFormat('dd/MM/yyyy').format(date!);
+  }
+
   Trip({
     this.id,
     this.bus,

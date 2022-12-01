@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 
 import '../../controllers/ticket_controller.dart';
 
-class BookedView extends GetView<TicketController> {
-  const BookedView({Key? key}) : super(key: key);
+class FutureTicketView extends GetView<TicketController> {
+  const FutureTicketView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -17,7 +17,7 @@ class BookedView extends GetView<TicketController> {
             SizedBox(
               height: 10.h,
             ),
-            controller.ticketList(),
+            controller.futureTickets(),
           ],
         ),
       ),
