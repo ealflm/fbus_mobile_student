@@ -170,4 +170,9 @@ class SelectedTrip extends BaseController {
   void clearPoints() {
     points = [];
   }
+
+  void clearSelection() {
+    selectedStation = null;
+    points = [];
+  }
 }

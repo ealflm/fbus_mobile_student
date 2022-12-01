@@ -1,6 +1,5 @@
 import 'package:fbus_mobile_student/app/core/base/base_controller.dart';
 import 'package:get/get.dart';
-import 'package:latlong2/latlong.dart';
 
 import '../../../core/widget/shared.dart';
 import '../../../data/models/route_model.dart';

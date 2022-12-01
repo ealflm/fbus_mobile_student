@@ -552,6 +552,7 @@ class SelectRouteController extends GetxController {
                 onPressed: () {
                   selectModeController.back();
                   routeDataService.selectStation('');
+                  routeDataService.selectedTrip.clearSelection();
                   moveScreenToSelectedRoute();
                 },
                 child: Row(

@@ -1,5 +1,3 @@
-import 'package:fbus_mobile_student/app/core/widget/shared.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -7,14 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:hyper_app_settings/hyper_app_settings.dart';
-import 'package:hyper_polyline/hyper_polyline.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../core/values/app_colors.dart';
-import '../../../core/values/font_weights.dart';
-import '../../../core/values/text_styles.dart';
 import '../../../core/widget/status_bar.dart';
-import '../controllers/select_mode_controller.dart';
 import '../controllers/select_route_controller.dart';
 
 class SelectRouteView extends GetView<SelectRouteController> {

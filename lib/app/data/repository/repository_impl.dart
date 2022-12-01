@@ -48,8 +48,10 @@ class RepositoryImpl extends BaseRepository implements Repository {
           GoongRepository goongRepository =
               Get.find(tag: (GoongRepository).toString());
           for (Route route in routes) {
-            route.points =
-                await goongRepository.getRoutePoints(route.stationLocations);
+            await Future.delayed(const Duration(milliseconds: 100), () async {
+              route.points =
+                  await goongRepository.getRoutePoints(route.stationLocations);
+            });
           }
 
           return routes;
