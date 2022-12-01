@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
+import '../../../core/values/app_animation_assets.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/widget/ticket_item.dart';
 import '../../../data/models/student_trip_model.dart';
@@ -13,6 +15,19 @@ class HomeController extends GetxController {
   Widget currentTicket() {
     return Obx(
       () {
+        if (ticketDataService.isLoading) {
+          return Center(
+            child: Column(
+              children: [
+                Lottie.asset(
+                  AppAnimationAssets.loading,
+                  height: 70.r,
+                ),
+                SizedBox(height: 15.h),
+              ],
+            ),
+          );
+        }
         if (ticketDataService.ticket == null) return Container();
         Ticket ticket = ticketDataService.ticket!;
         return Column(

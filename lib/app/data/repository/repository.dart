@@ -31,5 +31,5 @@ abstract class Repository {
   Future<List<Ticket>> getTickets(String studentId);
 
   /// Get current Ticket
-  Future<Ticket> getCurrentTicket(String studentId);
+  Future<Ticket?> getCurrentTicket(String studentId);
 }

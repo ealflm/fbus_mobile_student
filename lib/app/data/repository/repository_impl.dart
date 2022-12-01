@@ -210,13 +210,14 @@ class RepositoryImpl extends BaseRepository implements Repository {
   }
 
   @override
-  Future<Ticket> getCurrentTicket(String studentId) {
+  Future<Ticket?> getCurrentTicket(String studentId) {
     var endPoint = '${DioProvider.baseUrl}/student-trip/current/$studentId';
     var dioCall = dioTokenClient.get(endPoint);
 
     try {
       return callApi(dioCall).then(
         (response) async {
+          if (response.data['body'] == null) return null;
           Ticket ticket = Ticket.fromJson(response.data['body']);
 
           ticket.trip?.route = ticket.route;
