@@ -175,51 +175,55 @@ class SelectTripController extends BaseController {
             selectedId = trip.id;
           }
         },
-        actionButtonOnPressed: () {
-          HyperDialog.show(
-            title: 'Xác nhận',
-            content: 'Bạn có chắc chắn muốn đặt chuyến xe này không?',
-            primaryButtonText: 'Xác nhận',
-            secondaryButtonText: 'Huỷ',
-            primaryOnPressed: () async {
-              HyperDialog.showLoading();
-              bool isSuccess = await bookTrip();
-              if (isSuccess) {
-                HyperDialog.showSuccess(
-                  title: 'Thành công',
-                  content: 'Đặt vé thành công!',
-                  barrierDismissible: false,
-                  primaryButtonText: 'Trở về trang chủ',
-                  secondaryButtonText: 'Tiếp tục đặt',
-                  primaryOnPressed: () {
-                    Get.offAllNamed(Routes.MAIN);
-                  },
-                  secondaryOnPressed: () {
-                    Get.back();
-                  },
-                );
-              } else {
-                HyperDialog.showFail(
-                  title: 'Thất bại',
-                  content:
-                      'Chuyến đi bạn đặt đã bị trùng lịch. Vui lòng chọn chuyến đi khác.',
-                  barrierDismissible: false,
-                  primaryButtonText: 'Trở về trang chủ',
-                  secondaryButtonText: 'Tiếp tục đặt',
-                  primaryOnPressed: () {
-                    Get.offAllNamed(Routes.MAIN);
+        actionButtonOnPressed: trip.startTimeEstimated!
+                    .compareTo(DateTime.now().add(const Duration(hours: 1))) >
+                0
+            ? () {
+                HyperDialog.show(
+                  title: 'Xác nhận',
+                  content: 'Bạn có chắc chắn muốn đặt chuyến xe này không?',
+                  primaryButtonText: 'Xác nhận',
+                  secondaryButtonText: 'Huỷ',
+                  primaryOnPressed: () async {
+                    HyperDialog.showLoading();
+                    bool isSuccess = await bookTrip();
+                    if (isSuccess) {
+                      HyperDialog.showSuccess(
+                        title: 'Thành công',
+                        content: 'Đặt vé thành công!',
+                        barrierDismissible: false,
+                        primaryButtonText: 'Trở về trang chủ',
+                        secondaryButtonText: 'Tiếp tục đặt',
+                        primaryOnPressed: () {
+                          Get.offAllNamed(Routes.MAIN);
+                        },
+                        secondaryOnPressed: () {
+                          Get.back();
+                        },
+                      );
+                    } else {
+                      HyperDialog.showFail(
+                        title: 'Thất bại',
+                        content:
+                            'Chuyến đi bạn đặt đã bị trùng lịch. Vui lòng chọn chuyến đi khác.',
+                        barrierDismissible: false,
+                        primaryButtonText: 'Trở về trang chủ',
+                        secondaryButtonText: 'Tiếp tục đặt',
+                        primaryOnPressed: () {
+                          Get.offAllNamed(Routes.MAIN);
+                        },
+                        secondaryOnPressed: () {
+                          Get.back();
+                        },
+                      );
+                    }
                   },
                   secondaryOnPressed: () {
                     Get.back();
                   },
                 );
               }
-            },
-            secondaryOnPressed: () {
-              Get.back();
-            },
-          );
-        },
+            : null,
       ),
     );
   }

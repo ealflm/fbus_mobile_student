@@ -36,4 +36,7 @@ abstract class Repository {
 
   /// Get current Ticket
   Future<Statistic> getStatistic(String studentId);
+
+  // Check in
+  Future<void> checkin(String studentId, String code);
 }

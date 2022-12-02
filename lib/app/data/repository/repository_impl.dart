@@ -272,4 +272,24 @@ class RepositoryImpl extends BaseRepository implements Repository {
     // TODO: implement getStatistic
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> checkin(String studentId, String code) {
+    var endPoint = '${DioProvider.baseUrl}/student-trip/checkin';
+
+    var data = {
+      'qrCode': code,
+      'studentID': studentId,
+    };
+
+    var dioCall = dioTokenClient.patch(endPoint, data: data);
+
+    try {
+      return callApi(dioCall).then(
+        (response) {},
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

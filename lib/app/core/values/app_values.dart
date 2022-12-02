@@ -6,4 +6,7 @@ abstract class AppValues {
 
   // Map config.
   static const double focusZoomLevel = 15;
+
+  // QR CODE
+  static const String checkinQRPrefix = '[CHI]';
 }
