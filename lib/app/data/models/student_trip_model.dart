@@ -98,7 +98,9 @@ class Ticket {
     selectedStation = Station.fromJson(json['station']);
     Map<String, dynamic> routeJson = jsonDecode(json['copyOfRoute'] ?? '{}');
     route = Route.fromJsonCapitalizeFirstLetter(routeJson);
-    rate = json['rate'];
+    if (json['rate'] != null) {
+      rate = 0.0 + json['rate'];
+    }
     feedBack = json['feedBack'];
     createdDate =
         json['createDate'] != null ? DateTime.parse(json['createDate']) : null;

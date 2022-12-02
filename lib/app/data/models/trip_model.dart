@@ -113,7 +113,9 @@ class Trip {
     date = DateTime.parse(json['date']);
     startTime = parseDuration(json['timeStart']);
     endTime = parseDuration(json['timeEnd']);
-    rate = json['rate'];
+    if (json['rate'] != null) {
+      rate = 0.0 + json['rate'];
+    }
     status = json['status'];
   }
 
