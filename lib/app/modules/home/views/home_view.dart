@@ -12,8 +12,6 @@ import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/status_bar.dart';
-import '../../../core/widget/ticket_itemz.dart';
-import '../../../data/models/ticket_modelz.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
