@@ -4,13 +4,13 @@ import 'package:fbus_mobile_student/app/core/values/app_png_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
 
 import '../../../core/utils/auth_service.dart';
 import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
+import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
@@ -115,47 +115,7 @@ class HomeView extends GetView<HomeController> {
                         height: 15.h,
                       ),
                       controller.currentTicket(),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 15.w),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(9.r),
-                            color: AppColors.white,
-                            boxShadow: kElevationToShadow[2],
-                          ),
-                          padding: EdgeInsets.only(
-                            left: 10.w,
-                            right: 10.w,
-                            top: 15.h,
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                'Thống kê theo tháng',
-                                style: subtitle2.copyWith(
-                                  fontWeight: FontWeights.light,
-                                  color: AppColors.lightBlack,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  _summarizeLabel('17 vé', 'Đã đặt'),
-                                  _summarizeLabel('2 vé', 'Đã quét'),
-                                  _summarizeLabel('15 km', 'Đã đi'),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 15.h,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      controller.statistic(),
                       SizedBox(
                         height: 15.h,
                       ),
@@ -186,9 +146,10 @@ class HomeView extends GetView<HomeController> {
                                       text: 'Lịch trình',
                                       icon: Icons.insert_invitation,
                                       iconColor: AppColors.purple,
-                                      onPressed: () {
-                                        Get.toNamed(Routes.BOOKING);
-                                      },
+                                      onPressed: null,
+                                      // () {
+                                      // Get.toNamed(Routes.BOOKING);
+                                      // },
                                     ),
                                     _mainButton(
                                       text: 'Đặt lịch',
@@ -220,7 +181,12 @@ class HomeView extends GetView<HomeController> {
                                       icon: Icons.thumb_up_alt_outlined,
                                       iconColor: AppColors.yellow,
                                       onPressed: () {
-                                        // Get.toNamed(Routes.FEED_BACK);
+                                        Get.offAllNamed(
+                                          Routes.MAIN,
+                                          arguments: {'tabIndex': 1},
+                                        );
+                                        showToast(
+                                            'Vui lòng chọn chuyến đi muốn đánh giá');
                                       },
                                     ),
                                     _mainButton(
@@ -254,16 +220,6 @@ class HomeView extends GetView<HomeController> {
           ],
         ),
       ),
-    );
-  }
-
-  Column _summarizeLabel(String title, String description) {
-    return Column(
-      children: [
-        Text(title, style: subtitle1.copyWith(fontWeight: FontWeights.bold)),
-        Text(description,
-            style: subtitle2.copyWith(fontWeight: FontWeights.light)),
-      ],
     );
   }
 
