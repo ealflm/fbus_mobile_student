@@ -299,4 +299,16 @@ class RepositoryImpl extends BaseRepository implements Repository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> feedback(String studentTripId, double rate, String message) {
+    var endPoint =
+        '${DioProvider.baseUrl}/student-trip/feedback/$studentTripId';
+
+    var data = {'rate': rate, 'feedback': message};
+
+    var dioCall = dioTokenClient.patch(endPoint, data: data);
+
+    return callApi(dioCall);
+  }
 }

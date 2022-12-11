@@ -1,4 +1,3 @@
-import 'package:fbus_mobile_student/app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +13,7 @@ import '../../../core/widget/shared.dart';
 import '../../../core/widget/ticket_item.dart';
 import '../../../data/models/station_model.dart';
 import '../../../data/models/student_trip_model.dart';
+import '../../../routes/app_pages.dart';
 import '../../home/controllers/home_ticket_data_service.dart';
 import '../../map/hyper_map_controller.dart';
 
@@ -122,7 +122,13 @@ class TicketDetailController extends GetxController {
         expandedTextColor: textColor,
         button: ElevatedButton(
           style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
-          onPressed: ticket?.isPassed == true ? () {} : null,
+          onPressed: ticket?.isPassed == true
+              ? () {
+                  Get.toNamed(Routes.FEED_BACK, arguments: {
+                    'ticket': ticket,
+                  });
+                }
+              : null,
           child: Text(
             'Đánh giá',
             style: subtitle2.copyWith(color: AppColors.white),

@@ -39,4 +39,7 @@ abstract class Repository {
 
   // Check in
   Future<void> checkin(String studentId, String code);
+
+  // Feedback a trip by studenTripId
+  Future<void> feedback(String studentTripId, double rate, String message);
 }
