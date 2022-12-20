@@ -1,4 +1,3 @@
-import 'package:fbus_mobile_student/app/data/models/station_model.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/utils/utils.dart';
@@ -6,6 +5,7 @@ import 'bus_model.dart';
 import 'driver_model.dart';
 import 'route_model.dart';
 import 'selected_trip_model.dart';
+import 'station_model.dart';
 
 class Trip {
   String? id;

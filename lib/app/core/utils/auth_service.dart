@@ -1,4 +1,3 @@
-import 'package:fbus_mobile_student/app/core/widget/shared.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/models/student_model.dart';
 import '../../routes/app_pages.dart';
 import '../base/base_controller.dart';
+import '../widget/shared.dart';
 import 'google_auth_service.dart';
 import 'notification_service.dart';
 

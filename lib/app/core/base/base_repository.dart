@@ -20,7 +20,7 @@ abstract class BaseRepository {
       if (response.statusCode != HttpStatus.ok ||
           (response.data as Map<String, dynamic>)['statusCode'] !=
               HttpStatus.ok) {
-        // TODO
+        //
       }
 
       return response;

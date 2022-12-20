@@ -13,7 +13,6 @@ import '../../../core/values/text_styles.dart';
 import '../../../core/widget/status_bar.dart';
 import '../controllers/account_controller.dart';
 import '../widgets/account_item.dart';
-import '../widgets/card_item.dart';
 
 class AccountView extends GetView<AccountController> {
   const AccountView({Key? key}) : super(key: key);

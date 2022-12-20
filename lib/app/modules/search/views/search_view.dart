@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/text_styles.dart';
-import '../../../core/values/unfocus.dart';
 import '../../../core/widget/status_bar.dart';
+import '../../../core/widget/unfocus.dart';
 import '../controllers/search_controller.dart';
 
 class SearchView extends GetView<SearchController> {

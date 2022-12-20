@@ -70,6 +70,7 @@ abstract class BaseController extends GetxController {
     Function? onStart,
     Function? onComplete,
   }) async {
+    // ignore: no_leading_underscores_for_local_identifiers
     Exception? _exception;
 
     onStart == null ? showLoading() : onStart();

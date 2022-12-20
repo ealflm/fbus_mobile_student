@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fbus_mobile_student/app/core/values/app_colors.dart';
-import 'package:fbus_mobile_student/app/core/values/app_png_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/auth_service.dart';
+import '../../../core/values/app_colors.dart';
+import '../../../core/values/app_png_assets.dart';
 import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';

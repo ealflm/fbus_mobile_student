@@ -1,12 +1,12 @@
-import 'package:fbus_mobile_student/app/core/base/base_controller.dart';
-import 'package:fbus_mobile_student/app/data/models/trip_model.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../core/base/base_controller.dart';
 import '../../core/widget/shared.dart';
 import 'direction_model.dart';
 import 'route_model.dart';
 import 'station_model.dart';
+import 'trip_model.dart';
 
 class SelectedTrip extends BaseController {
   // Selected route

@@ -68,6 +68,7 @@ class NotificationService {
     // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
+  // ignore: unused_element
   Future<void> _firebaseMessagingBackgroundHandler(
       RemoteMessage message) async {
     debugPrint(

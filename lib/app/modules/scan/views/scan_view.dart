@@ -51,7 +51,7 @@ class ScanView extends GetView<ScanController> {
                 },
                 style: ElevatedButton.styleFrom(
                   shape: const CircleBorder(),
-                  primary: AppColors.cameraOverlay,
+                  backgroundColor: AppColors.cameraOverlay,
                 ),
                 child: SizedBox(
                   height: 40.r,
@@ -100,7 +100,7 @@ class ScanView extends GetView<ScanController> {
                     },
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
-                      primary: AppColors.cameraOverlay,
+                      backgroundColor: AppColors.cameraOverlay,
                     ),
                     child: SizedBox(
                       height: 60.r,
@@ -120,7 +120,7 @@ class ScanView extends GetView<ScanController> {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
-                      primary: AppColors.cameraOverlay,
+                      backgroundColor: AppColors.cameraOverlay,
                     ),
                     child: SizedBox(
                       height: 60.r,

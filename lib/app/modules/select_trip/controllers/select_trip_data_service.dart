@@ -1,6 +1,6 @@
-import 'package:fbus_mobile_student/app/core/base/base_controller.dart';
 import 'package:get/get.dart';
 
+import '../../../core/base/base_controller.dart';
 import '../../../core/widget/shared.dart';
 import '../../../data/models/selected_trip_model.dart';
 import '../../../data/models/trip_model.dart';

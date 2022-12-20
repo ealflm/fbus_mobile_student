@@ -8,7 +8,6 @@ import '../../../core/values/app_colors.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/status_bar.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/booking_controller.dart';
 
 class BookingView extends GetView<BookingController> {

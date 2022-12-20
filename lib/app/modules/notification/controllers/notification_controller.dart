@@ -1,9 +1,9 @@
-import 'package:fbus_mobile_student/app/core/base/base_controller.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../core/base/base_controller.dart';
 import '../../../core/utils/auth_service.dart';
 import '../../../core/values/app_animation_assets.dart';
 import '../../../core/values/app_colors.dart';

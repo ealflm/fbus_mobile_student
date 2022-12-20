@@ -1,8 +1,8 @@
-import 'package:fbus_mobile_student/app/data/models/direction_model.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../core/base/base_repository.dart';
 import '../../core/utils/map_polyline_utils.dart';
+import '../models/direction_model.dart';
 import 'goong_repository.dart';
 
 class GoongRepositoryImpl extends BaseRepository implements GoongRepository {

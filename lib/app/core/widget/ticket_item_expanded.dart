@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fbus_mobile_student/app/core/values/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,6 +7,7 @@ import '../../data/models/trip_model.dart';
 import '../values/app_colors.dart';
 import '../values/app_svg_assets.dart';
 import '../values/font_weights.dart';
+import '../values/text_styles.dart';
 
 class TicketItemExpanded extends StatelessWidget {
   const TicketItemExpanded({

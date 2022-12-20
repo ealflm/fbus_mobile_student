@@ -1,4 +1,3 @@
-import 'package:fbus_mobile_student/app/core/values/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -6,6 +5,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../../core/values/app_animation_assets.dart';
 import '../../../core/values/app_colors.dart';
+import '../../../core/values/text_styles.dart';
 import '../../../core/widget/ticket_item.dart';
 import '../../../data/models/student_trip_model.dart';
 import '../../../routes/app_pages.dart';

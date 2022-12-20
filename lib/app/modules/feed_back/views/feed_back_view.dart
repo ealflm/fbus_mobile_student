@@ -1,4 +1,3 @@
-import 'package:fbus_mobile_student/app/core/widget/unfocus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +8,7 @@ import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/status_bar.dart';
+import '../../../core/widget/unfocus.dart';
 import '../controllers/feed_back_controller.dart';
 
 class FeedBackView extends GetView<FeedBackController> {

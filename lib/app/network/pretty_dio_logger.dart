@@ -197,6 +197,7 @@ class PrettyDioLogger extends Interceptor {
     bool isListItem = false,
     bool isLast = false,
   }) {
+    // ignore: no_leading_underscores_for_local_identifiers
     var _tabs = tabs;
     final isRoot = _tabs == initialTab;
     final initialIndent = _indent(_tabs);
