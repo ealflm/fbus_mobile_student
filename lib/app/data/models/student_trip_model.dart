@@ -15,7 +15,7 @@ class Ticket {
   Route? route;
   Direction? direction;
   double? rate;
-  String? feedBack;
+  String? feedback;
   DateTime? createdDate;
   DateTime? modifiedDate;
   bool? type;
@@ -85,7 +85,7 @@ class Ticket {
     this.selectedStation,
     this.route,
     this.rate,
-    this.feedBack,
+    this.feedback,
     this.createdDate,
     this.modifiedDate,
     this.type,
@@ -101,7 +101,7 @@ class Ticket {
     if (json['rate'] != null) {
       rate = 0.0 + json['rate'];
     }
-    feedBack = json['feedBack'];
+    feedback = json['feedback'];
     createdDate =
         json['createDate'] != null ? DateTime.parse(json['createDate']) : null;
     modifiedDate =

@@ -22,6 +22,8 @@ class TicketItem extends StatelessWidget {
     this.actionButtonOnPressed,
     this.title,
     this.button,
+    this.feedback,
+    this.hideButton = false,
   }) : super(key: key);
 
   final Ticket ticket;
@@ -34,6 +36,8 @@ class TicketItem extends StatelessWidget {
   final Function()? onPressed;
   final String? title;
   final Widget? button;
+  final Feedback? feedback;
+  final bool hideButton;
 
   @override
   Widget build(BuildContext context) {
@@ -391,18 +395,41 @@ class TicketItem extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        Container(
-          alignment: Alignment.centerRight,
-          child: button ??
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
-                onPressed: actionButtonOnPressed,
-                child: Text(
-                  'Đặt ngay',
-                  style: subtitle2.copyWith(color: AppColors.white),
+        if (!hideButton)
+          Container(
+            alignment: Alignment.centerRight,
+            child: button ??
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+                  onPressed: actionButtonOnPressed,
+                  child: Text(
+                    'Đặt ngay',
+                    style: subtitle2.copyWith(color: AppColors.white),
+                  ),
                 ),
+          ),
+        if (feedback != null)
+          Column(
+            children: [
+              const Divider(),
+              Row(
+                children: [
+                  Text('Đánh giá của bạn: ',
+                      style: caption.copyWith(color: textColor)),
+                  Row(
+                    children: [
+                      Text('(${feedback?.rate ?? 0}',
+                          style: caption.copyWith(color: textColor)),
+                      Icon(Icons.star, color: AppColors.yellow, size: 18.sp),
+                      Text(')', style: caption.copyWith(color: textColor)),
+                    ],
+                  ),
+                  Text(' ${feedback?.message ?? ''}',
+                      style: caption.copyWith(color: textColor)),
+                ],
               ),
-        )
+            ],
+          ),
       ],
     );
   }
@@ -474,3 +501,10 @@ class TicketItem extends StatelessWidget {
 }
 
 enum TicketItemExpandedState { less, more }
+
+class Feedback {
+  num rate;
+  String message;
+
+  Feedback({required this.rate, required this.message});
+}

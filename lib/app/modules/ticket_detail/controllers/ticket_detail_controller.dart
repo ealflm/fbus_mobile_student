@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Feedback;
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -105,9 +105,11 @@ class TicketDetailController extends BaseController {
     Color backgroundColor = AppColors.white;
     Color textColor = AppColors.softBlack;
     Ticket? currentTicket = homeTicketDataService.ticket;
-    TicketButtonState buttonState = TicketButtonState.disabledCancel;
+    TicketState ticketState = TicketState.disabledCancel;
     Function()? onPressed;
     Widget? buttonChild;
+    Feedback? feedback;
+    bool hideButton = false;
 
     if (currentTicket?.id == ticket?.id) {
       if (ticket?.status == 2) {
@@ -125,22 +127,26 @@ class TicketDetailController extends BaseController {
       backgroundColor = AppColors.caption;
       textColor = AppColors.white;
       title = 'Đã sử dụng';
-      buttonState = TicketButtonState.feedback;
+      if (ticket?.rate != null && ticket?.rate != 0) {
+        ticketState = TicketState.hasFeedbacked;
+      } else {
+        ticketState = TicketState.feedback;
+      }
     } else {
       if (ticket?.trip!.date != null) {
         DateTime date = ticket!.trip!.date!;
         DateTime now = DateTime.now();
 
         if (now.add(const Duration(minutes: 30)).compareTo(date) <= 0) {
-          buttonState = TicketButtonState.cancel;
+          ticketState = TicketState.cancel;
         } else {
-          buttonState = TicketButtonState.disabledCancel;
+          ticketState = TicketState.disabledCancel;
         }
       }
     }
 
-    switch (buttonState) {
-      case TicketButtonState.feedback:
+    switch (ticketState) {
+      case TicketState.feedback:
         onPressed = () {
           Get.toNamed(Routes.FEED_BACK, arguments: {
             'ticket': ticket,
@@ -151,13 +157,13 @@ class TicketDetailController extends BaseController {
           style: subtitle2.copyWith(color: AppColors.white),
         );
         break;
-      case TicketButtonState.disabledCancel:
+      case TicketState.disabledCancel:
         buttonChild = Text(
           'Huỷ',
           style: subtitle2.copyWith(color: AppColors.white),
         );
         break;
-      case TicketButtonState.cancel:
+      case TicketState.cancel:
         onPressed = () {
           HyperDialog.show(
             title: 'Xác nhận',
@@ -209,6 +215,11 @@ class TicketDetailController extends BaseController {
           style: subtitle2.copyWith(color: AppColors.white),
         );
         break;
+      case TicketState.hasFeedbacked:
+        hideButton = true;
+        feedback =
+            Feedback(rate: ticket?.rate ?? 0, message: ticket?.feedback ?? '');
+        break;
     }
 
     return Container(
@@ -227,6 +238,8 @@ class TicketDetailController extends BaseController {
           onPressed: onPressed,
           child: buttonChild,
         ),
+        feedback: feedback,
+        hideButton: hideButton,
       ),
     );
   }
@@ -457,4 +470,4 @@ class TicketDetailController extends BaseController {
   }
 }
 
-enum TicketButtonState { feedback, disabledCancel, cancel }
+enum TicketState { feedback, hasFeedbacked, disabledCancel, cancel }

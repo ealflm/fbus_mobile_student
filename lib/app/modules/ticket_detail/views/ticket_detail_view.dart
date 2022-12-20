@@ -64,7 +64,7 @@ class TicketDetailView extends GetView<TicketDetailController> {
       child: Container(
         margin: EdgeInsets.only(top: 10.h, left: 15.w),
         child: ElevatedButton(
-          onPressed: () async {
+          onPressed: () {
             Get.back();
           },
           style: ElevatedButton.styleFrom(

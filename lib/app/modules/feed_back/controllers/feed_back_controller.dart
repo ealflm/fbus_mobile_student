@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/base/base_controller.dart';
+import '../../../core/utils/notification_service.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/font_weights.dart';
@@ -66,8 +67,9 @@ class FeedBackController extends BaseController {
           barrierDismissible: false,
           primaryButtonText: 'OK',
           primaryOnPressed: () {
+            NotificationService.reloadData();
             Get.back();
-          },
+          },     
         );
       }),
       onError: (exception) {
