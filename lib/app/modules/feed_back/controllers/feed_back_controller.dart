@@ -69,7 +69,7 @@ class FeedBackController extends BaseController {
           primaryOnPressed: () {
             NotificationService.reloadData();
             Get.back();
-          },     
+          },
         );
       }),
       onError: (exception) {

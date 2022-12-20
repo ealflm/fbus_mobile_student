@@ -76,6 +76,23 @@ class TicketItem extends StatelessWidget {
                       color: textColor,
                     ),
                   ),
+                  if (ticket.trip?.rate != null && ticket.trip?.rate != 0)
+                    Row(
+                      children: [
+                        Text(
+                          '${ticket.trip?.rate ?? 0}',
+                          style: subtitle2.copyWith(
+                            fontWeight: FontWeights.light,
+                            color: textColor,
+                          ),
+                        ),
+                        Icon(
+                          Icons.star,
+                          size: 18.sp,
+                          color: AppColors.yellow,
+                        ),
+                      ],
+                    ),
                   Text(
                     '${ticket.trip?.dateStr}',
                     style: subtitle2.copyWith(
