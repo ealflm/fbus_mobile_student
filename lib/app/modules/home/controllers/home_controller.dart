@@ -15,13 +15,7 @@ import 'statistic_data_service.dart';
 
 class HomeController extends GetxController {
   HomeTicketDataService ticketDataService = Get.find<HomeTicketDataService>();
-  StatisticDataService statisticDataService = StatisticDataService();
-
-  @override
-  void onInit() {
-    statisticDataService.fetch();
-    super.onInit();
-  }
+  StatisticDataService statisticDataService = Get.find<StatisticDataService>();
 
   Widget statistic() {
     return Obx(
@@ -61,7 +55,7 @@ class HomeController extends GetxController {
                         '${(statisticDataService.statistic?.studentTripNotUseCount ?? 0)} vé',
                         'Đã quét'),
                     _summarizeLabel(
-                        '${statisticDataService.statistic?.distance} km',
+                        '${statisticDataService.statistic?.distance ?? 0} km',
                         'Đã đi'),
                   ],
                 ),

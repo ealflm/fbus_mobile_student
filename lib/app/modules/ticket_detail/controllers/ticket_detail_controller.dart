@@ -5,10 +5,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../../core/base/base_controller.dart';
 import '../../../core/utils/map_utils.dart';
+import '../../../core/utils/notification_service.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/text_styles.dart';
+import '../../../core/widget/hyper_dialog.dart';
 import '../../../core/widget/shared.dart';
 import '../../../core/widget/ticket_item.dart';
 import '../../../data/models/station_model.dart';
@@ -17,7 +20,7 @@ import '../../../routes/app_pages.dart';
 import '../../home/controllers/home_ticket_data_service.dart';
 import '../../map/hyper_map_controller.dart';
 
-class TicketDetailController extends GetxController {
+class TicketDetailController extends BaseController {
   final Rx<Ticket?> _ticket = Rx<Ticket?>(null);
   Ticket? get ticket => _ticket.value;
   set ticket(Ticket? value) {
@@ -48,6 +51,17 @@ class TicketDetailController extends GetxController {
 
   HomeTicketDataService homeTicketDataService =
       Get.find<HomeTicketDataService>();
+
+  Future<bool> cancelTrip(Ticket? ticket) async {
+    bool result = false;
+    String studentTripId = ticket?.id ?? '';
+    var cancelTripService = repository.removeTrip(studentTripId);
+
+    await callDataService(cancelTripService, onSuccess: (response) {
+      result = true;
+    });
+    return result;
+  }
 
   Widget ticketDetail() {
     return Obx((() {
@@ -91,6 +105,9 @@ class TicketDetailController extends GetxController {
     Color backgroundColor = AppColors.white;
     Color textColor = AppColors.softBlack;
     Ticket? currentTicket = homeTicketDataService.ticket;
+    TicketButtonState buttonState = TicketButtonState.disabledCancel;
+    Function()? onPressed;
+    Widget? buttonChild;
 
     if (currentTicket?.id == ticket?.id) {
       if (ticket?.status == 2) {
@@ -108,7 +125,92 @@ class TicketDetailController extends GetxController {
       backgroundColor = AppColors.caption;
       textColor = AppColors.white;
       title = 'Đã sử dụng';
+      buttonState = TicketButtonState.feedback;
+    } else {
+      if (ticket?.trip!.date != null) {
+        DateTime date = ticket!.trip!.date!;
+        DateTime now = DateTime.now();
+
+        if (now.add(const Duration(minutes: 30)).compareTo(date) <= 0) {
+          buttonState = TicketButtonState.cancel;
+        } else {
+          buttonState = TicketButtonState.disabledCancel;
+        }
+      }
     }
+
+    switch (buttonState) {
+      case TicketButtonState.feedback:
+        onPressed = () {
+          Get.toNamed(Routes.FEED_BACK, arguments: {
+            'ticket': ticket,
+          });
+        };
+        buttonChild = Text(
+          'Đánh giá',
+          style: subtitle2.copyWith(color: AppColors.white),
+        );
+        break;
+      case TicketButtonState.disabledCancel:
+        buttonChild = Text(
+          'Huỷ',
+          style: subtitle2.copyWith(color: AppColors.white),
+        );
+        break;
+      case TicketButtonState.cancel:
+        onPressed = () {
+          HyperDialog.show(
+            title: 'Xác nhận',
+            content: 'Bạn có chắc chắn muốn huỷ chuyến xe này không?',
+            primaryButtonText: 'Xác nhận',
+            secondaryButtonText: 'Huỷ',
+            primaryOnPressed: () async {
+              HyperDialog.showLoading();
+              bool isSuccess = await cancelTrip(ticket);
+              if (isSuccess) {
+                HyperDialog.showSuccess(
+                  title: 'Thành công',
+                  content: 'Huỷ vé thành công!',
+                  barrierDismissible: false,
+                  primaryButtonText: 'Trở về trang chủ',
+                  secondaryButtonText: 'Đóng',
+                  primaryOnPressed: () {
+                    Get.offAllNamed(Routes.MAIN);
+                  },
+                  secondaryOnPressed: () {
+                    NotificationService.reloadData();
+                    Get.back();
+                    Get.back();
+                  },
+                );
+              } else {
+                HyperDialog.showFail(
+                  title: 'Thất bại',
+                  content: 'Đã có lỗi xảy ra trong quá trình huỷ vé',
+                  barrierDismissible: false,
+                  primaryButtonText: 'Trở về trang chủ',
+                  secondaryButtonText: 'Đóng',
+                  primaryOnPressed: () {
+                    Get.offAllNamed(Routes.MAIN);
+                  },
+                  secondaryOnPressed: () {
+                    Get.back();
+                  },
+                );
+              }
+            },
+            secondaryOnPressed: () {
+              Get.back();
+            },
+          );
+        };
+        buttonChild = Text(
+          'Huỷ',
+          style: subtitle2.copyWith(color: AppColors.white),
+        );
+        break;
+    }
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.only(left: 15.w, right: 15.w),
@@ -122,17 +224,8 @@ class TicketDetailController extends GetxController {
         expandedTextColor: textColor,
         button: ElevatedButton(
           style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
-          onPressed: ticket?.isPassed == true
-              ? () {
-                  Get.toNamed(Routes.FEED_BACK, arguments: {
-                    'ticket': ticket,
-                  });
-                }
-              : null,
-          child: Text(
-            'Đánh giá',
-            style: subtitle2.copyWith(color: AppColors.white),
-          ),
+          onPressed: onPressed,
+          child: buttonChild,
         ),
       ),
     );
@@ -363,3 +456,5 @@ class TicketDetailController extends GetxController {
     }
   }
 }
+
+enum TicketButtonState { feedback, disabledCancel, cancel }

@@ -1,16 +1,16 @@
-import 'package:fbus_mobile_student/app/data/models/notification_model.dart';
-import 'package:fbus_mobile_student/app/data/models/route_model.dart';
-import 'package:fbus_mobile_student/app/data/models/statistic_model.dart';
-import 'package:fbus_mobile_student/app/data/models/student_trip_model.dart';
-import 'package:fbus_mobile_student/app/data/models/trip_model.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../core/base/base_repository.dart';
 import '../../network/dio_provider.dart';
 import '../models/direction_model.dart';
+import '../models/notification_model.dart';
+import '../models/route_model.dart';
 import '../models/selected_trip_model.dart';
 import '../models/station_model.dart';
+import '../models/statistic_model.dart';
+import '../models/student_trip_model.dart';
+import '../models/trip_model.dart';
 import 'goong_repository.dart';
 import 'repository.dart';
 
@@ -308,6 +308,15 @@ class RepositoryImpl extends BaseRepository implements Repository {
     var data = {'rate': rate, 'feedback': message};
 
     var dioCall = dioTokenClient.patch(endPoint, data: data);
+
+    return callApi(dioCall);
+  }
+
+  @override
+  Future<void> removeTrip(String studentTripId) {
+    var endPoint = '${DioProvider.baseUrl}/student-trip/$studentTripId';
+
+    var dioCall = dioTokenClient.delete(endPoint);
 
     return callApi(dioCall);
   }

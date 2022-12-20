@@ -1,7 +1,8 @@
-import 'package:fbus_mobile_student/app/core/base/base_controller.dart';
 import 'package:get/get.dart';
 
+import '../../../core/base/base_controller.dart';
 import '../../../core/utils/auth_service.dart';
+import '../../../core/utils/shared.dart';
 import '../../../data/models/student_trip_model.dart';
 
 class TicketDataService extends BaseController {
@@ -67,12 +68,6 @@ class TicketDataService extends BaseController {
       }
     }
     return result;
-  }
-
-  int compareDate(DateTime a, DateTime b) {
-    DateTime tripDate = DateTime(a.year, a.month, a.day);
-    DateTime todayDate = DateTime(b.year, b.month, b.day);
-    return tripDate.compareTo(todayDate);
   }
 
   Future<void> fetchTickets() async {

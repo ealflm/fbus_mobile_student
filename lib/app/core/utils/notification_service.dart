@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../data/repository/repository.dart';
 import '../../modules/home/controllers/home_ticket_data_service.dart';
+import '../../modules/home/controllers/statistic_data_service.dart';
 import '../../modules/notification/controllers/notification_controller.dart';
 import '../../modules/ticket/controllers/ticket_controller.dart';
 import 'auth_service.dart';
@@ -59,13 +60,18 @@ class NotificationService {
         }
 
         // Reload when receive message
-        Get.find<NotificationController>().fetchNotifications();
-        Get.find<TicketController>().ticketDataService.fetchTickets();
-        Get.find<HomeTicketDataService>().fetchTicket();
+        reloadData();
       },
     );
 
     // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  }
+
+  static void reloadData() {
+    Get.find<NotificationController>().fetchNotifications();
+    Get.find<TicketController>().ticketDataService.fetchTickets();
+    Get.find<HomeTicketDataService>().fetchTicket();
+    Get.find<StatisticDataService>().fetch();
   }
 
   // ignore: unused_element

@@ -19,6 +19,12 @@ class StatisticDataService extends BaseController {
     _statistic.value = value;
   }
 
+  @override
+  void onInit() {
+    fetch();
+    super.onInit();
+  }
+
   /// Fetching data here
   Future<void> fetch() async {
     isLoading = true;

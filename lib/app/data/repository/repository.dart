@@ -42,4 +42,7 @@ abstract class Repository {
 
   // Feedback a trip by studenTripId
   Future<void> feedback(String studentTripId, double rate, String message);
+
+  // Delete a trip by studenTripId
+  Future<void> removeTrip(String studentTripId);
 }
