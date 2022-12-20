@@ -101,7 +101,12 @@ class HomeView extends GetView<HomeController> {
                                   padding: EdgeInsets.all(11.r),
                                   minimumSize: Size.zero, // Set this
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.offAllNamed(
+                                    Routes.MAIN,
+                                    arguments: {'tabIndex': 2},
+                                  );
+                                },
                                 child: const Icon(
                                   Icons.notifications_outlined,
                                   color: AppColors.white,
