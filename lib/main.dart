@@ -69,13 +69,13 @@ void main() async {
   // Init notification service
   NotificationService.init();
 
-  _loadAssets();
+  await _loadAssets();
 
   runApp(const App());
 }
 
-void _loadAssets() {
-  Future.wait([
+Future<void> _loadAssets() async {
+  await Future.wait([
     precachePicture(
       ExactAssetPicture(
           SvgPicture.svgStringDecoder, AppSvgAssets.fbusIsometric),
