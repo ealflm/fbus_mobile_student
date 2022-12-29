@@ -13,8 +13,9 @@ class Driver {
     id = json['id'];
     fullName = json['fullName'];
     phone = json['phone'];
-    photoUrl =
-        AppSettings.get('driverPhotoUrlHost') + '/' + json['photoUrl'].trim();
+    photoUrl = AppSettings.get('driverPhotoUrlHost') +
+        '/' +
+        (json['photoUrl'] ?? '').trim();
     address = json['address'];
   }
 }
