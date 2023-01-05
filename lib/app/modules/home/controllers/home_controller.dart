@@ -36,7 +36,7 @@ class HomeController extends GetxController {
             child: Column(
               children: [
                 Text(
-                  'Thống kê theo tháng',
+                  'Thống kê theo tuần',
                   style: subtitle2.copyWith(
                     fontWeight: FontWeights.light,
                     color: AppColors.lightBlack,
