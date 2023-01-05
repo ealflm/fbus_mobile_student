@@ -3,6 +3,15 @@ class Statistic {
   int? studentTripNotUseCount;
   num? distance;
 
+  String get distanceStr {
+    if (distance != null) {
+      double value = distance! / 1000;
+      return value.toStringAsFixed(1);
+    } else {
+      return '0';
+    }
+  }
+
   Statistic(
       {this.studentTripCount, this.studentTripNotUseCount, this.distance});
 

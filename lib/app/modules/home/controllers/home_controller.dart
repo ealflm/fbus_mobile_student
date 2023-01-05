@@ -55,7 +55,7 @@ class HomeController extends GetxController {
                         '${(statisticDataService.statistic?.studentTripNotUseCount ?? 0)} vé',
                         'Đã quét'),
                     _summarizeLabel(
-                        '${statisticDataService.statistic?.distance ?? 0} km',
+                        '${statisticDataService.statistic?.distanceStr ?? 0} km',
                         'Đã đi'),
                   ],
                 ),
