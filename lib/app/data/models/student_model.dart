@@ -25,9 +25,8 @@ class Student {
     phone = json['Phone'];
     email = json['Email'];
     address = json['Address'];
-    photoUrl = AppSettings.get('studentPhotoUrlHost') +
-        '/' +
-        (json['PhotoUrl'] ?? '').trim();
+    var photos = (json['PhotoUrl'] ?? '').trim().split(' ');
+    photoUrl = AppSettings.get('studentPhotoUrlHost') + '/' + photos.last ?? '';
     automaticScheduling = json['AutomaticScheduling'] == 'True' ? true : false;
   }
 }
