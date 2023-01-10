@@ -29,18 +29,18 @@ class ScanController extends BaseController {
           var code = data.substring(AppValues.checkinQRPrefix.length);
           qrController?.pauseCamera();
           HyperDialog.show(
-            title: 'Liên kết thẻ',
-            content: 'Bạn có chắc chắn muốn checkin lên xe này không?',
+            title: 'Xác nhận',
+            content: 'Bạn có chắc chắn xác nhận lên xe này không?',
             primaryButtonText: 'Đồng ý',
             secondaryButtonText: 'Huỷ',
             primaryOnPressed: () async {
               HyperDialog.showLoading();
-              bool isSuccess = await checkin(code);
+              bool isSuccess = await checkIn(code);
 
               if (isSuccess) {
                 HyperDialog.showSuccess(
                   title: 'Thành công',
-                  content: 'Đặt vé thành công!',
+                  content: 'Xác nhận lên xe thành công!',
                   barrierDismissible: false,
                   primaryButtonText: 'Trở về trang chủ',
                   secondaryButtonText: 'Tiếp tục đặt',
@@ -56,7 +56,7 @@ class ScanController extends BaseController {
                 HyperDialog.showFail(
                   title: 'Thất bại',
                   content:
-                      'Không tìm thấy vé xe cho chuyến đi này. Vui lòng đến đúng thời gian và địa điểm ghi trên vé để checkin.',
+                      'Không tìm thấy vé xe cho chuyến đi này. Vui lòng đến đúng thời gian và địa điểm ghi trên vé',
                   barrierDismissible: false,
                   primaryButtonText: 'Trở về trang chủ',
                   secondaryButtonText: 'Tiếp tục đặt',
@@ -91,10 +91,10 @@ class ScanController extends BaseController {
     );
   }
 
-  Future<bool> checkin(String code) async {
+  Future<bool> checkIn(String code) async {
     String studentId = AuthService.student?.id ?? '';
     bool result = false;
-    var checkinService = repository.checkin(studentId, code);
+    var checkinService = repository.checkIn(studentId, code);
 
     await callDataService(
       checkinService,

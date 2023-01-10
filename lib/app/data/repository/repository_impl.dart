@@ -281,7 +281,7 @@ class RepositoryImpl extends BaseRepository implements Repository {
   }
 
   @override
-  Future<void> checkin(String studentId, String code) {
+  Future<void> checkIn(String studentId, String code) {
     var endPoint = '${DioProvider.baseUrl}/student-trip/checkin';
 
     var data = {
