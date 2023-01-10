@@ -44,6 +44,7 @@ class TicketDetailView extends GetView<TicketDetailController> {
                     // controller.routesPolyline(),
                     controller.ticketPolyline(),
                     _currentLocationMarker(),
+                    controller.driverLocationMarker(),
                     controller.stationMarkers(),
                     controller.untouchableStation(),
                     controller.selectedStationMarker(),

@@ -1,3 +1,5 @@
+import 'package:latlong2/latlong.dart';
+
 import '../models/notification_model.dart';
 import '../models/route_model.dart';
 import '../models/selected_trip_model.dart';
@@ -38,11 +40,14 @@ abstract class Repository {
   Future<Statistic> getStatistic(String studentId);
 
   // Check in
-  Future<void> checkin(String studentId, String code);
+  Future<void> checkIn(String studentId, String code);
 
   // Feedback a trip by studenTripId
   Future<void> feedback(String studentTripId, double rate, String message);
 
   // Delete a trip by studenTripId
   Future<void> removeTrip(String studentTripId);
+
+  // Get driver location
+  Future<LatLng> getDriverLocation(String tripId);
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart' hide Feedback;
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +29,16 @@ class TicketDetailController extends BaseController {
     _ticket.value = value;
   }
 
+  final Rx<LatLng?> _driverLocation = Rx<LatLng?>(null);
+  LatLng? get driverLocation => _driverLocation.value;
+  set driverLocation(LatLng? value) {
+    _driverLocation.value = value;
+  }
+
   HyperMapController hyperMapController = HyperMapController();
+
+  static Timer? timerObjVar;
+  static Timer? timerObj;
 
   @override
   void onInit() {
@@ -37,11 +48,36 @@ class TicketDetailController extends BaseController {
     }
     if (arg.containsKey('ticket')) {
       ticket = arg['ticket'];
+      if (ticket?.title == 'Đang diễn ra') startTimer();
     } else {
       showToast('Đã có lỗi xảy ra');
       Get.back();
     }
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    stopTimer();
+    super.onClose();
+  }
+
+  void startTimer() {
+    timerObj = Timer.periodic(const Duration(seconds: 5), (Timer timer) async {
+      timerObjVar = timer;
+      fetchDriverLocation();
+    });
+  }
+
+  static void stopTimer() {
+    if (timerObjVar != null) {
+      timerObjVar!.cancel();
+      timerObjVar = null;
+    }
+    if (timerObj != null) {
+      timerObj!.cancel();
+      timerObj = null;
+    }
   }
 
   void onMapReady() async {
@@ -61,6 +97,46 @@ class TicketDetailController extends BaseController {
       result = true;
     });
     return result;
+  }
+
+  Future<void> fetchDriverLocation() async {
+    String tripId = ticket?.trip?.id ?? '';
+    if (tripId.isEmpty) return;
+    var getDriverLocationService = repository.getDriverLocation(tripId);
+
+    await callDataService(getDriverLocationService, onSuccess: (response) {
+      driverLocation = response;
+      debugPrint('Tracking Location: Location received');
+    }, onError: (exception) {
+      debugPrint('Tracking Location: Not found location');
+    });
+  }
+
+  Widget driverLocationMarker() {
+    return Obx(
+      () {
+        if (driverLocation == null) return Container();
+        return MarkerLayer(
+          markers: [
+            Marker(
+              width: 28.r,
+              height: 28.r,
+              point: driverLocation!,
+              builder: (context) {
+                return Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.white,
+                    border: Border.all(color: AppColors.red),
+                  ),
+                  child: const Icon(Icons.directions_bus, color: AppColors.red),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget ticketDetail() {
