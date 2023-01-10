@@ -55,7 +55,7 @@ class HomeController extends GetxController {
                         '${(statisticDataService.statistic?.studentTripNotUseCount ?? 0)} vé',
                         'Đã quét'),
                     _summarizeLabel(
-                        '${statisticDataService.statistic?.distanceStr ?? 0} km',
+                        '${statisticDataService.statistic?.distanceStr ?? '0.0'} km',
                         'Đã đi'),
                   ],
                 ),
@@ -102,10 +102,9 @@ class HomeController extends GetxController {
           children: [
             ticketItem(
               ticket,
-              title: ticket.status == 1 ? 'Chuyến đi gần nhất' : 'Đang diễn ra',
-              backgroundColor:
-                  ticket.status == 1 ? AppColors.purple500 : AppColors.green,
-              textColor: ticket.status == 1 ? AppColors.white : AppColors.white,
+              title: ticket.title,
+              backgroundColor: ticket.backgroundColor,
+              textColor: ticket.textColor,
             ),
             SizedBox(height: 15.h),
           ],

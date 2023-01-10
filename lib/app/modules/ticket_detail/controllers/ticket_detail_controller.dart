@@ -102,8 +102,6 @@ class TicketDetailController extends BaseController {
   }
 
   Widget ticketItem(String title) {
-    Color backgroundColor = AppColors.white;
-    Color textColor = AppColors.softBlack;
     Ticket? currentTicket = homeTicketDataService.ticket;
     TicketState ticketState = TicketState.disabledCancel;
     Function()? onPressed;
@@ -112,32 +110,21 @@ class TicketDetailController extends BaseController {
     bool hideButton = false;
 
     if (currentTicket?.id == ticket?.id) {
-      if (ticket?.status == 2) {
-        backgroundColor = AppColors.green;
-        textColor = AppColors.white;
-        title = 'Đang diễn ra';
-      } else {
-        backgroundColor = AppColors.purple500;
-        textColor = AppColors.white;
-        title = 'Chuyến đi gần nhất';
-      }
+      ticket?.isCurrent = true;
     }
 
     if (ticket?.isPassed == true) {
-      backgroundColor = AppColors.caption;
-      textColor = AppColors.white;
-      title = 'Đã sử dụng';
       if (ticket?.rate != null && ticket?.rate != 0) {
         ticketState = TicketState.hasFeedbacked;
       } else {
         ticketState = TicketState.feedback;
       }
     } else {
-      if (ticket?.trip!.date != null) {
-        DateTime date = ticket!.trip!.date!;
+      if (ticket?.startDate != null) {
+        DateTime date = ticket!.startDate!;
         DateTime now = DateTime.now();
 
-        if (now.add(const Duration(minutes: 30)).compareTo(date) <= 0) {
+        if (now.compareTo(date) < 0) {
           ticketState = TicketState.cancel;
         } else {
           ticketState = TicketState.disabledCancel;
@@ -226,13 +213,13 @@ class TicketDetailController extends BaseController {
       width: double.infinity,
       padding: EdgeInsets.only(left: 15.w, right: 15.w),
       child: TicketItem(
-        title: title,
+        title: ticket?.title,
         ticket: ticket!,
         state: TicketItemExpandedState.more,
-        backgroundColor: backgroundColor,
-        textColor: textColor,
-        expandedBackgroundColor: backgroundColor,
-        expandedTextColor: textColor,
+        backgroundColor: ticket?.backgroundColor ?? AppColors.white,
+        textColor: ticket?.textColor ?? AppColors.softBlack,
+        expandedBackgroundColor: ticket?.backgroundColor ?? AppColors.white,
+        expandedTextColor: ticket?.textColor ?? AppColors.softBlack,
         button: ElevatedButton(
           style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
           onPressed: onPressed,

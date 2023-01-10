@@ -15,12 +15,12 @@ class TicketDataService extends BaseController {
   final Rx<List<Ticket>?> _tickets = Rx<List<Ticket>?>(null);
   List<Ticket>? get tickets => _tickets.value;
   set tickets(List<Ticket>? value) {
-    // value?.sort(((a, b) {
-    //   DateTime? aDate = a.trip?.date;
-    //   DateTime? bDate = a.trip?.date;
-    //   if (aDate == null || bDate == null) return 0;
-    //   return aDate.compareTo(bDate);
-    // }));
+    value?.sort(((a, b) {
+      DateTime? aDate = a.startDate;
+      DateTime? bDate = a.startDate;
+      if (aDate == null || bDate == null) return 0;
+      return aDate.compareTo(bDate);
+    }));
     _tickets.value = value;
   }
 
@@ -33,7 +33,6 @@ class TicketDataService extends BaseController {
       DateTime now = DateTime.now();
 
       if (compareDate(date, now) == 0) {
-        ticket.title = 'Hôm nay';
         result.add(ticket);
       }
     }
@@ -48,7 +47,6 @@ class TicketDataService extends BaseController {
       DateTime now = DateTime.now();
 
       if (compareDate(date, now) < 0) {
-        ticket.title = 'Đã sử dụng';
         result.add(ticket);
       }
     }
@@ -63,7 +61,6 @@ class TicketDataService extends BaseController {
       DateTime now = DateTime.now();
 
       if (compareDate(date, now) > 0) {
-        ticket.title = 'Sắp tới';
         result.add(ticket);
       }
     }

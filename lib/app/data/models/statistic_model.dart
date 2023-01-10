@@ -8,7 +8,7 @@ class Statistic {
       double value = distance! / 1000;
       return value.toStringAsFixed(1);
     } else {
-      return '0';
+      return '0.0';
     }
   }
 

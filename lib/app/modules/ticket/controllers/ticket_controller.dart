@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../core/values/app_animation_assets.dart';
-import '../../../core/values/app_colors.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/ticket_item.dart';
 import '../../../data/models/student_trip_model.dart';
@@ -146,36 +145,21 @@ class TicketController extends GetxController
   }
 
   Widget ticketItem(Ticket ticket, String title) {
-    Color backgroundColor = AppColors.white;
-    Color textColor = AppColors.softBlack;
     Ticket? currentTicket = homeTicketDataService.ticket;
 
     if (currentTicket?.id == ticket.id) {
-      if (ticket.status == 2) {
-        backgroundColor = AppColors.green;
-        textColor = AppColors.white;
-        title = 'Đang diễn ra';
-      } else {
-        backgroundColor = AppColors.purple500;
-        textColor = AppColors.white;
-        title = 'Chuyến đi gần nhất';
-      }
+      ticket.isCurrent = true;
     }
 
-    if (ticket.isPassed) {
-      backgroundColor = AppColors.caption;
-      textColor = AppColors.white;
-      title = 'Đã sử dụng';
-    }
     return Container(
       width: double.infinity,
       padding: EdgeInsets.only(left: 15.w, right: 15.w),
       child: TicketItem(
-        title: title,
+        title: ticket.title,
         ticket: ticket,
         state: TicketItemExpandedState.less,
-        backgroundColor: backgroundColor,
-        textColor: textColor,
+        backgroundColor: ticket.backgroundColor,
+        textColor: ticket.textColor,
         onPressed: () {
           Get.toNamed(Routes.TICKET_DETAIL, arguments: {'ticket': ticket});
         },

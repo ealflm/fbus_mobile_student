@@ -50,6 +50,10 @@ class SelectTripController extends BaseController {
     }
     if (arg.containsKey('selectedTrip')) {
       selectedTrip = arg['selectedTrip'];
+
+      selectedDay = DateTime.now();
+      focusedDay = DateTime.now();
+      fetchTrip();
     } else {
       showToast('Đã có lỗi xảy ra');
       Get.back();
@@ -138,9 +142,11 @@ class SelectTripController extends BaseController {
         }
 
         return tripItems.isNotEmpty
-            ? SingleChildScrollView(
-                child: Column(
-                  children: tripItems,
+            ? Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: tripItems,
+                  ),
                 ),
               )
             : Container(

@@ -51,7 +51,7 @@ class RepositoryImpl extends BaseRepository implements Repository {
           for (Route route in routes) {
             route.points =
                 await goongRepository.getRoutePoints(route.stationLocations);
-            await Future.delayed(const Duration(milliseconds: 200));
+            await Future.delayed(const Duration(milliseconds: 300));
           }
 
           return routes;
@@ -194,7 +194,7 @@ class RepositoryImpl extends BaseRepository implements Repository {
                 Get.find(tag: (GoongRepository).toString());
             Direction? direction =
                 await goongRepository.getDirection(locations);
-            await Future.delayed(const Duration(milliseconds: 100));
+            await Future.delayed(const Duration(milliseconds: 300));
 
             ticket.direction = direction;
             //////////////
