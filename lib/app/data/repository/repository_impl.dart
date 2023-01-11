@@ -221,6 +221,8 @@ class RepositoryImpl extends BaseRepository implements Repository {
           if (response.data['body'] == null) return null;
           Ticket ticket = Ticket.fromJson(response.data['body']);
 
+          ticket.isCurrent = true;
+
           ticket.trip?.route = ticket.route;
 
           // Fetch points
