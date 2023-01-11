@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/account/bindings/account_binding.dart';
 import '../modules/account/views/account_view.dart';
+import '../modules/account_detail/bindings/account_detail_binding.dart';
+import '../modules/account_detail/views/account_detail_view.dart';
 import '../modules/booking/bindings/booking_binding.dart';
 import '../modules/booking/views/booking_view.dart';
 import '../modules/confirm_ticket/bindings/confirm_ticket_binding.dart';
@@ -127,6 +129,12 @@ class AppPages {
       name: _Paths.TICKET_DETAIL,
       page: () => const TicketDetailView(),
       binding: TicketDetailBinding(),
+      transition: Transition.noTransition,
+    ),
+    GetPage(
+      name: _Paths.ACCOUNT_DETAIL,
+      page: () => const AccountDetailView(),
+      binding: AccountDetailBinding(),
       transition: Transition.noTransition,
     ),
   ];

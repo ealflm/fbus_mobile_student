@@ -11,6 +11,7 @@ import '../../../core/values/app_svg_assets.dart';
 import '../../../core/values/font_weights.dart';
 import '../../../core/values/text_styles.dart';
 import '../../../core/widget/status_bar.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/account_controller.dart';
 import '../widgets/account_item.dart';
 
@@ -88,11 +89,13 @@ class AccountView extends GetView<AccountController> {
                         SizedBox(
                           height: 5.h,
                         ),
-                        const AccountItem(
-                          icon: Icons.person,
-                          text: 'Tài khoản của tôi',
-                          color: AppColors.blue,
-                        ),
+                        AccountItem(
+                            icon: Icons.person,
+                            text: 'Tài khoản của tôi',
+                            color: AppColors.blue,
+                            onPress: () {
+                              Get.toNamed(Routes.ACCOUNT_DETAIL);
+                            }),
                       ],
                     ),
                   ),
