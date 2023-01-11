@@ -8,6 +8,8 @@ class Student {
   String? address;
   String? photoUrl;
   bool? automaticScheduling;
+  bool? isBan;
+  int? countBan;
 
   Student({
     this.id,
@@ -17,6 +19,8 @@ class Student {
     this.address,
     this.photoUrl,
     this.automaticScheduling,
+    this.isBan,
+    this.countBan,
   });
 
   Student.fromJson(Map<String, dynamic> json) {
@@ -28,5 +32,7 @@ class Student {
     var photos = (json['PhotoUrl'] ?? '').trim().split(' ');
     photoUrl = AppSettings.get('studentPhotoUrlHost') + '/' + photos.last ?? '';
     automaticScheduling = json['AutomaticScheduling'] == 'True' ? true : false;
+    isBan = json['IsBan'] == 'True' ? true : false;
+    countBan = int.parse((json['CountBan'] ?? '0').toString());
   }
 }

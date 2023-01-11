@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/models/student_model.dart';
 import '../../routes/app_pages.dart';
 import '../base/base_controller.dart';
+import '../widget/hyper_dialog.dart';
 import '../widget/shared.dart';
 import 'google_auth_service.dart';
 import 'notification_service.dart';
@@ -46,6 +47,18 @@ class AuthService extends BaseController {
     return null;
   }
 
+  static bool checkBan(String? token) {
+    if (token == null) return false;
+    bool result = false;
+    Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
+
+    if (payload.isNotEmpty) {
+      var student = Student.fromJson(payload);
+      result = student.isBan == true;
+    }
+    return result;
+  }
+
   static Future<void> init() async {
     var prefs = await SharedPreferences.getInstance();
     _instance._token = prefs.getString('token');
@@ -81,9 +94,20 @@ class AuthService extends BaseController {
         );
 
         if (token != null) {
-          saveToken(token);
-          result = true;
-          Get.offAllNamed(Routes.MAIN);
+          if (checkBan(token) == true) {
+            HyperDialog.showFail(
+              title: 'Thất bại',
+              content:
+                  'Tài khoản của bạn đã bị khoá. Vui lòng liên hệ ban quản trị để được hỗ trợ.',
+              barrierDismissible: false,
+              primaryButtonText: 'OK',
+            );
+            result = false;
+          } else {
+            saveToken(token);
+            result = true;
+            Get.offAllNamed(Routes.MAIN);
+          }
         }
 
         // Login successfully.
