@@ -35,103 +35,107 @@ class HomeView extends GetView<HomeController> {
               bottom: false,
               child: Stack(
                 children: [
-                  Column(
-                    children: [
-                      Center(
-                        child: Container(
-                          padding: EdgeInsets.only(
-                              top: 10.h, left: 15.w, right: 15.w),
-                          alignment: Alignment.topLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  ClipOval(
-                                    child: SizedBox.fromSize(
-                                      size:
-                                          Size.fromRadius(18.r), // Image radius
-                                      child: CachedNetworkImage(
-                                        fadeInDuration: const Duration(),
-                                        fadeOutDuration: const Duration(),
-                                        placeholder: (context, url) {
-                                          return SvgPicture.asset(
-                                              AppSvgAssets.male);
-                                        },
-                                        imageUrl:
-                                            AuthService.student?.photoUrl ?? '',
-                                        fit: BoxFit.cover,
-                                        errorWidget: (context, url, error) {
-                                          return SvgPicture.asset(
-                                              AppSvgAssets.male);
-                                        },
+                  RefreshIndicator(
+                    onRefresh: controller.onRefresh,
+                    child: ListView(
+                      children: [
+                        Center(
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                top: 10.h, left: 15.w, right: 15.w),
+                            alignment: Alignment.topLeft,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    ClipOval(
+                                      child: SizedBox.fromSize(
+                                        size: Size.fromRadius(
+                                            18.r), // Image radius
+                                        child: CachedNetworkImage(
+                                          fadeInDuration: const Duration(),
+                                          fadeOutDuration: const Duration(),
+                                          placeholder: (context, url) {
+                                            return SvgPicture.asset(
+                                                AppSvgAssets.male);
+                                          },
+                                          imageUrl:
+                                              AuthService.student?.photoUrl ??
+                                                  '',
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, error) {
+                                            return SvgPicture.asset(
+                                                AppSvgAssets.male);
+                                          },
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Xin chào',
-                                        style: body2.copyWith(
-                                          color: AppColors.white,
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Xin chào',
+                                          style: body2.copyWith(
+                                            color: AppColors.white,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        '${AuthService.student?.fullName}',
-                                        style: subtitle1.copyWith(
-                                          fontWeight: FontWeights.medium,
-                                          color: AppColors.white,
+                                        Text(
+                                          '${AuthService.student?.fullName}',
+                                          style: subtitle1.copyWith(
+                                            fontWeight: FontWeights.medium,
+                                            color: AppColors.white,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    elevation: 0,
+                                    shape: const CircleBorder(),
+                                    padding: EdgeInsets.all(11.r),
+                                    minimumSize: Size.zero, // Set this
                                   ),
-                                ],
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0,
-                                  shape: const CircleBorder(),
-                                  padding: EdgeInsets.all(11.r),
-                                  minimumSize: Size.zero, // Set this
+                                  onPressed: () {
+                                    Get.offAllNamed(
+                                      Routes.MAIN,
+                                      arguments: {'tabIndex': 2},
+                                    );
+                                  },
+                                  child: const Icon(
+                                    Icons.notifications_outlined,
+                                    color: AppColors.white,
+                                  ),
                                 ),
-                                onPressed: () {
-                                  Get.offAllNamed(
-                                    Routes.MAIN,
-                                    arguments: {'tabIndex': 2},
-                                  );
-                                },
-                                child: const Icon(
-                                  Icons.notifications_outlined,
-                                  color: AppColors.white,
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      controller.currentTicket(),
-                      controller.statistic(),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      Expanded(
-                        child: Container(
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        controller.currentTicket(),
+                        controller.statistic(),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        Container(
                           padding: EdgeInsets.symmetric(horizontal: 15.w),
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(9.r),
                                 topRight: Radius.circular(9.r),
+                                bottomLeft: Radius.circular(9.r),
+                                bottomRight: Radius.circular(9.r),
                               ),
                               color: AppColors.white,
                               boxShadow: kElevationToShadow[3],
@@ -140,6 +144,7 @@ class HomeView extends GetView<HomeController> {
                               left: 10.w,
                               right: 10.w,
                               top: 20.h,
+                              bottom: 20.h,
                             ),
                             child: Column(
                               children: [
@@ -216,8 +221,8 @@ class HomeView extends GetView<HomeController> {
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),

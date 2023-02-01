@@ -17,6 +17,11 @@ class HomeController extends GetxController {
   HomeTicketDataService ticketDataService = Get.find<HomeTicketDataService>();
   StatisticDataService statisticDataService = Get.find<StatisticDataService>();
 
+  Future<void> onRefresh() async {
+    await ticketDataService.fetchTicket();
+    await statisticDataService.fetch();
+  }
+
   Widget statistic() {
     return Obx(
       () {
